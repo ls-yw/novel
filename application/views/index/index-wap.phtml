@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><?= $title ?></title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="/dist/plugins/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/dist/css/index.css">
+</head>
+<body class="wap">
+
+<div id="wrapper" class="wap">
+    <div id="middle" class="container">
+        <div id="dushu">
+            <div>
+                <div class="header box" style="padding-top: 0px;">
+                    <div class="back box-item"><!-- <i class="bi bi-arrow-left"></i> --></div>
+                    <div class="title box-item">小说列表</div>
+                    <div class="box-item"></div>
+                    <span></span><!-- <a class="selected box-item" href="/"><span>精选</span></a> --></div>
+                <div id="content">
+                    <div>
+                        <div class="rankDetail-content">
+                            <?php if (!empty($data)):foreach ($data as $val):?>
+                            <a class="rank-novel-item" href="/book?id=<?=$val['id']?>">
+                                <div class="item-cover">
+                                    <div class="img"
+                                         style="background-image: url('<?=$val['book_img']?>');"></div>
+                                    <div class="cover-mask"></div>
+                                </div>
+                                <div class="item-detail">
+                                    <div class="detail-title cut"><?=$val['book_name']?></div>
+                                    <div class="detail-info box cut">作者：<?=$val['book_author']?></div>
+                                    <div class="detail-intro cut">
+                                        摘要：<?=$val['book_intro']?>
+                                    </div>
+                                </div>
+<!--                                <div class="item-read">264万人在阅读</div>-->
+                            </a>
+                            <?php endforeach;endif;?>
+                            </div>
+                        <div class="bottom">
+                            <div>
+                                <div class="tip-txt">点击加载更多</div>
+                                <div class="tip-load"></div>
+                            </div>
+                        </div>
+                        <div class="back-top"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery 3 -->
+<script src="/dist/plugins/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="/dist/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        
+    });
+</script>
+</body>
+</html>

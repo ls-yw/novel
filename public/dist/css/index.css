@@ -1,0 +1,200 @@
+.wap .header {
+    background: #ff7a18;
+    border-bottom: 1px solid #cd530e;
+    color: #fff;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    padding: 0 15px;
+    vertical-align: middle;
+}
+.wap .box {
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    -webkit-box-pack: justify;
+}
+.wap .header .back {
+    text-align: left;
+}
+@font-face {
+    font-family: "icomoon";
+    src: url(https://gss0.bdstatic.com/5foIcy0a2gI2n2jgoY3K/n/nvn/dushu/icomoon_7c17368.eot);
+    src: url(https://gss0.bdstatic.com/5foIcy0a2gI2n2jgoY3K/n/nvn/dushu/icomoon_7c17368.eot#iefix) format('embedded-opentype'),
+    url(https://gss0.bdstatic.com/5foIcy0a2gI2n2jgoY3K/n/nvn/dushu/icomoon_fa91118.ttf) format('truetype'),
+    url(https://gss0.bdstatic.com/5foIcy0a2gI2n2jgoY3K/n/nvn/dushu/icomoon_02eb377.woff) format('woff'),
+    url(https://gss0.bdstatic.com/5foIcy0a2gI2n2jgoY3K/n/nvn/dushu/icomoon_fbb1960.svg#icomoon) format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+.box-item {
+    box-flex: 1;
+    -webkit-box-flex: 1;
+}
+.wap .bi {
+    font-family: "icomoon" !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.wap .header .back i {
+    font-weight: 700;
+}
+.wap .bi-arrow-left:before {
+    content: "\e901";
+}
+.wap .header .title {
+    text-align: center;
+    margin-left: -5px;
+}
+.wap .header .selected {
+    font-size: 14px;
+    color: #fff;
+    position: absolute;
+    right: 15px;
+}
+.wap .container{
+    margin: 0;
+    padding: 0;
+}
+.wap .rankDetail-content {
+    padding: 4px;
+    background-color: #fdfcf6;
+}
+.wap .rank-novel-item {
+    padding: 12px 0;
+    margin: 0 16px;
+    border-bottom: 1px solid #f1f1f1;
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-box-pack: justify;
+    -webkit-box-align: stretch;
+    -webkit-box-lines: single;
+    display: -webkit-flex;
+}
+.wap .rank-novel-item, .rank-novel-item .item-cover {
+    position: relative;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.wap .rank-novel-item, .rank-novel-item .item-cover {
+    position: relative;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.wap .rank-novel-item .item-cover {
+    width: 56px;
+    -webkit-box-flex: 3;
+    -webkit-flex: 3 3 auto;
+    min-height: 1px;
+}
+.wap .rank-novel-item .item-cover .img {
+    height: 0;
+    overflow: hidden;
+    padding-bottom: 133.33333333%;
+    width: 100%;
+    background-size: contain;
+    -webkit-background-size: cover;
+}
+.wap .rank-novel-item .item-cover .cover-mask {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    -webkit-background-size: 26px 26px;
+    background-size: 26px 26px;
+}
+.wap .rank-novel-item .item-detail {
+    width: 75%;
+    -webkit-box-flex: 9;
+    -webkit-flex: 9 9 auto;
+    position: relative;
+    min-height: 1px;
+    padding-left: 3%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.wap .rank-novel-item .item-detail .detail-title {
+    color: #333;
+    line-height: 1em;
+    width: 55%;
+    overflow: hidden;
+}
+.wap .rank-novel-item .cut {
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.wap .rank-novel-item .item-detail .detail-info {
+    display: -webkit-box;
+    margin: 2px 0;
+    font-size: 12px;
+    color: #999;
+}
+.wap .text-box {
+    display: inline-block;
+    padding: 1px;
+    margin: 4px 0 2px;
+    text-decoration: none;
+    vertical-align: middle;
+    font-size: 8px;
+    line-height: 8px;
+    height: 8px;
+    font-style: normal;
+    font-weight: 400;
+    overflow: hidden;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    color: #999;
+    border: 1px solid #e3e3e3;
+    margin-right: 8px;
+}
+.wap .rank-novel-item .item-detail .detail-intro {
+    font-size: 12px;
+    color: #999;
+}
+.wap .rank-novel-item .item-read {
+    position: absolute;
+    right: 2px;
+    top: 12px;
+    font-size: 12px;
+    color: #999;
+}
+.wap .back-top {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAA+CAYAAACSqr0VAAAF2klEQ…5QruJy4vChYhi5ODFc9/tHM3D4VNEMCE4MQfwzhLMC/wdZcdBY3cWDTQAAAABJRU5ErkJggg==) no-repeat;
+    -webkit-background-size: 45px 41px;
+    background-size: 45px 41px;
+    width: 45px;
+    height: 41px;
+}
+.wap .bottom {
+    color: #777;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+}
+.wap .bottom .tip-txt {
+    font-size: 14px;
+    color: #777;
+    display: inline-block;
+}
+.wap .bottom .tip-load {
+    font-size: 20px;
+    color: #ebe5dc;
+}
+.wap a, a:active, a:hover, a:visited {
+    text-decoration: none;
+}
