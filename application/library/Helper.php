@@ -100,20 +100,33 @@ class Helper
 
     public static function writeBookText($categoryId, $bookId, $articleId, $content)
     {
-        $body = stripslashes($content);
+        $body  = stripslashes($content);
         $ipath = "./Public/booktext";
         $spath = "/$sort_id";
         $bpath = "/$book_id";
-        if(!is_dir($ipath)) mkdir($ipath);
-        if(!is_dir($ipath.$spath)) mkdir($ipath.$spath);
-        if(!is_dir($ipath.$spath.$bpath)) mkdir($ipath.$spath.$bpath);
-        $bookfile = $ipath.$spath.$bpath."/bk_$article_id.inc";
-        $body = "<"."?php error_reporting(0); exit();\r\n".$body."\r\n?".">";
-        @$fp = fopen($bookfile,'w');
+        if (!is_dir($ipath)) mkdir($ipath);
+        if (!is_dir($ipath . $spath)) mkdir($ipath . $spath);
+        if (!is_dir($ipath . $spath . $bpath)) mkdir($ipath . $spath . $bpath);
+        $bookfile = $ipath . $spath . $bpath . "/bk_$article_id.inc";
+        $body     = "<" . "?php error_reporting(0); exit();\r\n" . $body . "\r\n?" . ">";
+        @$fp = fopen($bookfile, 'w');
         @flock($fp);
-        @fwrite($fp,$body);
+        @fwrite($fp, $body);
         @fclose($fp);
 
 
+    }
+
+    /**
+     * 获取随机字符串
+     *
+     * @author yls
+     * @param int $length
+     * @return bool|string
+     */
+    public static function randString(int $length)
+    {
+        $strs = "QWERTYUIOPASDFGHJKLZXCVBNM1234567890qwertyuiopasdfghjklzxcvbnm";
+        return substr(str_shuffle($strs), mt_rand(0, strlen($strs) - ($length + 1)), $length);
     }
 }

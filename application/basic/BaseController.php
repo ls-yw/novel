@@ -3,23 +3,47 @@
 namespace application\basic;
 
 use woodlsy\phalcon\basic\BasicController;
+use woodlsy\phalcon\library\Helper;
+use woodlsy\phalcon\library\Redis;
 
 class BaseController extends BasicController
 {
     public $isMobile = false;
 
-    protected $page  = 1;
+    protected $page = 1;
 
     protected $size = 20;
+
+    public $token = null;
+    public $user  = null;
 
     public function initialize()
     {
         parent::initialize();
 
-        $this->page = (int)$this->get('page', 'int', 1);
-        $this->size = (int)$this->get('size', 'int', 20);
+        $this->page = (int) $this->get('page', 'int', 1);
+        $this->size = (int) $this->get('size', 'int', 20);
 
         $this->isMobile = $this->isMobile();
+
+        $this->token = !$this->getHeader('token') ? $this->cookies->get('token')->getValue() : $this->getHeader('token');
+        $this->setUser();
+    }
+
+    /**
+     * 获取登录信息
+     *
+     * @author yls
+     */
+    private function setUser()
+    {
+        if (!$this->token) {
+            return;
+        }
+        if (Redis::getInstance()->exists($this->token)) {
+            $admin      = Redis::getInstance()->get($this->token);
+            $this->user = Helper::jsonDecode($admin);
+        }
     }
 
     /**

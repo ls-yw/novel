@@ -1,0 +1,81 @@
+*{
+    font-size: 14px;
+}
+.book-info{
+    margin-top: 0;
+}
+.book-info .weui-panel__hd{
+    text-align: center;
+    font-size: 20px;
+    color: #000;
+    font-weight: bold;
+}
+.book-info .weui-media-box__hd{
+    height: auto;
+    width: 80px;
+}
+.book-info .weui-media-box__bd .weui-media-box__desc{
+    margin: 10px 0;
+    color: #666;
+}
+.book-intro p{
+    padding: 10px;
+    font-size: 14px;
+    color: #666;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    height: 60px;
+}
+.book-intro.expand p{
+    -webkit-line-clamp: initial;
+    height: auto;
+}
+.chapter-list .page select{
+    display: inline-block;
+    height: 30px;
+    vertical-align: top;
+}
+.nav-top{
+    background: #ffffff;
+    height: 50px;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    opacity:0;
+    border-bottom: 1px solid #e0e0e0;
+}
+.nav-top .back{
+    width: 10px;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+.nav-top .title {
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 50px;
+}
+.nav-top .member{
+    line-height: 50px;
+    text-align: right;
+    margin-right: 15px;
+}
+.weui-toptips{
+    z-index: 2001;
+}
+.book-history{
+    color: #333;
+    padding: 10px;
+    font-size: 14px;
+}
+.book-history span{
+    color: #666;
+}
+.book-history span a{
+    color: #1b6d85;
+}

@@ -203,6 +203,8 @@
             $('.night').find('img').attr('src', imgData);
         }
         $('body').addClass(localStorage.getItem('fontSet'));
+
+        localStorage.setItem('book_<?=$book['id']?>', '<a href="/book/article?id=<?=$article['id']?>&book_id=<?=$book['id']?>"><?=$article['title']?></a>')
     });
 </script>
 </body>
