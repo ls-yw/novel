@@ -109,7 +109,7 @@ function getUserInfo()
         },
         success: function(res) {
             if (res.code == 201) {
-
+                localStorage.removeItem('token');
             } else if (res.code == 0) {
                 $('.nav-top .member').html('<a href="/member/index" class="red">'+res.data.username+'</a>')
             } else {
@@ -151,5 +151,8 @@ $(function() {
                 $.toptip('系统错误', 'error');
             }
         });
+    });
+    $('.nav-top .back').click(function () {
+        history.go(-1);
     });
 });

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>个人中心</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="/dist/plugins/jqweui/dist/lib/weui.min.css" rel="stylesheet" />
+    <link href="/dist/plugins/jqweui/dist/css/jquery-weui.css" rel="stylesheet" />
+    <link href="/dist/css/base.css" rel="stylesheet" />
+    <link href="/dist/css/wap.css" rel="stylesheet" />
+    <style>
+        .userBook .del{
+            float: right;
+            font-size: 12px;
+        }
+        .weui-loadmore_line {
+            margin-top: 50%;
+        }
+    </style>
+</head>
+<body class="wap">
+<div class="weui-flex nav-top" style="opacity: 1;position: relative;">
+    <div class="weui-flex__item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAABmCAMAAACtKXKWAAAAn1BMVEUAAADm5uZERER3d3eHh4c9PT0zMzNAQEA2Njbw8PD7+/tPT09GRkb9/f2rq6uQkJBLS0v09PTr6+vp6enh4eHc3NzT09PPz8/ExMS4uLidnZ2CgoJqampfX19bW1tTU1M7Ozv29vbX19dmZmY9PT1XV1f4+Pj39/fJycm+vr6ysrKkpKSXl5eIiIh7e3t2dnZ1dXVvb285OTlWVlbZ2dnTs/viAAAABnRSTlMA/vz8/PzlztqAAAABjklEQVRYw9WY127CQBBFjUnWDVzo1abY9A7//21RlISd12NFC77vR7Lg7p7ZsXiaYZpn0dziSZbqO0GCSS9VP/mgZDtTv4kh2YnVX2xGLhrqmToi+44mnRohBzNB9gg5dDXZ6BIyFGSAvnakdIoWISNBTj1S27EgJ6S+/lmQFx+Q64kgx01S+KkgIwukVQhyRMhaIMiQkF1ReHdIyJ4o/GxAyE0uCt8n5PamSXtByJ0ofNwh5F7pZG1CHgSZeoQ8CnKZkMKfBHldAXJ1FeTJZ27QOUI36BygG3T2Jd2g3B1yg63J27asG/LN27tBVdYNa0D6F0GeSeHnr3DD/T/c4L69G2oOcoNMXRT+YaHY0g0sn8+jAtwAUPDB/GcCCgV/DqwEL6KB+oNDh486v2BMXGv8MuVXOBcH15UJSXI184GAjyF8+DEycvFBj4+XfKjlo7SJAZ4/G/hjhT+R+MOMPQerbRVFrVIYtApfafBFCl/fmLfKnVrFrbZVHPjND7z45OtWvuTlq2W+0C6/Rv8CppA3o4Rd7ncAAAAASUVORK5CYII=" class="back"></div>
+    <div class="weui-flex__item title">我的书架</div>
+    <div class="weui-flex__item"></div>
+</div>
+<?php if (empty($userBooks)):?>
+<div class="weui-loadmore weui-loadmore_line">
+    <span class="weui-loadmore__tips">书架空荡荡，去 <a href="/" class="orange">添加小说</a> 吧</span>
+</div>
+<div class="weui-panel weui-panel_access userBook">
+    <?php else:?>
+    <div class="weui-panel__bd">
+        <?php foreach ($userBooks as $val):?>
+        <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
+            <div class="weui-media-box__hd">
+                <img class="weui-media-box__thumb" src="<?=$val['book_img']?>">
+            </div>
+            <div class="weui-media-box__bd">
+                <h4 class="weui-media-box__title"><?=$val['book_name']?><span class="del red" data-id="<?=$val['id']?>">移除</span></h4>
+                <p class="weui-media-box__info">最新：<span class="gray"><?=$val['article_title']?></span></p>
+                <p class="weui-media-box__info">已阅：<span class="orange"><?=$val['article_title']?></span></p>
+            </div>
+        </a>
+        <?php endforeach;?>
+    </div>
+</div>
+<?php endif;?>
+<script src="/dist/plugins/jqweui/dist/lib/jquery-2.1.4.js"></script>
+<script src="/dist/js/wap.js"></script>
+<script src="/dist/plugins/jqweui/dist/lib/fastclick.js"></script>
+<script src="/dist/plugins/jqweui/dist/js/jquery-weui.js"></script>
+<script>
+    $(function () {
+        $('.del').click(function () {
+            let id = $(this).data('id');
+            $.confirm("确认是否移除？", function() {
+                //点击确认后的回调函数
+                $.ajax({
+                    url: '/member/delBook',
+                    data: {id:id},
+                    dataType: 'json', //服务器返回json格式数据
+                    type: 'POST', //HTTP请求类型
+                    timeout: 10000, //超时时间设置为10秒；
+                    headers: {
+                        'token': localStorage.getItem('token')
+                    },
+                    success: function(res) {
+                        if (res.code == 201) {
+                            localStorage.removeItem('token');
+                            $.toptip('未登录，请先登录', 'error');
+                            setTimeout(function() {
+                                window.location.href = '/';
+                            }, 1500);
+                        } else if (res.code == 0) {
+                            $.toptip('移除成功', 'success');
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 1500);
+                            // $('.nav-top .member').html('<a href="/member/index" class="red">'+res.data.username+'</a>')
+                        } else {
+                            $.toptip(res.msg, 'error');
+                        }
+                    },
+                    error: function(xhr, type, errorThrown) {
+                        $.toptip('系统错误', 'error');
+                    }
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>

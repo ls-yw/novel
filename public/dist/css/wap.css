@@ -79,3 +79,10 @@
 .book-history span a{
     color: #1b6d85;
 }
+.username-header{
+    text-align: center;
+    margin: 50px 0;
+}
+.username-header h1{
+    font-size: 24px;
+}

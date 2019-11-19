@@ -98,25 +98,6 @@ class Helper
         return $content;
     }
 
-    public static function writeBookText($categoryId, $bookId, $articleId, $content)
-    {
-        $body  = stripslashes($content);
-        $ipath = "./Public/booktext";
-        $spath = "/$sort_id";
-        $bpath = "/$book_id";
-        if (!is_dir($ipath)) mkdir($ipath);
-        if (!is_dir($ipath . $spath)) mkdir($ipath . $spath);
-        if (!is_dir($ipath . $spath . $bpath)) mkdir($ipath . $spath . $bpath);
-        $bookfile = $ipath . $spath . $bpath . "/bk_$article_id.inc";
-        $body     = "<" . "?php error_reporting(0); exit();\r\n" . $body . "\r\n?" . ">";
-        @$fp = fopen($bookfile, 'w');
-        @flock($fp);
-        @fwrite($fp, $body);
-        @fclose($fp);
-
-
-    }
-
     /**
      * 获取随机字符串
      *
@@ -128,5 +109,26 @@ class Helper
     {
         $strs = "QWERTYUIOPASDFGHJKLZXCVBNM1234567890qwertyuiopasdfghjklzxcvbnm";
         return substr(str_shuffle($strs), mt_rand(0, strlen($strs) - ($length + 1)), $length);
+    }
+
+    /**
+     * 取数组其中一个字段的值来做索引
+     *
+     * @author yls
+     * @param array  $arr
+     * @param string $field
+     * @return array
+     */
+    public static function setIndexArray(array $arr, string $field)
+    {
+        if (empty($arr)) {
+            return $arr;
+        }
+        $data = [];
+        foreach ($arr as $key => $val) {
+            $data[($val[$field] ?? '')] = $val;
+        }
+
+        return $data;
     }
 }

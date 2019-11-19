@@ -2,6 +2,7 @@
 
 namespace application\basic;
 
+use application\library\NovelException;
 use woodlsy\phalcon\basic\BasicController;
 use woodlsy\phalcon\library\Helper;
 use woodlsy\phalcon\library\Redis;
@@ -28,6 +29,8 @@ class BaseController extends BasicController
 
         $this->token = !$this->getHeader('token') ? $this->cookies->get('token')->getValue() : $this->getHeader('token');
         $this->setUser();
+
+        $this->checkLogin();
     }
 
     /**
@@ -41,8 +44,17 @@ class BaseController extends BasicController
             return;
         }
         if (Redis::getInstance()->exists($this->token)) {
-            $admin      = Redis::getInstance()->get($this->token);
-            $this->user = Helper::jsonDecode($admin);
+            $user      = Redis::getInstance()->get($this->token);
+            $this->user = Helper::jsonDecode($user);
+        }
+    }
+
+    public function checkLogin()
+    {
+        if ($this->router->getControllerName() === 'member' && !in_array($this->router->getActionName(), ['login', 'register']) && !$this->user) {
+            header('Content-type: application/json');
+            echo Helper::jsonEncode(['code' => 201, 'msg' => '未登录']);
+            exit;
         }
     }
 

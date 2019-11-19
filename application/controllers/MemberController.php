@@ -7,6 +7,7 @@ use application\logic\BookLogic;
 use application\logic\MemberLogic;
 use Exception;
 use woodlsy\phalcon\library\Log;
+use woodlsy\phalcon\library\Redis;
 
 class MemberController extends BaseController
 {
@@ -14,8 +15,25 @@ class MemberController extends BaseController
     {
         parent::initialize();
 
-        if (!in_array($this->router->getActionName(), ['login', 'register']) && !$this->user) {
-            return $this->ajaxReturn(201, '未登录');
+    }
+
+    public function indexAction()
+    {
+        try {
+
+
+
+            $this->view->user = $this->user;
+
+            if (true === $this->isMobile) {
+                $this->view->pick('member/index-wap');
+            }
+
+        } catch (NovelException $e) {
+            return $this->ajaxReturn(1, $e->getMessage());
+        } catch (Exception $e) {
+            Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
+            return $this->ajaxReturn(500, '系统错误');
         }
     }
 
@@ -74,17 +92,25 @@ class MemberController extends BaseController
 
     public function infoAction()
     {
-        try {
-            $data = [
-                'id' => $this->user['id'],
-                'username' => $this->user['username'],
-            ];
-            return $this->ajaxReturn(0, 'ok', $data);
-        } catch (NovelException $e) {
-            return $this->ajaxReturn(1, $e->getMessage());
-        } catch (Exception $e) {
-            Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
-            return $this->ajaxReturn(500, '系统错误');
+        if ($this->request->isAjax()) {
+            try {
+                $data = [
+                    'id' => $this->user['id'],
+                    'username' => $this->user['username'],
+                ];
+                return $this->ajaxReturn(0, 'ok', $data);
+            } catch (NovelException $e) {
+                return $this->ajaxReturn(1, $e->getMessage());
+            } catch (Exception $e) {
+                Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
+                return $this->ajaxReturn(500, '系统错误');
+            }
+        } else {
+            $this->view->user = $this->user;
+
+            if (true === $this->isMobile) {
+                $this->view->pick('member/info-wap');
+            }
         }
     }
 
@@ -102,6 +128,11 @@ class MemberController extends BaseController
                 return $this->ajaxReturn(0, '该小说已在您的书架中');
             }
 
+            $count = (new MemberLogic())->getUserBookCount((int)$this->user['id']);
+            if ($count >= 5) {
+                throw new NovelException('书架最多放置5本小说，请先删除再添加');
+            }
+
             $row =(new MemberLogic())->addUserBook((int)$this->user['id'], $id);
             if (!$row) {
                 throw new NovelException('加入书架失败');
@@ -115,4 +146,47 @@ class MemberController extends BaseController
             return $this->ajaxReturn(500, '系统错误');
         }
     }
+
+    public function logoutAction()
+    {
+        $this->cookies->get('token')->delete();
+        Redis::getInstance()->del($this->token);
+        return $this->ajaxReturn(0, 'ok');
+    }
+
+    public function bookAction()
+    {
+        $userBooks = (new MemberLogic())->getUserBook((int) $this->user['id'], $this->page, $this->size);
+
+        $this->view->userBooks = $userBooks;
+        $this->view->user = $this->user;
+        if (true === $this->isMobile) {
+            $this->view->pick('member/book-wap');
+        }
+    }
+
+    public function delBookAction()
+    {
+        try {
+            $id = (int) $this->post('id');
+            $userBook = (new MemberLogic())->getUserBookById((int) $this->user['id'], $id);
+            if (empty($userBook)) {
+                throw new NovelException('小说不存在');
+            }
+
+            $row = (new MemberLogic())->delUserBook((int) $this->user['id'], $id);
+
+            if (!$row) {
+                throw new NovelException('移除失败');
+            }
+
+            return $this->ajaxReturn(0, 'ok');
+        } catch (NovelException $e) {
+            return $this->ajaxReturn(1, $e->getMessage());
+        } catch (Exception $e) {
+            Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
+            return $this->ajaxReturn(500, '系统错误');
+        }
+    }
+
 }
