@@ -9,6 +9,7 @@ use application\logic\BookLogic;
 use application\logic\MemberLogic;
 use Exception;
 use woodlsy\phalcon\library\Log;
+use woodlsy\phalcon\library\Redis;
 
 class BookController extends BaseController
 {
@@ -90,7 +91,12 @@ class BookController extends BaseController
             }
             $book = (new BookLogic())->getById($article['book_id']);
 
-            $content            = (new AliyunOss())->getString($article['book_id'], $article['id']);
+            $key = "content_{$article['book_id']}_{$article['id']}";
+            if (!Redis::getInstance()->exists($key)) {
+                $content            = (new AliyunOss())->getString($article['book_id'], $article['id']);
+                Redis::getInstance()->setex($key, 3600, $content);
+            }
+            $content = Redis::getInstance()->get($key);
             $article['content'] = $content;
 
             $prevId = (int) (new BookLogic())->getArticlePrev($article['book_id'], $article['article_sort']);
