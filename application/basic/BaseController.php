@@ -2,7 +2,6 @@
 
 namespace application\basic;
 
-use application\library\NovelException;
 use woodlsy\phalcon\basic\BasicController;
 use woodlsy\phalcon\library\Helper;
 use woodlsy\phalcon\library\Redis;
@@ -54,9 +53,13 @@ class BaseController extends BasicController
     public function checkLogin()
     {
         if ($this->router->getControllerName() === 'member' && !in_array($this->router->getActionName(), ['login', 'register']) && !$this->user) {
-            header('Content-type: application/json');
-            echo Helper::jsonEncode(['code' => 201, 'msg' => '未登录']);
-            exit;
+            if ($this->request->isAjax()) {
+                header('Content-type: application/json');
+                echo Helper::jsonEncode(['code' => 201, 'msg' => '未登录']);
+                exit;
+            } else {
+                die('<script>alert("未登录请先登录");location.href="/"</script>');
+            }
         }
     }
 
