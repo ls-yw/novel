@@ -31,6 +31,8 @@ class BaseController extends BasicController
         $this->setUser();
 
         $this->checkLogin();
+
+        $this->view->version = 20191120;
     }
 
     /**

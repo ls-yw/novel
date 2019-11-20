@@ -140,6 +140,7 @@ $(function() {
             success: function(res) {
                 if (res.code == 201) {
                     $.toptip('您未登录，请先登录', 'error');
+                    login();
                 } else if (res.code == 0) {
                     $.toptip('加入成功', 'success');
                     obj.text('已在书架').attr('disabled', true);
