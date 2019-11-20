@@ -175,7 +175,9 @@ class MemberLogic
             $bookIds = $articleIds = [];
             foreach ($userBooks as $val) {
                 $bookIds[]    = $val['book_id'];
-                $articleIds[] = $val['article_id'];
+                if (!empty($val['article_id'])) {
+                    $articleIds[] = $val['article_id'];
+                }
             }
             $books = (new Book())->getAll(['id' => $bookIds], ['id', 'book_name', 'book_img']);
             $books = Helper::setIndexArray($books, 'id');
@@ -183,9 +185,10 @@ class MemberLogic
             $articles = Helper::setIndexArray($articles, 'id');
 
             foreach ($userBooks as &$v) {
+                $v['last_title'] = (new BookLogic())->lastArticle($v['book_id'])['title'] ?? '';
                 $v['book_name'] = isset($books[$v['book_id']]) ? $books[$v['book_id']]['book_name'] : '';
                 $v['book_img'] = isset($books[$v['book_id']]) ? $books[$v['book_id']]['book_img'] : '';
-                $v['article_title'] = isset($articles[$v['article_id']]) ? $articles[$v['article_id']]['title'] : '';
+                $v['article_title'] = isset($articles[$v['article_id']]) ? $articles[$v['article_id']]['title'] : '未开始阅读';
             }
         }
         return $userBooks;

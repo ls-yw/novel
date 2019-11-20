@@ -30,8 +30,8 @@
 <div class="weui-loadmore weui-loadmore_line">
     <span class="weui-loadmore__tips">书架空荡荡，去 <a href="/" class="orange">添加小说</a> 吧</span>
 </div>
-<div class="weui-panel weui-panel_access userBook">
     <?php else:?>
+    <div class="weui-panel weui-panel_access userBook">
     <div class="weui-panel__bd">
         <?php foreach ($userBooks as $val):?>
         <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
@@ -40,7 +40,7 @@
             </div>
             <div class="weui-media-box__bd">
                 <h4 class="weui-media-box__title"><?=$val['book_name']?><span class="del red" data-id="<?=$val['id']?>">移除</span></h4>
-                <p class="weui-media-box__info">最新：<span class="gray"><?=$val['article_title']?></span></p>
+                <p class="weui-media-box__info">最新：<span class="gray"><?=$val['last_title']?></span></p>
                 <p class="weui-media-box__info">已阅：<span class="orange"><?=$val['article_title']?></span></p>
             </div>
         </a>

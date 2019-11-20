@@ -34,6 +34,11 @@ class BookLogic
         return (new Article())->getOne(['book_id' => $bookId], '', 'article_sort asc');
     }
 
+    public function lastArticle(int $bookId)
+    {
+        return (new Article())->getOne(['book_id' => $bookId], '', 'article_sort desc');
+    }
+
     public function getArticleList(int $bookId, int $page, int $size)
     {
         $offset = ($page - 1) * $size;
