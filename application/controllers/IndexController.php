@@ -13,7 +13,7 @@ class IndexController extends BaseController
             $this->view->pick('index/index-wap');
         }
 
-        $this->view->title = 'aa';
+        $this->view->title = '小说列表';
         $this->view->data  = (new BookLogic())->getList($this->page, $this->size);
     }
 

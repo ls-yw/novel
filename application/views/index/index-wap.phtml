@@ -6,62 +6,53 @@
     <title><?= $title ?></title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="/dist/plugins/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/dist/css/index.css">
+    <link href="/dist/plugins/jqweui/dist/lib/weui.min.css" rel="stylesheet" />
+    <link href="/dist/plugins/jqweui/dist/css/jquery-weui.css" rel="stylesheet" />
+    <link href="/dist/css/base.css" rel="stylesheet" />
+    <link href="/dist/css/wap.css" rel="stylesheet" />
 </head>
 <body class="wap">
 
-<div id="wrapper" class="wap">
-    <div id="middle" class="container">
-        <div id="dushu">
-            <div>
-                <div class="header box" style="padding-top: 0px;">
-                    <div class="back box-item"><!-- <i class="bi bi-arrow-left"></i> --></div>
-                    <div class="title box-item">小说列表</div>
-                    <div class="box-item"></div>
-                    <span></span><!-- <a class="selected box-item" href="/"><span>精选</span></a> --></div>
-                <div id="content">
-                    <div>
-                        <div class="rankDetail-content">
-                            <?php if (!empty($data)):foreach ($data as $val):?>
-                            <a class="rank-novel-item" href="/book?id=<?=$val['id']?>">
-                                <div class="item-cover">
-                                    <div class="img"
-                                         style="background-image: url('<?=$val['book_img']?>');"></div>
-                                    <div class="cover-mask"></div>
-                                </div>
-                                <div class="item-detail">
-                                    <div class="detail-title cut"><?=$val['book_name']?></div>
-                                    <div class="detail-info box cut">作者：<?=$val['book_author']?></div>
-                                    <div class="detail-intro cut">
-                                        摘要：<?=$val['book_intro']?>
-                                    </div>
-                                </div>
-<!--                                <div class="item-read">264万人在阅读</div>-->
-                            </a>
-                            <?php endforeach;endif;?>
-                            </div>
-                        <div class="bottom">
-                            <div>
-                                <div class="tip-txt">点击加载更多</div>
-                                <div class="tip-load"></div>
-                            </div>
-                        </div>
-                        <div class="back-top"></div>
+<div class="weui-flex nav-top" style="opacity:1">
+    <div class="weui-flex__item"></div>
+    <div class="weui-flex__item title">小说列表</div>
+    <div class="weui-flex__item member"><span class="green loginAlert">登录</span> / <span class="green registerAlert">注册</span></div>
+</div>
+<div class="book-list">
+    <?php if (!empty($data)):foreach ($data as $val):?>
+        <div class="weui-panel weui-panel_access book-info">
+            <div class="weui-panel__bd">
+                <a href="/book?id=<?=$val['id']?>" class="weui-media-box weui-media-box_appmsg">
+                    <div class="weui-media-box__hd">
+                        <img class="weui-media-box__thumb" src="<?=$val['book_img']?>">
                     </div>
-                </div>
+                    <div class="weui-media-box__bd">
+                        <p class="weui-media-box__desc title"><?=$val['book_name']?></p>
+                        <p class="weui-media-box__desc">作者：<?=$val['book_author']?></p>
+                        <p class="weui-media-box__desc">摘要：<?=$val['book_intro']?></p>
+                    </div>
+                </a>
             </div>
         </div>
-    </div>
+    <?php endforeach;endif;?>
 </div>
-<!-- jQuery 3 -->
-<script src="/dist/plugins/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="/dist/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/dist/plugins/jqweui/dist/lib/jquery-2.1.4.js"></script>
+<script src="/dist/plugins/jqweui/dist/js/jquery-weui.js"></script>
+<script src="/dist/js/wap.js?version=<?=$version?>"></script>
 <script>
     $(function () {
-        
+        let isLogin = localStorage.getItem('token') != null;
+        if (!isLogin) {
+            $('.nav-top .member').html('<span class="green loginAlert">登录</span> / <span class="green registerAlert">注册</span>');
+        } else {
+            getUserInfo();
+        }
+        $('.nav-top').on('click', '.loginAlert', function () {
+            login();
+        });
+        $('.nav-top').on('click', '.registerAlert', function () {
+            register();
+        });
     });
 </script>
 </body>

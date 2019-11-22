@@ -86,3 +86,12 @@
 .username-header h1{
     font-size: 24px;
 }
+.book-list{
+    margin-top: 50px;
+}
+.book-list .book-info .weui-media-box__bd .weui-media-box__desc{
+    color: #999999;
+}
+.book-list .weui-media-box__desc.title{
+    color: #000000 !important;
+}
