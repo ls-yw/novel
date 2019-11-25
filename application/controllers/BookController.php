@@ -105,9 +105,8 @@ class BookController extends BaseController
             if (true === $this->isMobile) {
                 $this->view->pick('book/article-wap');
             }
-
             if ($this->user) {
-                (new MemberLogic())->updateUserBook((int) $this->user['id'], $bookId, $id);
+                (new MemberLogic())->updateUserBook((int) $this->user['id'], $article['book_id'], $id);
             }
 
             $this->view->title   = $article['title'];

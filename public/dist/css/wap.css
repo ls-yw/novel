@@ -95,3 +95,35 @@
 .book-list .weui-media-box__desc.title{
     color: #000000 !important;
 }
+.f-next{
+    position: fixed;
+    top: 49%;
+    right: 0;
+    border: 1px solid #cccccc;
+    background: #ffffff;
+    opacity: 0.8;
+    border-top-left-radius: 2em;
+    border-bottom-left-radius: 2em;
+    padding: 5px 5px 5px 8px;
+    border-right: none;
+    transition:opacity 2s;
+    -moz-transition:opacity 2s; /* Firefox 4 */
+    -webkit-transition:opacity 2s; /* Safari and Chrome */
+    -o-transition:opacity 2s;
+}
+.f-prev{
+    position: fixed;
+    top: 49%;
+    border: 1px solid #cccccc;
+    background: #ffffff;
+    opacity: 0.8;
+    border-top-right-radius: 2em;
+    border-bottom-right-radius: 2em;
+    padding: 5px 8px 5px 5px;
+    z-index: 100;
+    border-left: none;
+    transition:opacity 1s;
+    -moz-transition:opacity 1s; /* Firefox 4 */
+    -webkit-transition:opacity 1s; /* Safari and Chrome */
+    -o-transition:opacity 1s;
+}

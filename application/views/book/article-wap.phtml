@@ -9,8 +9,9 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="/dist/plugins/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/dist/css/base.css">
     <link rel="stylesheet" href="/dist/css/info.css">
+    <link rel="stylesheet" href="/dist/css/wap.css">
 </head>
 <body class="wap">
 
@@ -36,10 +37,10 @@
                         <button class="themeItem" data-theme="theme-pink" style="background-color: rgb(239, 187, 192); color: rgb(177, 108, 114);"><span>粉色</span></button>
                     </div>
                 </section>
-                <section class="chapterPanel">
-                    <a href="<?=(0 === $prevId ? 'javascript:alert(\'已经是第一章\');' : '/book/article?id='.$prevId)?>" class="chapter-btn">上一章</a>
-                    <a href="<?=(0 === $nextId ? 'javascript:alert(\'已经是最后一章\');' : '/book/article?id='.$nextId)?>" class="chapter-btn">下一章</a>
-                </section>
+<!--                <section class="chapterPanel">-->
+<!--                    <a href="--><?//=(0 === $prevId ? 'javascript:alert(\'已经是第一章\');' : '/book/article?id='.$prevId)?><!--" class="chapter-btn">上一章</a>-->
+<!--                    <a href="--><?//=(0 === $nextId ? 'javascript:alert(\'已经是最后一章\');' : '/book/article?id='.$nextId)?><!--" class="chapter-btn">下一章</a>-->
+<!--                </section>-->
                 <section class="toolbar">
                     <div class="item mdir" data-url="/book?id=<?=$book['id']?>"><img
                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAANlBMVEUAAABeXl5fX1/f399lZWVDQ0Nubm5xcXFCQkJ4eHhERETo6OgzMzMSEhIiIiIvLy8QEBAeHh6IGiJpAAAADHRSTlMAtLMXr5utnJuXmwHl2r51AAAAZ0lEQVRIx+3XOQ6AMAxE0aysiW3uf1kEipSGagqLYn7/lFSWHdh35yp7RnE0lQ21valU2DYrGbY9BtwmWlpaWhebi+Hzqoq2awlYx8Du355DGixRU1NT/06PxRV/W6V6Luuz90xgTzfn1Qr8JxjRPAAAAABJRU5ErkJggg=="
@@ -78,43 +79,46 @@
             <a href="/book?id=<?=$book['id']?>" class="pager-item">目录</a>
             <a href="<?=(0 === $nextId ? 'javascript:alert(\'已经是最后一章\');' : '/book/article?id='.$nextId)?>" class="pager-item">下一章</a>
         </div>
-
-        <div class="detail-category-mask" style="display: none;">
-            <div class="detail-category">
-                <div class="invoke detail-category-title"><h2>目录</h2> <span class="close"></span></div>
-                <div class="detail-category-info"><span class="total-count">共5050章</span> <span
-                            class="sort-button">倒序</span></div>
-                <div class="detail-category-list">
-                    <ul></ul>
-                    <div data-v-207d6ba9="" class="loading-view"><!----> <!----> <!----> <!----></div>
-                </div>
-            </div>
-        </div> <!----> <!---->  <!---->
-        <div class="page-mask" style="display: none;">
-            <div class="confirm">
-                <div class="confirm-body"><h2 class="title"></h2>
-                    <div class="content"></div>
-                </div>
-                <div class="confirm-footer">
-                    <div class="cancel-btn">取消</div>
-                    <div class="confirm-btn">确定</div>
-                </div>
-            </div>
-        </div>
     </main>
     <div data-v-1831b25c="" class="toast hide"></div>
 </div>
+<?php if (!empty($prevId)):?>
+<div class="f-prev" data-link="/book/article?id=<?=$prevId?>"><span>上</span></div>
+<?php endif;?>
+<?php if (!empty($nextId)):?>
+<div class="f-next" data-link="/book/article?id=<?=$nextId?>"><span>下</span></div>
+<?php endif;?>
 <!-- jQuery 3 -->
 <script src="/dist/plugins/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="/dist/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
 <script>
     $(function () {
+        let now_top = 0;
+        let prev_top = 0;
+        $(window).scroll(function () {
+            $('.f-prev,.f-next').css('opacity', '0.8');
+            now_top = $(document).scrollTop();
+        });
+        setInterval(function () {
+            let op = parseFloat($('.f-prev').css('opacity'));
+            if (op > 0.3 && prev_top === now_top && $('.FloatingMenu header').css('display') === 'none') {
+                $('.f-prev,.f-next').css('opacity', 0.3);
+            } else {
+                prev_top = now_top;
+            }
+        }, 2000);
+        $('.f-prev,.f-next').click(function () {
+            window.location.href = $(this).data('link');
+        });
+        
+        
         $('.content').click(function () {
             $('.FloatingMenu footer').toggle();
             $('.FloatingMenu header').toggle();
             $('section.stylePanel').hide();
             $('section.chapterPanel').show();
+            $('.f-prev,.f-next').css('opacity', '0.8');
         });
         $('.FloatingMenu .toolbar .mdir').click(function(){
             $('.detail-category-mask').show();
