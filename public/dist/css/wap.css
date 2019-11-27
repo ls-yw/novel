@@ -110,6 +110,7 @@
     -moz-transition:opacity 2s; /* Firefox 4 */
     -webkit-transition:opacity 2s; /* Safari and Chrome */
     -o-transition:opacity 2s;
+    font-size: 20px;
 }
 .f-prev{
     position: fixed;
@@ -126,4 +127,5 @@
     -moz-transition:opacity 1s; /* Firefox 4 */
     -webkit-transition:opacity 1s; /* Safari and Chrome */
     -o-transition:opacity 1s;
+    font-size: 20px;
 }
