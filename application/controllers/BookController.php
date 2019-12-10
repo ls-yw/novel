@@ -33,10 +33,11 @@ class BookController extends BaseController
                 $this->view->list      = (new BookLogic())->getArticleList($id, $this->page, $this->size);
             } else {
                 $this->view->likeBooks  = (new BookLogic())->getList(['book_img' => ['!=', ''], 'book_intro' => ['!=', ''], 'id' => ['!=', $id], 'book_category' => $book['book_category']], '', 1, 4);
-                $this->view->article = (new BookLogic())->lastArticle($id);
+                $article = (new BookLogic())->lastArticle($id);
 
-                $content = (new BookLogic())->getArticleContent($id, (int)$this->view->article['id']);
-                $this->view->article['content'] = $content;
+                $article['content'] = (new BookLogic())->getArticleContent($id, (int)$article['id']);
+
+                $this->view->article = $article;
             }
 
             $userBook = [];
