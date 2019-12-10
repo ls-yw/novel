@@ -2,7 +2,9 @@
 
 namespace application\library;
 
-class Helper
+use woodlsy\phalcon\library\Helper;
+
+class HelperExtend extends Helper
 {
     public static function dealRegular($str)
     {
@@ -119,7 +121,7 @@ class Helper
      * @param string $field
      * @return array
      */
-    public static function setIndexArray(array $arr, string $field)
+    public static function indexArray(array $arr, string $field)
     {
         if (empty($arr)) {
             return $arr;

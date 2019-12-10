@@ -2,7 +2,7 @@
 
 namespace application\logic;
 
-use application\library\Helper;
+use application\library\HelperExtend;
 use application\library\NovelException;
 use application\models\Article;
 use application\models\Book;
@@ -29,7 +29,7 @@ class MemberLogic
             throw new NovelException('该用户名已存在');
         }
 
-        $salt = Helper::randString(8);
+        $salt = HelperExtend::randString(8);
 
         $data = [
             'username' => $username,
@@ -45,7 +45,7 @@ class MemberLogic
         $user = (new User())->getById($userId);
 
         $token = md5($user['id'] . time());
-        Redis::getInstance()->setex($token, 86400 * 7, \woodlsy\phalcon\library\Helper::jsonEncode($user));
+        Redis::getInstance()->setex($token, 86400 * 7, HelperExtend::jsonEncode($user));
         DI::getDefault()->get('cookies')->set('token', $token, time() + 7 * 86400);
         return $token;
     }
@@ -70,10 +70,10 @@ class MemberLogic
             throw new NovelException('密码错误');
         }
 
-        (new User())->updateData(['last_ip' => DI::getDefault()->get('request')->getClientAddress(), 'last_time' => \woodlsy\phalcon\library\Helper::now(), 'count' => 'count + 1'], ['id' => $user['id']]);
+        (new User())->updateData(['last_ip' => DI::getDefault()->get('request')->getClientAddress(), 'last_time' => HelperExtend::now(), 'count' => 'count + 1'], ['id' => $user['id']]);
 
         $token = md5($user['id'] . time());
-        Redis::getInstance()->setex($token, 86400 * 7, \woodlsy\phalcon\library\Helper::jsonEncode($user));
+        Redis::getInstance()->setex($token, 86400 * 7, HelperExtend::jsonEncode($user));
         DI::getDefault()->get('cookies')->set('token', $token, time() + 7 * 86400);
         return $token;
     }
@@ -180,9 +180,9 @@ class MemberLogic
                 }
             }
             $books = (new Book())->getAll(['id' => $bookIds], ['id', 'book_name', 'book_img']);
-            $books = Helper::setIndexArray($books, 'id');
+            $books = HelperExtend::indexArray($books, 'id');
             $articles = (new Article())->getAll(['id' => $articleIds], ['id', 'title', 'book_id']);
-            $articles = Helper::setIndexArray($articles, 'id');
+            $articles = HelperExtend::indexArray($articles, 'id');
 
             foreach ($userBooks as &$v) {
                 $v['last_title'] = (new BookLogic())->lastArticle($v['book_id'])['title'] ?? '';

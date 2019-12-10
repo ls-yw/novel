@@ -22,9 +22,6 @@ class MemberController extends BaseController
         try {
 
 
-
-            $this->view->user = $this->user;
-
             if (true === $this->isMobile) {
                 $this->view->pick('member/index-wap');
             }
@@ -53,6 +50,9 @@ class MemberController extends BaseController
             }
 
             $token = (new MemberLogic())->login($username, $password);
+            if (!$this->isMobile) {
+                $token = ['username' => $username];
+            }
             return $this->ajaxReturn(0, '登录成功', $token);
         } catch (NovelException $e) {
             return $this->ajaxReturn(1, $e->getMessage());
@@ -68,6 +68,7 @@ class MemberController extends BaseController
             $username = $this->post('username', 'string');
             $password = $this->post('password', 'string');
             $num = preg_match('/[^a-zA-Z]/i', $username);
+
             if ($num > 0 || strlen($username) < 6) {
                 throw new NovelException('用户名必须为字母且大于6位');
             }
@@ -81,6 +82,9 @@ class MemberController extends BaseController
             }
 
             $token = (new MemberLogic())->register($username, $password);
+            if (!$this->isMobile) {
+                $token = ['username' => $username];
+            }
             return $this->ajaxReturn(0, '注册成功', $token);
         } catch (NovelException $e) {
             return $this->ajaxReturn(1, $e->getMessage());
@@ -106,7 +110,6 @@ class MemberController extends BaseController
                 return $this->ajaxReturn(500, '系统错误');
             }
         } else {
-            $this->view->user = $this->user;
 
             if (true === $this->isMobile) {
                 $this->view->pick('member/info-wap');
@@ -151,7 +154,10 @@ class MemberController extends BaseController
     {
         $this->cookies->get('token')->delete();
         Redis::getInstance()->del($this->token);
-        return $this->ajaxReturn(0, 'ok');
+        if ($this->request->isAjax()) {
+            return $this->ajaxReturn(0, 'ok');
+        }
+        return $this->response->redirect('/');
     }
 
     public function bookAction()
@@ -159,7 +165,6 @@ class MemberController extends BaseController
         $userBooks = (new MemberLogic())->getUserBook((int) $this->user['id'], $this->page, $this->size);
 
         $this->view->userBooks = $userBooks;
-        $this->view->user = $this->user;
         if (true === $this->isMobile) {
             $this->view->pick('member/book-wap');
         }

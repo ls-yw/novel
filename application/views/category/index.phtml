@@ -1,0 +1,41 @@
+<div class="here">当前位置:<a href="/">网站首页</a> &gt; <?=$catrgoryName?>
+<div class="channel">
+    <div class="list right">
+        <h3 class="title_bg"><i></i>武侠小说列表</h3>
+        <ul>
+            <?php if (!empty($books)):foreach ($books as $val):?>
+            <li><span class="l1">《<a href="/book?id=<?=$val['id']?>" target="_blank" title="<?=$val['book_name']?>"><?=$val['book_name']?></a>》</span><span class="l2"><a href="/book/article?id=<?=$val['article']['id'] ?? ''?>" target="_blank" title="<?=$val['article']['title'] ?? ''?>"><?=$val['article']['title'] ?? ''?></a>&nbsp;<?php if (isset($val['article']['create_at']))echo '('.date('m-d', strtotime($val['article']['create_at'])).')'?></span><span class="l4"><?=$val['book_state'] == 1 ? '完本' : '连载'?></span><span class="l3"><?=$val['book_author']?></span></li>
+            <?php endforeach;endif;?>
+        </ul>
+        <div class="page">
+            <?=$pageCount?> 条记录 <?=$page?>/<?=$pageTotal?> 页
+            <a href="<?php if ($page > 1):echo '?id='.$categoryId.'&page='.($page - 1);else:echo 'javascript:;';endif;?>">上一页</a>
+            <a href="<?php if ($page < $pageTotal):echo '?id='.$categoryId.'&page='.($page + 1);else:echo 'javascript:;';endif;?>">下一页</a>
+        </div>
+    </div>
+    <div class="left sort">
+        <h3 class="title_bg">分类阅读</h3>
+        <ul>
+            <?php if (!empty($category)):foreach ($category as $key => $val):?>
+                <li><a href="<?php if($categoryId == $key):echo 'javascript:;';else:echo '/category/index?id='.$key;endif;?>" class="<?php if(isset($categoryId) && $categoryId == $key)echo 'sort_hover';?>" title="<?=$val?>"><?=$val?></a></li>
+            <?php endforeach;endif;?>
+        </ul>
+    </div>
+    <div class="left lastku">
+        <div class="title_bg">月点击榜<span class="more"></span></div>
+        <ul>
+            <?php if(!empty($month)):foreach ($month as $key => $val):?>
+            <li><em class="<?php switch ($key):case 0:echo 'first';break;case 1:echo 'second';break;case 2:echo 'third';break;endswitch;?><!--"><?=$key+1?></em><a href="/book?id=--><?=$val['id']?>" title="<?=$val['book_name']?>" target="_blank"><?=$val['book_name']?></a><span><?=$val['book_monthclick']?></span></li>
+            <?php endforeach;endif;?>
+        </ul>
+    </div>
+    <div class="left lastku">
+        <div class="title_bg">最新免费小说</div>
+        <ul>
+            <?php if(!empty($newest)):foreach ($newest as $key => $val):?>
+                <li>[<a href="/category?id=<?=$val['book_category']?>" target="_blank" title="<?=$category[$val['book_category']] ?? ''?>"><?=$category[$val['book_category']] ?? ''?></a>] <a href="/book/?id=<?=$val['id']?>" target="_blank" title="<?=$val['book_name']?>"><?=$val['book_name']?></a><span><?=$val['book_author']?></span></li>
+            <?php endforeach;endif;?>
+        </ul>
+    </div>
+</div>
+    <div class="clear"></div>

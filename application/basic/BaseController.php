@@ -2,8 +2,11 @@
 
 namespace application\basic;
 
+use application\library\HelperExtend;
+use application\logic\BookLogic;
+use application\logic\ConfigLogic;
+use Phalcon\Mvc\View;
 use woodlsy\phalcon\basic\BasicController;
-use woodlsy\phalcon\library\Helper;
 use woodlsy\phalcon\library\Redis;
 
 class BaseController extends BasicController
@@ -16,6 +19,8 @@ class BaseController extends BasicController
 
     public $token = null;
     public $user  = null;
+
+    public $config = [];
 
     public function initialize()
     {
@@ -32,6 +37,18 @@ class BaseController extends BasicController
         $this->checkLogin();
 
         $this->view->version = 20191120;
+
+        if ($this->isMobile) {
+            $this->view->disableLevel(
+                View::LEVEL_MAIN_LAYOUT
+            );
+        }
+
+        $this->config       = (new ConfigLogic())->getPairs('system');
+        $this->view->config = $this->config;
+        $this->view->user   = $this->user;
+
+        $this->view->category = (new BookLogic())->getCategoryPairs();
     }
 
     /**
@@ -45,8 +62,8 @@ class BaseController extends BasicController
             return;
         }
         if (Redis::getInstance()->exists($this->token)) {
-            $user      = Redis::getInstance()->get($this->token);
-            $this->user = Helper::jsonDecode($user);
+            $user       = Redis::getInstance()->get($this->token);
+            $this->user = HelperExtend::jsonDecode($user);
         }
     }
 
@@ -55,7 +72,7 @@ class BaseController extends BasicController
         if ($this->router->getControllerName() === 'member' && !in_array($this->router->getActionName(), ['login', 'register']) && !$this->user) {
             if ($this->request->isAjax()) {
                 header('Content-type: application/json');
-                echo Helper::jsonEncode(['code' => 201, 'msg' => '未登录']);
+                echo HelperExtend::jsonEncode(['code' => 201, 'msg' => '未登录']);
                 exit;
             } else {
                 die('<script>alert("未登录请先登录");location.href="/"</script>');

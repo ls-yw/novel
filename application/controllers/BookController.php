@@ -27,20 +27,28 @@ class BookController extends BaseController
 
             if (true === $this->isMobile) {
                 $this->view->pick('book/info-wap');
+
+                $this->view->count     = (new BookLogic())->getArticleListCount($id);
+                $this->view->totalPage = ceil($this->view->count / $this->size);
+                $this->view->list      = (new BookLogic())->getArticleList($id, $this->page, $this->size);
+            } else {
+                $this->view->likeBooks  = (new BookLogic())->getList(['book_img' => ['!=', ''], 'book_intro' => ['!=', ''], 'id' => ['!=', $id], 'book_category' => $book['book_category']], '', 1, 4);
+                $this->view->article = (new BookLogic())->lastArticle($id);
+
+                $content = (new BookLogic())->getArticleContent($id, (int)$this->view->article['id']);
+                $this->view->article['content'] = $content;
             }
+
             $userBook = [];
             if ($this->user) {
                 $userBook = (new MemberLogic())->getUserBookByBookId((int) $this->user['id'], $id);
-
             }
 
             $this->view->userBook  = $userBook;
             $this->view->title     = $book['book_name'];
             $this->view->book      = $book;
+            $this->view->categoryId      = $book['book_category'];
             $this->view->page      = $this->page;
-            $this->view->count     = (new BookLogic())->getArticleListCount($id);
-            $this->view->totalPage = ceil($this->view->count / $this->size);
-            $this->view->list      = (new BookLogic())->getArticleList($id, $this->page, $this->size);
 
         } catch (NovelException $e) {
             die('<script>alert("' . $e->getMessage() . '");history.go(-1)</script>');
@@ -60,13 +68,12 @@ class BookController extends BaseController
                 die('<script>alert("小说不存在");history.go(-1)</script>');
             }
 
-            $chapter = (new BookLogic())->getArticleList($bookId, $this->page, $this->size);
-            $count   = (new BookLogic())->getArticleListCount($bookId);
+            $chapter = (new BookLogic())->getChapterArticle($bookId);
 
             $this->view->title     = $book['book_name'];
             $this->view->chapter   = $chapter;
             $this->view->book      = $book;
-            $this->view->totalPage = ceil($count / $this->size);
+            $this->view->categoryId      = $book['book_category'];
         } catch (NovelException $e) {
             die('<script>alert("' . $e->getMessage() . '");history.go(-1)</script>');
         } catch (Exception $e) {
@@ -91,12 +98,7 @@ class BookController extends BaseController
             }
             $book = (new BookLogic())->getById($article['book_id']);
 
-            $key = "content_{$article['book_id']}_{$article['id']}";
-            if (!Redis::getInstance()->exists($key)) {
-                $content            = (new AliyunOss())->getString($article['book_id'], $article['id']);
-                Redis::getInstance()->setex($key, 3600, $content);
-            }
-            $content = Redis::getInstance()->get($key);
+            $content = (new BookLogic())->getArticleContent((int)$article['book_id'], (int)$article['id']);
             $article['content'] = $content;
 
             $prevId = (int) (new BookLogic())->getArticlePrev($article['book_id'], $article['article_sort']);
@@ -114,6 +116,7 @@ class BookController extends BaseController
             $this->view->book    = $book;
             $this->view->prevId  = $prevId;
             $this->view->nextId  = $nextId;
+            $this->view->categoryId      = $book['book_category'];
         } catch (NovelException $e) {
             die('<script>alert("' . $e->getMessage() . '");history.go(-1)</script>');
         } catch (Exception $e) {

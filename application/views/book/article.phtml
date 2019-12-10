@@ -1,0 +1,54 @@
+<div class="here">当前位置:<a href="/">网站首页</a> &gt; <?=$category[$book['book_category']]?> &gt; <?=$book['book_name']?>
+    <span class="right">
+        背景颜色 <select id="bjys" onchange="selectbj(this);">
+                    <option value="#ffffff">默认</option>
+                    <option style="background-color: #fff" value="#000">黑色</option>
+                    <option style="background-color: #E9FAFF" value="#E9FAFF">淡蓝</option>
+                    <option style="background-color: #FFFFED" value="#FFFFED">明黄</option>
+                    <option style="background-color: #eefaee" value="#eefaee">淡绿</option>
+                    <option style="background-color: #FCEFFF" value="#FCEFFF">红粉</option>
+                    <option style="background-color: #efefef" value="#efefef">灰色</option>
+                </select>
+        字体颜色 <select id="ztys" onchange="selectzy(this);">
+                    <option value="#333333">默认</option>
+                    <option style="color: #000" value="#000">黑色</option>
+                    <option style="color: #000" value="#fff">白色</option>
+                    <option style="color: #0f0" value="#0f0">绿色</option>
+                    <option style="color: #060" value="#060">青色</option>
+                    <option style="color: #f00" value="#f00">红色</option>
+                    <option style="color: #00F" value="#00F">蓝色</option>
+                    <option style="color: #960" value="#960">橘黄</option>
+                </select>
+        字体大小 <select id="ztdx" onchange="selectzd(this);">
+                    <option value="14px">默认</option>
+                    <option value="12px">12号</option>
+                    <option value="16px">16号</option>
+                    <option value="18px">18号</option>
+                    <option value="20px">20号</option>
+                    <option value="22px">22号</option>
+                </select>
+        双击滚动 <select id="gdsd" onchange="selectgd(this);">
+                    <option value="0">滚屏</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+        (1-10，1最慢，10最快）
+    </span>
+</div>
+<div class="content">
+    <div class="book_title">
+        <h1><?=$article['title']?></h1>
+        <span class="info">小说：<i><a target="_blank" href="/book?id=<?=$book['id']?>" title="<?=$book['book_name']?>"><?=$book['book_name']?></a></i>&nbsp;&nbsp;作者：<i><?=$book['book_author']?></i>&nbsp;&nbsp; 更新时间：<i><?=$article['update_at']?></i>&nbsp;&nbsp;字数：<i><?=$article['wordnumber']?></i>&nbsp;&nbsp;</span>
+    </div>
+    <div class="body"><?=$article['content']?></div>
+    <div class="nextchapter"><!--<a href="javascript:void(0);" onclick="post_recommend({$book.book_id})">投推荐票</a>--><a href="<?=empty($prevId) ? 'javascript:;' : '/book/article?id='.$prevId.'&book_id='.$book['id']?>" id="prev">上一章</a> &larr; <a href="/book/chapter?book_id=<?=$book['id']?>" class="mid">返回目录</a>&rarr; <a href="<?=empty($nextId) ? 'javascript:;' : '/book/article?id='.$nextId.'&book_id='.$book['id']?>" class="mid" id="next">下一章</a><!--<a href="javascript:void(0);" onclick="post_rack({$book.book_id})">加入书架</a>--></div>
+</div>
+<script type="text/javascript" src="/dist/js/article.js"></script>

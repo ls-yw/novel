@@ -1,0 +1,20 @@
+<div class="here">当前位置:<a href="/">网站首页</a> &gt; <?=$category[$book['book_category']]?> &gt; <?=$book['book_name']?></div>
+<div class="list">
+    <div class="tc">
+        <h1><?=$book['book_name']?></h1>
+        <span>作者：<?=$book['book_author']?></span>
+    </div>
+    <div class="zw">
+        <dl>
+            <?php if (!empty($chapter)):foreach ($chapter as $val):?>
+                <dt><?=$val['chapter_name']?></dt>
+                <p class="line">&nbsp;</p>
+                <?php if (!empty($val['article'])):foreach ($val['article'] as $v):?>
+                    <dd><a href="/book/article?id=<?=$v['id']?>&book_id=<?=$v['book_id']?>" title="<?=$v['title']?>"><?=$v['title']?></a></dd>
+                <?php endforeach;endif;?>
+                <div class="clear"></div>
+            <?php endforeach;endif;?>
+        </dl>
+        <div class="clear"></div>
+    </div>
+</div>
