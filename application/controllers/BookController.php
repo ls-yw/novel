@@ -32,7 +32,7 @@ class BookController extends BaseController
                 $this->view->totalPage = ceil($this->view->count / $this->size);
                 $this->view->list      = (new BookLogic())->getArticleList($id, $this->page, $this->size);
             } else {
-                $this->view->likeBooks  = (new BookLogic())->getList(['book_img' => ['!=', ''], 'book_intro' => ['!=', ''], 'id' => ['!=', $id], 'book_category' => $book['book_category']], '', 1, 4);
+                $this->view->likeBooks  = (new BookLogic())->getList(['book_img' => ['!=', ''], 'book_intro' => ['!=', ''], 'id' => ['!=', $id], 'book_category' => $book['book_category']], '', 0, 4);
                 $article = (new BookLogic())->lastArticle($id);
 
                 $article['content'] = (new BookLogic())->getArticleContent($id, (int)$article['id']);
@@ -44,6 +44,8 @@ class BookController extends BaseController
             if ($this->user) {
                 $userBook = (new MemberLogic())->getUserBookByBookId((int) $this->user['id'], $id);
             }
+
+            (new BookLogic())->saveClick($id);
 
             $this->view->userBook  = $userBook;
             $this->view->title     = $book['book_name'];
@@ -111,6 +113,8 @@ class BookController extends BaseController
             if ($this->user) {
                 (new MemberLogic())->updateUserBook((int) $this->user['id'], $article['book_id'], $id);
             }
+
+            (new BookLogic())->saveClick($id);
 
             $this->view->title   = $article['title'];
             $this->view->article = $article;

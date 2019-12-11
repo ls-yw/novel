@@ -1,0 +1,81 @@
+<div class="here">当前位置:<a href="/">网站首页</a> &gt; 会员注册</div>
+<div class="register">
+	<h3 class="title_bg">会员注册</h3>
+	<div class="left register_box">
+		<form action="" method="post" class="jqtransformdone">
+		<table cellpadding="0" cellspacing="0" border="0">
+			<tr>
+				<td class="text_right" width="70">帐号：</td>
+				<td><div class="parentCls"><input type="text" value="" name="username" class="inputElem" autocomplete="off" id="username"> <span class="emailMessage">请输入大于6位的字母</span></div></td>
+			</tr>
+			<tr>
+				<td class="text_right">密码：</td>
+				<td><input type="password" value="" name="password" id="password"> <em class="pwdmsg"></em> <span class="passwordMessage">6-16个字符，英文字母(区分大小写)或数字组成。</span></td>
+			</tr>
+            <tr>
+                <td class="text_right">确认密码：</td>
+                <td><input type="password" value="" name="repassword" id="repassword"> <em class="pwdmsg"></em> </td>
+            </tr>
+			<!--<tr>
+				<td class="text_right">昵称：</td>
+				<td><input type="text" value="" name="nick" id="nickName"/><input type="hidden" value="" name="old_nick" id="old_nick"/> <span class="nickNameMessage">中英文均可，不超过6个汉字或12个字符。</span></td>
+			</tr>
+			<tr>
+				<td class="text_right">性别：</td>
+				<td><input type="radio" name="sex" value="1" style="width:auto;" checked="checked" class="sex"> 男 <input type="radio" name="sex" value="2" style="width:auto;" class="sex"> 女</td>
+			</tr>-->
+			<tr>
+				<td colspan="2" class="text_left"><button type="button" class="button" id="register">注   册</button></td>
+			</tr>
+		</table>
+		</form>
+	</div>
+	<div class="right sm">
+		<div><strong>已有<?=$config['host_name']?>帐号？</strong></div>
+		<div class="text_center"><a href="/member/login" class="button">立即登录</a></div>
+	</div>
+	<div class="clear"></div>
+</div>
+<script>
+    $(function () {
+        $('#register').click(function(){
+            let username = $('#username').val();
+            let password = $('#password').val();
+            let repassword = $('#repassword').val();
+            if (username.length < 6 || password.length < 6) {
+                alertmsg('请输入正确的帐号密码');
+                return false;
+            }
+            if (password != repassword) {
+                alertmsg('两次密码不一致');
+                return false;
+            }
+            $.ajax({
+                url: '/member/register',
+                data: {
+                    'username': username,
+                    'password': password
+                },
+                dataType: 'json', //服务器返回json格式数据
+                type: 'POST', //HTTP请求类型
+                timeout: 10000, //超时时间设置为10秒；
+                success: function(res) {
+                    if (res.code == 0) {
+                        alertmsg('注册成功');
+                        setTimeout(function () {
+                            window.location.href = '/';
+                        }, 1000);
+                        return true;
+                    } else {
+                        alertmsg(res.msg);
+                        return false;
+                    }
+                },
+                error: function(xhr, type, errorThrown) {
+                    alertmsg('系统错误');
+                    return false;
+                }
+            });
+        });
+    });
+</script>

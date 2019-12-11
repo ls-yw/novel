@@ -79,6 +79,19 @@ class MemberLogic
     }
 
     /**
+     * 更新密码
+     *
+     * @author woodlsy
+     * @param string $password
+     * @param array  $user
+     * @return bool|int
+     */
+    public function updatePassword(string $password, array $user)
+    {
+        return (new User())->updateData(['password' => crypt(md5($password), $user['salt'])], ['id' => $user['id']]);
+    }
+
+    /**
      * 根据用户名获取会员
      *
      * @author yls
@@ -185,7 +198,10 @@ class MemberLogic
             $articles = HelperExtend::indexArray($articles, 'id');
 
             foreach ($userBooks as &$v) {
-                $v['last_title'] = (new BookLogic())->lastArticle($v['book_id'])['title'] ?? '';
+                $lastArticle = (new BookLogic())->lastArticle($v['book_id']);
+                $v['last_title'] = $lastArticle['title'] ?? '';
+                $v['last_id'] = $lastArticle['id'] ?? '';
+                $v['last_time'] = $lastArticle['create_at'] ?? '';
                 $v['book_name'] = isset($books[$v['book_id']]) ? $books[$v['book_id']]['book_name'] : '';
                 $v['book_img'] = isset($books[$v['book_id']]) ? $books[$v['book_id']]['book_img'] : '';
                 $v['article_title'] = isset($articles[$v['article_id']]) ? $articles[$v['article_id']]['title'] : '未开始阅读';

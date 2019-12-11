@@ -36,64 +36,76 @@ class MemberController extends BaseController
 
     public function loginAction()
     {
-        try {
-            $username = $this->post('username', 'string');
-            $password = $this->post('password', 'string');
-            $username = preg_replace('/[^\w]/i', '', $username);
+        if ($this->request->isAjax()) {
+            try {
+                $username = $this->post('username', 'string');
+                $password = $this->post('password', 'string');
+                $username = preg_replace('/[^\w]/i', '', $username);
 
-            if (strlen($username) < 6) {
-                throw new NovelException('用户名必须为字母且大于6位');
-            }
+                if (strlen($username) < 6) {
+                    throw new NovelException('用户名必须为字母且大于6位');
+                }
 
-            if (strlen($password) < 6) {
-                throw new NovelException('密码必须大于6位');
-            }
+                if (strlen($password) < 6) {
+                    throw new NovelException('密码必须大于6位');
+                }
 
-            $token = (new MemberLogic())->login($username, $password);
-            if (!$this->isMobile) {
-                $token = ['username' => $username];
+                $token = (new MemberLogic())->login($username, $password);
+                if (!$this->isMobile) {
+                    $token = ['username' => $username];
+                }
+                return $this->ajaxReturn(0, '登录成功', $token);
+            } catch (NovelException $e) {
+                return $this->ajaxReturn(1, $e->getMessage());
+            } catch (Exception $e) {
+                Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
+                return $this->ajaxReturn(500, '系统错误');
             }
-            return $this->ajaxReturn(0, '登录成功', $token);
-        } catch (NovelException $e) {
-            return $this->ajaxReturn(1, $e->getMessage());
-        } catch (Exception $e) {
-            Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
-            return $this->ajaxReturn(500, '系统错误');
+        } else {
+
         }
     }
 
     public function registerAction()
     {
-        try {
-            $username = $this->post('username', 'string');
-            $password = $this->post('password', 'string');
-            $num = preg_match('/[^a-zA-Z]/i', $username);
+        if ($this->request->isAjax()) {
+            try {
+                $username = $this->post('username', 'string');
+                $password = $this->post('password', 'string');
+                $num = preg_match('/[^a-zA-Z]/i', $username);
 
-            if ($num > 0 || strlen($username) < 6) {
-                throw new NovelException('用户名必须为字母且大于6位');
-            }
+                if ($num > 0 || strlen($username) < 6) {
+                    throw new NovelException('用户名必须为字母且大于6位');
+                }
 
-            if (strlen($username) > 20) {
-                throw new NovelException('用户名最多20位');
-            }
+                if (strlen($username) > 20) {
+                    throw new NovelException('用户名最多20位');
+                }
 
-            if (strlen($password) < 6) {
-                throw new NovelException('密码必须大于6位');
-            }
+                if (strlen($password) < 6) {
+                    throw new NovelException('密码必须大于6位');
+                }
 
-            $token = (new MemberLogic())->register($username, $password);
-            if (!$this->isMobile) {
-                $token = ['username' => $username];
+                $token = (new MemberLogic())->register($username, $password);
+                if (!$this->isMobile) {
+                    $token = ['username' => $username];
+                }
+                return $this->ajaxReturn(0, '注册成功', $token);
+            } catch (NovelException $e) {
+                return $this->ajaxReturn(1, $e->getMessage());
+            } catch (Exception $e) {
+                Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
+                return $this->ajaxReturn(500, '系统错误');
             }
-            return $this->ajaxReturn(0, '注册成功', $token);
-        } catch (NovelException $e) {
-            return $this->ajaxReturn(1, $e->getMessage());
-        } catch (Exception $e) {
-            Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
-            return $this->ajaxReturn(500, '系统错误');
         }
     }
 
+    /**
+     * 个人信息
+     *
+     * @author woodlsy
+     * @return \Phalcon\Http\ResponseInterface
+     */
     public function infoAction()
     {
         if ($this->request->isAjax()) {
@@ -114,6 +126,65 @@ class MemberController extends BaseController
             if (true === $this->isMobile) {
                 $this->view->pick('member/info-wap');
             }
+
+            $this->view->menuHover = 'info';
+        }
+    }
+
+    /**
+     * 修改密码
+     *
+     * @author woodlsy
+     * @return mixed
+     */
+    public function passwordAction()
+    {
+        if ($this->request->isPost()) {
+
+            try {
+                $oldPassword = $this->post('old_password');
+                $password = $this->post('password');
+                $repassword = $this->post('repassword');
+                if (crypt(md5($oldPassword), $this->user['salt']) !== $this->user['password']) {
+                    throw new NovelException('原密码错误');
+                }
+
+                if (strlen($password) < 6 || strlen($password) > 20) {
+                    throw new NovelException('新密码长度应大于6位小于20位');
+                }
+
+                if ($password !== $repassword) {
+                    throw new NovelException('两次密码不一致');
+                }
+
+                $row = (new MemberLogic())->updatePassword($password, $this->user);
+                if (!$row) {
+                    throw new NovelException('更新失败');
+                }
+
+                $this->cookies->get('token')->delete();
+
+                return $this->dispatcher->forward([
+                    'controller' => 'index',
+                    'action' => 'error',
+                    'params' => ['密码更新成功，请重新登录', '/member/login', 2]
+                ]);
+            } catch (NovelException $e) {
+                return $this->dispatcher->forward([
+                    'controller' => 'index',
+                    'action' => 'error',
+                    'params' => [$e->getMessage(), '-1', 2]
+                ]);
+            } catch (Exception $e) {
+                Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
+                return $this->dispatcher->forward([
+                    'controller' => 'index',
+                    'action' => 'error',
+                    'params' => ['系统错误', '-1', 2]
+                ]);
+            }
+        } else {
+            $this->view->menuHover = 'password';
         }
     }
 
@@ -168,6 +239,8 @@ class MemberController extends BaseController
         if (true === $this->isMobile) {
             $this->view->pick('member/book-wap');
         }
+
+        $this->view->menuHover = 'book';
     }
 
     public function delBookAction()

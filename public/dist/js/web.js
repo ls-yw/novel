@@ -107,14 +107,34 @@ function dealresult(result){
 		},1000);
 	}
 }
-function delsure(url){
+function delsure(id){
 	if(confirm('确定要删除?')){
-		if(url != undefined){
-			window.location = url;
-			return true;
-		}else{
-			return true;
-		}
+		$.ajax({
+			url: '/member/delBook',
+			data: {id:id},
+			dataType: 'json', //服务器返回json格式数据
+			type: 'POST', //HTTP请求类型
+			timeout: 10000, //超时时间设置为10秒；
+			success: function(res) {
+				if (res.code == 201) {
+					alertmsg('未登录，请先登录');
+					setTimeout(function() {
+						window.location.href = '/';
+					}, 1500);
+				} else if (res.code == 0) {
+					alertmsg('移除成功');
+					setTimeout(function() {
+						window.location.reload();
+					}, 1500);
+					// $('.nav-top .member').html('<a href="/member/index" class="red">'+res.data.username+'</a>')
+				} else {
+					alertmsg(res.msg);
+				}
+			},
+			error: function(xhr, type, errorThrown) {
+				alertmsg('系统错误');
+			}
+		});
 	}else{
 		return false;
 	}

@@ -15,7 +15,7 @@
             <p class="click"><i>·</i> <a href="/category?id=<?=$book['book_category']?>"><?=$category[$book['book_category']]?></a> <i>·</i> <?=$book['book_click']?>浏览  <i>·</i> <?=$book['book_wordsnumber']?>字数  <i>·</i> <?=$book['book_state'] == 1 ? '完本' : '连载'?></p>
             <p class="intro"><?=$book['book_intro']?></p>
             <p class="keywords">关键字：<?php if (!empty($book['book_keyword'])):foreach (explode(',', $book['book_keyword']) as $val):?><a href="javascript:;"><?=$val?></a><?php endforeach;endif;?></p>
-            <div class="book_btn"><a href="/book/chapter?book_id=<?=$book['id']?>" class="btn_sr">开始阅读</a><!-- <a href="javascript:void(0);" onclick="post_rack({$book.book_id})" class="btn_sj">加入书架</a><a href="javascript:void(0);" class="btn_tj" onclick="post_recommend({$book.book_id})">投推荐票</a>--></div>
+            <div class="book_btn"><a href="/book/chapter?book_id=<?=$book['id']?>" class="btn_sr">开始阅读</a><a href="javascript:void(0);" data-id="<?=$book['id']?>" <?=empty($userBook) ? '' : 'disabled'?> class="btn_sj"><?=empty($userBook) ? '加入书架' : '已在书架'?></a><!-- <a href="javascript:void(0);" class="btn_tj" onclick="post_recommend({$book.book_id})">投推荐票</a>--></div>
         </div>
     </div>
     <div class="lastnew left">
@@ -33,3 +33,31 @@
 
 </div>
 <div class="clear"></div>
+<script>
+    $('.btn_sj').click(function () {
+        let book_id = $(this).data('id');
+        let obj = $(this);
+        if (obj.attr('disabled')) {
+            return false;
+        }
+        $.ajax({
+            url: '/member/addBook?id='+book_id,
+            dataType: 'json', //服务器返回json格式数据
+            type: 'GET', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function(res) {
+                if (res.code == 201) {
+                    alertmsg('您未登录，请先登录');
+                } else if (res.code == 0) {
+                    alertmsg('加入成功');
+                    obj.text('已在书架').attr('disabled', true);
+                } else {
+                    alertmsg(res.msg);
+                }
+            },
+            error: function(xhr, type, errorThrown) {
+                $.toptip('系统错误', 'error');
+            }
+        });
+    });
+</script>

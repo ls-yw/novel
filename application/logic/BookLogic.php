@@ -10,13 +10,13 @@ use application\models\Book;
 use application\models\Category;
 use application\models\Chapter;
 use Phalcon\DI;
+use woodlsy\phalcon\library\Helper;
 use woodlsy\phalcon\library\Redis;
 
 class BookLogic
 {
-    public function getList($where, string $orderBy, int $page, int $size)
+    public function getList($where, string $orderBy, int $offset, int $size)
     {
-        $offset = ($page - 1) * $size;
         return (new Book())->getList($where, $orderBy, $offset, $size);
     }
 
@@ -210,15 +210,42 @@ class BookLogic
         return $chapter;
     }
 
+    /**
+     * 保存点击次数
+     *
+     * @author woodlsy
+     * @param int $bookId
+     */
     public function saveClick(int $bookId)
     {
+        $book = (new Book())->getById($bookId);
         $bookIds = DI::getDefault()->get('cookies')->get('bookClick')->getValue();
         $bookIds = explode('|', $bookIds);
-        if (!in_array($bookId, $bookIds)) {
+        if ($book && !in_array($bookId, $bookIds)) {
             // 总点击
             (new Book())->updateData(['book_click' => ['+', 1]], ['id' => $bookId]);
 
-            
+            // 月点击
+            if (Helper::now('m', strtotime($book['book_lasttime'])) !== Helper::now('m')) {
+                (new Book())->updateData(['book_monthclick' => 0], ['id' => $bookId]);
+            }
+            (new Book())->updateData(['book_monthclick' => ['+', 1]], ['id' => $bookId]);
+
+            // 周点击
+            if (Helper::now('W', strtotime($book['book_lasttime'])) !== Helper::now('W')) {
+                (new Book())->updateData(['book_weekclick' => 0], ['id' => $bookId]);
+            }
+            (new Book())->updateData(['book_weekclick' => ['+', 1]], ['id' => $bookId]);
+
+            // 日点击
+            if (Helper::now('z', strtotime($book['book_lasttime'])) !== Helper::now('z')) {
+                (new Book())->updateData(['book_dayclick' => 0], ['id' => $bookId]);
+            }
+            (new Book())->updateData(['book_dayclick' => ['+', 1]], ['id' => $bookId]);
+
+            (new Book())->updateData(['book_lasttime' => Helper::now()], ['id' => $bookId]);
+            $bookIds[] = $bookId;
+            DI::getDefault()->get('cookies')->set('bookClick', implode('|', $bookIds), time() + 3600);
         }
     }
 }

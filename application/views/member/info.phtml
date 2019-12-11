@@ -1,0 +1,36 @@
+<div class="here">当前位置:<a href="/">网站首页</a> &gt; 会员中心 > 基本资料</div>
+<div class="member">
+    <div class="member_menu left">
+        <h3>会员中心</h3>
+        <dl>
+            <dt>会员设置</dt>
+            <dd class="info"><a href="/member/info">基本资料</a></dd>
+            <dd class="password"><a href="/member/password">修改密码</a></dd>
+            <dt>工具箱</dt>
+            <dd class="book"><a href="/member/book">我的书架</a></dd>
+        </dl>
+    </div>
+    <div class="member_body right">
+        <table width="769" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <th width="150" scope="row" class="text_right">用户名：</th>
+                <td width="450"><?=$user['username']?></td>
+            </tr>
+            <tr>
+                <th scope="row" class="text_right">最后登录IP：</th>
+                <td colspan="2"><?=$user['last_ip']?></td>
+            </tr>
+            <tr>
+                <th scope="row" class="text_right">最后登录时间：</th>
+                <td colspan="2"><?=$user['last_time']?></td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+<div class="clear"></div>
+<script>
+    $(function () {
+        $('.member_menu').find('.<?=$menuHover?>').addClass('menu_hover').find('a').attr('href', 'javascript:;');
+    });
+</script>

@@ -1,0 +1,66 @@
+<div class="here">当前位置:<a href="/">网站首页</a> &gt; 会员登录</div>
+<div class="login">
+    <h3 class="title_bg">会员登录</h3>
+    <div class="left login_box">
+        <form action="" method="post" class="jqtransformdone">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td class="text_right">帐号：</td>
+                    <td><div class="parentCls"><input type="text" value="" name="username" autocomplete="off" id="username"></div></td>
+                </tr>
+                <tr>
+                    <td class="text_right">密码：</td>
+                    <td><input type="password" value="" name="password" id="password"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="text_center"><button type="button" class="button" id="login">登  录</button>　　　<!--<a class="red" href="" target="_blank">忘记密码</a>--></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="right sm">
+        <div><strong>注册成为<?=$config['host_name']?>会员，您将拥有：</strong></div>
+        <div class="txt">· 拥有海量书架收藏更多图书<br/>· 可以给你喜欢的小说投推荐票<br/>· 更多功能等待你注册后去发现</div>
+        <div class="text_center"><a href="/member/register" class="button">立即注册</a></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="clear"></div>
+<script>
+    $(function () {
+        $('#login').click(function(){
+            let username = $('#username').val();
+            let password = $('#password').val();
+            if (username.length < 6 || password.length < 6) {
+                alertmsg('请输入正确的帐号密码');
+                return false;
+            }
+            $.ajax({
+                url: '/member/login',
+                data: {
+                    'username': username,
+                    'password': password
+                },
+                dataType: 'json', //服务器返回json格式数据
+                type: 'POST', //HTTP请求类型
+                timeout: 10000, //超时时间设置为10秒；
+                success: function(res) {
+                    if (res.code == 0) {
+                        alertmsg('登录成功');
+                        setTimeout(function () {
+                            window.location.href = '/';
+                        }, 1000);
+                        return true;
+                    } else {
+                        alertmsg(res.msg);
+                        return false;
+                    }
+                },
+                error: function(xhr, type, errorThrown) {
+                    alertmsg('系统错误');
+                    return false;
+                }
+            });
+        });
+    });
+</script>

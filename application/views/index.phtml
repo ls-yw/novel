@@ -8,7 +8,11 @@
     <meta name="renderer" content="webkit">
     <link type="text/css" rel="stylesheet" href="/dist/css/base.css" />
     <link type="text/css" rel="stylesheet" href="/dist/css/web.css" />
+    <?php if ('member' === $controllerName && $user):?>
+        <link type="text/css" rel="stylesheet" href="/dist/css/member.css" />
+    <?php else:?>
     <link type="text/css" rel="stylesheet" href="/dist/css/web-index.css" />
+    <?php endif;?>
     <script type="text/javascript" src="/dist/plugins/jquery/dist/jquery.js"></script>
 </head>
 <body>
@@ -27,7 +31,7 @@
             <div class="left"><a href="javascript:void(0)" onclick="SetHome(this,'<?=$config['host']?>');">设为首页</a> | <a href="javascript:void(0)" onclick="AddFavorite('<?=$config['host']?>',location.href)">收藏本站</a></div>
             <div class="right yhao">
                 <?php if(empty($user)):?>
-                    请 <a href="javascript:void(0);" id="show_log" class="red">登录</a> 或 <a href="javascript:void(0);" id="show_reg">注册</a>
+                    请 <a href="/member/login" id="show_log" class="red">登录</a> 或 <a href="/member/register" id="show_reg">注册</a>
                 <?php else:?>
                     欢迎 <span class="red"><?=$user['username']?></span> 回来！ [<a href="/member/index">用户中心</a>] [<a href="/member/logout">退出</a>]
                 <?php endif;?>
@@ -57,7 +61,7 @@
                 <?php if(!empty($category)):foreach ($category as $key => $val):?>
                 <li><a href="/category/index?id=<?=$key?>" class="<?php if(isset($categoryId) && $categoryId == $key)echo 'nav_hover';?>"><?=$val?></a></li>
                 <?php endforeach;endif;?>
-                <li><a href="/member/bookrack">我的书架</a></li>
+                <li class="right"><a href="/member/book">我的书架</a></li>
             </ul>
         </div>
     </div>
@@ -69,65 +73,66 @@
     <p><?=$config['record']?></p>
 </div>
 <div class="bg"></div>
-<div class="login-jump" id="login-jump">
-    <div class="tit">
-        <em class="close">关闭</em>
-        <span class="current" tabid="1">登录</span><span tabid="2">注册</span>
-    </div>
-    <div class="con">
-        <div class="tab_log_reg tabpanel" id="lg-jump" style="display: block;">
-            <h6>注册用户请直接登录</h6>
-            <form name="login_form" class="jqtransformdone">
-                <table cellspacing="0" cellpadding="0" border="0" width="100%" class="login_box">
-                    <tbody><tr>
-                        <td class="log_reg_tit">账号：</td>
-                        <td><div class="parentCls"><input name="username" type="text" autocomplete="off"></div></td>
-                    </tr>
-                    <tr>
-                        <td class="log_reg_tit">密码：</td>
-                        <td><input name="password" type="password"></td>
-                    </tr>
-                    </tbody></table>
-                <div class="tc">
-                    <button name="login" id="login" type="button" class="button">登录</button>
-                    <a class="forgot" href="" target="_blank">忘记密码</a>
-                </div>
-                <div class="lawer">
-                    <em class="purity_red fs14 fb">没有账号？</em><a id="reg_a" href="javascript:void(0)">立即注册账号</a>
-                </div>
-            </form>
-        </div>
-        <div class="tab_log_reg tabpanel" id="rg-jump" style="display: none;">
-            <form name="register_form">
-                <table cellspacing="0" cellpadding="0" border="0" width="100%" class="regist_box">
-                    <tbody><tr>
-                        <td class="log_reg_tit">账号：</td>
-                        <td>
-                            <input name="username" type="text" value="" id="username">
-                            <p class="emailMessage">只能输入字母，长度6-20位</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="log_reg_tit">密码：</td>
-                        <td>
-                            <input name="password" type="password" id="password"><em class="passwordSuggestion"></em>
-                            <p class="passwordMessage">6-16个字符，英文字母(区分大小写)或数字组成。</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="log_reg_tit">确认密码：</td>
-                        <td>
-                            <input name="repassword" type="password" id="repassword">
-                        </td>
-                    </tr>
-                    </tbody></table>
-                <div class="tc">
-                    <button type="button" class="button" id="register">提交</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<script type="text/javascript" src="/dist/js/email.js"></script>
-<script type="text/javascript" src="/dist/js/login.js"></script>
+<!--<div class="login-jump" id="login-jump">-->
+<!--    <div class="tit">-->
+<!--        <em class="close">关闭</em>-->
+<!--        <span class="current" tabid="1">登录</span><span tabid="2">注册</span>-->
+<!--    </div>-->
+<!--    <div class="con">-->
+<!--        <div class="tab_log_reg tabpanel" id="lg-jump" style="display: block;">-->
+<!--            <h6>注册用户请直接登录</h6>-->
+<!--            <form name="login_form" class="jqtransformdone">-->
+<!--                <table cellspacing="0" cellpadding="0" border="0" width="100%" class="login_box">-->
+<!--                    <tbody><tr>-->
+<!--                        <td class="log_reg_tit">账号：</td>-->
+<!--                        <td><div class="parentCls"><input name="username" type="text" autocomplete="off"></div></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td class="log_reg_tit">密码：</td>-->
+<!--                        <td><input name="password" type="password"></td>-->
+<!--                    </tr>-->
+<!--                    </tbody></table>-->
+<!--                <div class="tc">-->
+<!--                    <button name="login" id="login" type="button" class="button">登录</button>-->
+<!--                    <a class="forgot" href="" target="_blank">忘记密码</a>-->
+<!--                </div>-->
+<!--                <div class="lawer">-->
+<!--                    <em class="purity_red fs14 fb">没有账号？</em><a id="reg_a" href="javascript:void(0)">立即注册账号</a>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <div class="tab_log_reg tabpanel" id="rg-jump" style="display: none;">-->
+<!--            <form name="register_form">-->
+<!--                <table cellspacing="0" cellpadding="0" border="0" width="100%" class="regist_box">-->
+<!--                    <tbody><tr>-->
+<!--                        <td class="log_reg_tit">账号：</td>-->
+<!--                        <td>-->
+<!--                            <input name="username" type="text" value="" id="username">-->
+<!--                            <p class="emailMessage">只能输入字母，长度6-20位</p>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td class="log_reg_tit">密码：</td>-->
+<!--                        <td>-->
+<!--                            <input name="password" type="password" id="password"><em class="passwordSuggestion"></em>-->
+<!--                            <p class="passwordMessage">6-16个字符，英文字母(区分大小写)或数字组成。</p>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td class="log_reg_tit">确认密码：</td>-->
+<!--                        <td>-->
+<!--                            <input name="repassword" type="password" id="repassword">-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    </tbody></table>-->
+<!--                <div class="tc">-->
+<!--                    <button type="button" class="button" id="register">提交</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<script type="text/javascript" src="/dist/js/email.js"></script>-->
+<!--<script type="text/javascript" src="/dist/js/login.js"></script>-->
+<script type="text/javascript" src="/dist/js/web.js"></script>
 <div class="right_fixd"><!-- <a href="javascript:void(0);" class="find_error" rel="nofollow">挑错</a> --><a href="javascript:void(0);" id="go_top"></a></div>

@@ -4,6 +4,7 @@ namespace application\controllers;
 
 use application\basic\BaseController;
 use application\logic\BookLogic;
+use Phalcon\Mvc\View;
 
 class IndexController extends BaseController
 {
@@ -12,7 +13,7 @@ class IndexController extends BaseController
         if (true === $this->isMobile) {
             $this->view->pick('index/index-wap');
 
-            $this->view->data = (new BookLogic())->getList('', 'id desc', $this->page, $this->size);
+            $this->view->data = (new BookLogic())->getList('', 'id desc', ($this->page - 1) * $this->size, $this->size);
         } else {
             $category = $this->view->category;
 
@@ -31,6 +32,20 @@ class IndexController extends BaseController
         }
 
         $this->view->title = '小说列表';
+    }
+
+    public function errorAction($message = '404', $url = '/', $waitSecond = 2)
+    {
+
+        $this->view->disableLevel(
+            View::LEVEL_MAIN_LAYOUT
+        );
+        if ('-1' === $url) {
+            $url = 'javascript:history.go(-1)';
+        }
+        $this->view->message    = $message;
+        $this->view->url        = $url;
+        $this->view->waitSecond = $waitSecond;
     }
 
 }
