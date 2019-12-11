@@ -43,6 +43,10 @@ class BookController extends BaseController
             $userBook = [];
             if ($this->user) {
                 $userBook = (new MemberLogic())->getUserBookByBookId((int) $this->user['id'], $id);
+                if (!empty($userBook)) {
+                    $seeArticle = (new BookLogic())->getArticleById($userBook['article_id']);
+                    $userBook['article_title'] = $seeArticle['title'] ?? '';
+                }
             }
 
             (new BookLogic())->saveClick($id);

@@ -24,7 +24,7 @@
                 <tr>
                     <td>《<a href="/book?id=<?=$val['book_id']?>"><?=$val['book_name']?></a>》</td>
                     <td><a href="/book/article?book_id=<?=$val['book_id']?>&id=<?=$val['last_id']?>"><?=$val['last_title']?></a></td>
-                    <td><a href="/book/article?book_id=<?=$val['book_id']?>&id=<?=$val['article_id']?>"><?=$val['article_title']?></a></td>
+                    <td><a href="/book/article?book_id=<?=$val['book_id']?>&id=<?=$val['article_id']?>" class="orange"><?=$val['article_title']?></a></td>
                     <td width="130"><?=$val['last_time']?></td>
                     <td width="40"><a href="javascript:void(0);" onclick="delsure(<?=$val['id']?>);">移除</a></td>
                 </tr>

@@ -41,7 +41,7 @@
 <div class="weui-panel weui-panel_access book-history">
     <div class="weui-panel__bd">
         <div class="weui-media-box__bd">
-            <p>阅读章节：<span>您还未阅读本小说</span></p>
+            <p>阅读章节：<span><?php if (empty($userBook)):echo '您还未阅读本小说';else:echo '<a href="/book/article?id='.$userBook['article_id'].'&book_id='.$userBook['book_id'].'">'.$userBook['article_title'].'</a>';endif;?></span></p>
         </div>
     </div>
 </div>
