@@ -20,8 +20,8 @@ class IndexController extends BaseController
             $categoryBooks = [];
             if (!empty($category)) {
                 foreach ($category as $key => $val) {
-                    $categoryBooks[$key]['img_book']  = (new BookLogic())->getList(['book_category' => $key, 'book_img' => ['!=', '']], 'id desc', 0, 2);
-                    $categoryBooks[$key]['list_book'] = (new BookLogic())->getList(['book_category' => $key], 'id desc', 2, 36);
+                    $categoryBooks[$key]['img_book']  = (new BookLogic())->getList(['book_category' => $key, 'book_img' => ['!=', '']], 'id desc', 0, 3);
+                    $categoryBooks[$key]['list_book'] = (new BookLogic())->getList(['book_category' => $key], 'id desc', 3, 36);
                 }
             }
             $this->view->categoryBooks = $categoryBooks;
