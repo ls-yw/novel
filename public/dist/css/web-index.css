@@ -53,6 +53,10 @@
 	border:1px solid #CCC;
 	height:351px;
 }
+.main .gg p{
+	height:30px;
+	line-height:30px;
+}
 .main .gg h3{
 	border-bottom:1px solid #CCC;
 	padding-left:10px;
@@ -116,7 +120,7 @@
 	
 }
 .main .mbox .boxlist ul li a{
-	display:block;
+	display: grid;
 }
 .main .mbox .boxlist ul li span{
 	overflow:hidden;

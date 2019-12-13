@@ -91,6 +91,15 @@ class AliyunOss
         return null;
     }
 
+    /**
+     * 获取文件内容
+     *
+     * @author woodlsy
+     * @param int $bookId
+     * @param int $articleId
+     * @return string
+     * @throws NovelException
+     */
     public function getString(int $bookId, int $articleId)
     {
         try{
