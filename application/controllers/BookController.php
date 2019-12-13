@@ -114,9 +114,9 @@ class BookController extends BaseController
             if (true === $this->isMobile) {
                 $this->view->pick('book/article-wap');
             }
-            if ($this->user) {
-                (new MemberLogic())->updateUserBook((int) $this->user['id'], $article['book_id'], $id);
-            }
+//            if ($this->user) {
+//                (new MemberLogic())->updateUserBook((int) $this->user['id'], $article['book_id'], $id);
+//            }
 
             (new BookLogic())->saveClick($id);
 
@@ -132,5 +132,23 @@ class BookController extends BaseController
             Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
             die('<script>alert("系统错误");history.go(-1)</script>');
         }
+    }
+
+    public function userBookAction()
+    {
+        $id     = (int) $this->post('id');
+        $bookId = (int) $this->post('book_id');
+
+        if (empty($id) || empty($bookId)) {
+            return $this->ajaxReturn(1, 'fail');
+        }
+
+        if (empty($this->user)) {
+            return $this->ajaxReturn(1, 'fail');
+        }
+
+        (new MemberLogic())->updateUserBook((int) $this->user['id'], $bookId, $id);
+
+        return $this->ajaxReturn(0, 'ok');
     }
 }

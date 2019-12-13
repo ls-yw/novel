@@ -211,6 +211,10 @@
         $('body').addClass(localStorage.getItem('fontSet'));
 
         localStorage.setItem('book_<?=$book['id']?>', '<a href="/book/article?id=<?=$article['id']?>&book_id=<?=$book['id']?>"><?=$article['title']?></a>')
+
+        setTimeout(function () {
+            $.post('/book/userBook', {"book_id":<?=$article['book_id']?>,"id":<?=$article['id']?>});
+        }, 10000);
     });
 </script>
 </body>

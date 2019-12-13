@@ -35,7 +35,7 @@
     </div>
     <div class="weui-form-preview__ft">
         <a class="weui-form-preview__btn weui-form-preview__btn_default add-userBook" data-id="<?=$book['id']?>" <?=empty($userBook) ? '' : 'disabled'?> href="javascript:"><?=empty($userBook) ? '加入书架' : '已在书架'?></a>
-        <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="/book/article?book_id=<?=$book['id']?>">开始阅读</a>
+        <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="/book/article?book_id=<?=$book['id']?>&id=<?=$userBook['article_id'] ?? 0?>">开始阅读</a>
     </div>
 </div>
 <div class="weui-panel weui-panel_access book-history">
@@ -104,11 +104,12 @@
         $('.nav-top').on('click', '.registerAlert', function () {
             register();
         });
+        <?php if (empty($user)):?>
         let readHistory = localStorage.getItem('book_<?=$book['id']?>');
         if (readHistory) {
             $('.book-history span').html(readHistory);
         }
-
+        <?php endif;?>
     });
 </script>
 </body>
