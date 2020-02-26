@@ -44,12 +44,15 @@ class BaseController extends BasicController
             );
         }
 
-        $this->config       = (new ConfigLogic())->getPairs('system');
-        $this->view->config = $this->config;
-        $this->view->user   = $this->user;
-        $this->view->controllerName   = $this->router->getControllerName();
+        $this->config               = (new ConfigLogic())->getPairs('system');
+        $this->view->config         = $this->config;
+        $this->view->user           = $this->user;
+        $this->view->controllerName = $this->router->getControllerName();
 
-        $this->view->category = (new BookLogic())->getCategoryPairs();
+        $this->view->category    = (new BookLogic())->getCategoryPairs();
+        $this->view->keywords    = $this->config['host_seo_keywords'];
+        $this->view->description = $this->config['host_seo_description'];
+
     }
 
     /**

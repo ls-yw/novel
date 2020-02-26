@@ -124,7 +124,7 @@ class BookLogic
      * @param int    $categoryId
      * @return array|bool
      */
-    public function getBookByOrder(string $orderBy, int $size, int $categoryId = 0)
+    public function getBookByOrder(string $orderBy, int $size, int $categoryId = null)
     {
         $where = [];
         if (!empty($categoryId)) {

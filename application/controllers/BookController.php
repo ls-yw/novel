@@ -32,10 +32,10 @@ class BookController extends BaseController
                 $this->view->totalPage = ceil($this->view->count / $this->size);
                 $this->view->list      = (new BookLogic())->getArticleList($id, $this->page, $this->size);
             } else {
-                $this->view->likeBooks  = (new BookLogic())->getList(['book_img' => ['!=', ''], 'book_intro' => ['!=', ''], 'id' => ['!=', $id], 'book_category' => $book['book_category']], '', 0, 4);
-                $article = (new BookLogic())->lastArticle($id);
+                $this->view->likeBooks = (new BookLogic())->getList(['book_img' => ['!=', ''], 'book_intro' => ['!=', ''], 'id' => ['!=', $id], 'book_category' => $book['book_category']], '', 0, 4);
+                $article               = (new BookLogic())->lastArticle($id);
 
-                $article['content'] = (new BookLogic())->getArticleContent($id, (int)$article['id']);
+                $article['content'] = (new BookLogic())->getArticleContent($id, (int) $article['id']);
 
                 $this->view->article = $article;
             }
@@ -44,18 +44,22 @@ class BookController extends BaseController
             if ($this->user) {
                 $userBook = (new MemberLogic())->getUserBookByBookId((int) $this->user['id'], $id);
                 if (!empty($userBook)) {
-                    $seeArticle = (new BookLogic())->getArticleById($userBook['article_id']);
+                    $seeArticle                = (new BookLogic())->getArticleById($userBook['article_id']);
                     $userBook['article_title'] = $seeArticle['title'] ?? '';
                 }
             }
 
             (new BookLogic())->saveClick($id);
 
-            $this->view->userBook  = $userBook;
-            $this->view->title     = $book['book_name'];
-            $this->view->book      = $book;
-            $this->view->categoryId      = $book['book_category'];
-            $this->view->page      = $this->page;
+            $this->view->userBook   = $userBook;
+            $this->view->title      = $book['book_name'].'-'.$this->config['host_seo_name'];
+            $this->view->book       = $book;
+            $this->view->categoryId = $book['book_category'];
+            $this->view->page       = $this->page;
+
+            $this->view->keywords    = (!empty($book['book_keyword']) ? str_replace(' ', ',', $book['book_keyword']).',' : '') .
+                $this->config['host_seo_name'];
+            $this->view->description = mb_substr($book['book_intro'], 0, 150) . '...';
 
         } catch (NovelException $e) {
             die('<script>alert("' . $e->getMessage() . '");history.go(-1)</script>');
@@ -77,10 +81,15 @@ class BookController extends BaseController
 
             $chapter = (new BookLogic())->getChapterArticle($bookId);
 
-            $this->view->title     = $book['book_name'];
-            $this->view->chapter   = $chapter;
-            $this->view->book      = $book;
-            $this->view->categoryId      = $book['book_category'];
+            $this->view->title      = $book['book_name'].'-'.$this->config['host_seo_name'];
+            $this->view->chapter    = $chapter;
+            $this->view->book       = $book;
+            $this->view->categoryId = $book['book_category'];
+
+            $this->view->keywords    = (!empty($book['book_keyword']) ? str_replace(' ', ',', $book['book_keyword']).',' : '') .
+                $this->config['host_seo_name'];
+            $this->view->description = mb_substr($book['book_intro'], 0, 150) . '...';
+
         } catch (NovelException $e) {
             die('<script>alert("' . $e->getMessage() . '");history.go(-1)</script>');
         } catch (Exception $e) {
@@ -105,7 +114,7 @@ class BookController extends BaseController
             }
             $book = (new BookLogic())->getById($article['book_id']);
 
-            $content = (new BookLogic())->getArticleContent((int)$article['book_id'], (int)$article['id']);
+            $content            = (new BookLogic())->getArticleContent((int) $article['book_id'], (int) $article['id']);
             $article['content'] = $content;
 
             $prevId = (int) (new BookLogic())->getArticlePrev($article['book_id'], $article['article_sort']);
@@ -120,12 +129,16 @@ class BookController extends BaseController
 
             (new BookLogic())->saveClick($id);
 
-            $this->view->title   = $article['title'];
-            $this->view->article = $article;
-            $this->view->book    = $book;
-            $this->view->prevId  = $prevId;
-            $this->view->nextId  = $nextId;
-            $this->view->categoryId      = $book['book_category'];
+            $this->view->title      = $article['title'].'-'.$book['book_name'].'-'.$this->config['host_seo_name'];
+            $this->view->article    = $article;
+            $this->view->book       = $book;
+            $this->view->prevId     = $prevId;
+            $this->view->nextId     = $nextId;
+            $this->view->categoryId = $book['book_category'];
+
+            $this->view->keywords    = (!empty($book['book_keyword']) ? str_replace(' ', ',', $book['book_keyword']).',' : '') .
+                $this->config['host_seo_name'];
+            $this->view->description = mb_substr($content, 0, 150) . '...';
         } catch (NovelException $e) {
             die('<script>alert("' . $e->getMessage() . '");history.go(-1)</script>');
         } catch (Exception $e) {

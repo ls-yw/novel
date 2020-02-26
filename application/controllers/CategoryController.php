@@ -17,7 +17,7 @@ class CategoryController extends BaseController
         $this->view->pageTotal = ceil($this->view->pageCount / $this->size);
 
         $this->view->categoryId   = $categoryId;
-        $this->view->title        = $this->view->category[$categoryId];
+        $this->view->title        = $this->view->category[$categoryId].'-'.$this->config['host_seo_name'];
         $this->view->catrgoryName = $this->view->category[$categoryId];
         $this->view->month        = (new BookLogic())->getBookByOrder('book_monthclick desc', 10, $categoryId);
         $this->view->newest       = (new BookLogic())->getBookByOrder('create_at desc', 11);
