@@ -3,5 +3,8 @@
         "woodlsy/phalcon": "^0.1.0",
         "aliyuncs/oss-sdk-php": "^2.3",
         "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "phalcon/ide-stubs": "^4.0"
     }
 }

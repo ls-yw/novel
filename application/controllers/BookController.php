@@ -127,7 +127,7 @@ class BookController extends BaseController
 //                (new MemberLogic())->updateUserBook((int) $this->user['id'], $article['book_id'], $id);
 //            }
 
-            (new BookLogic())->saveClick($id);
+            (new BookLogic())->saveClick($bookId);
 
             $this->view->title      = $article['title'].'-'.$book['book_name'].'-'.$this->config['host_seo_name'];
             $this->view->article    = $article;
