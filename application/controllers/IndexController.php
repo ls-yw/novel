@@ -31,7 +31,7 @@ class IndexController extends BaseController
             $this->view->newest        = (new BookLogic())->getBookByOrder('create_at desc', 11);
         }
 
-        $this->view->title = '小说列表';
+        $this->view->title = $this->config['host_seo_name'];;
     }
 
     public function errorAction($message = '404', $url = '/', $waitSecond = 2)
