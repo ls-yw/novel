@@ -103,6 +103,18 @@ class BookLogic
     }
 
     /**
+     * 获取分类详情
+     *
+     * @author woodlsy
+     * @param int $categoryId
+     * @return array|mixed
+     */
+    public function getCategoryById(int $categoryId)
+    {
+        return (new Category())->getById($categoryId);
+    }
+
+    /**
      * 获取小说通过是否字段
      *
      * @author woodlsy

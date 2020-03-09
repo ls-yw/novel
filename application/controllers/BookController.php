@@ -52,14 +52,13 @@ class BookController extends BaseController
             (new BookLogic())->saveClick($id);
 
             $this->view->userBook   = $userBook;
-            $this->view->title      = $book['book_name'].'-'.$this->config['host_seo_name'];
+            $this->view->title      = $book['book_name'].'最新章节无弹窗无广告-'.$this->config['host_name'];
             $this->view->book       = $book;
             $this->view->categoryId = $book['book_category'];
             $this->view->page       = $this->page;
 
-            $this->view->keywords    = (!empty($book['book_keyword']) ? str_replace(' ', ',', $book['book_keyword']).',' : '') .
-                $this->config['host_seo_name'];
-            $this->view->description = mb_substr($book['book_intro'], 0, 150) . '...';
+            $this->view->keywords    = $book['book_name'].','.$book['book_name'].'最新章节,'.$book['book_name'].'全文阅读,'.$book['book_name'].'无弹窗无广告';
+            $this->view->description = "{$book['book_author']}的{$book['book_name']}情节跌宕起伏、扣人心弦，是一本情节与文笔俱佳小说,斑竹9小说网提供{$book['book_name']}最新章节列表目录在线阅读。{$book['book_name']}最新章节内容{$book['book_author']}大大原创,网友收集并提供，转载至斑竹9小说网只是为了宣传小说让更多书友阅读。";
 
         } catch (NovelException $e) {
             die('<script>alert("' . $e->getMessage() . '");history.go(-1)</script>');
@@ -81,13 +80,12 @@ class BookController extends BaseController
 
             $chapter = (new BookLogic())->getChapterArticle($bookId);
 
-            $this->view->title      = $book['book_name'].'-'.$this->config['host_seo_name'];
+            $this->view->title      = $book['book_name'].'最新章节无弹窗无广告-'.$this->config['host_name'];
             $this->view->chapter    = $chapter;
             $this->view->book       = $book;
             $this->view->categoryId = $book['book_category'];
 
-            $this->view->keywords    = (!empty($book['book_keyword']) ? str_replace(' ', ',', $book['book_keyword']).',' : '') .
-                $this->config['host_seo_name'];
+            $this->view->keywords    = $book['book_name'].','.$book['book_name'].'最新章节,'.$book['book_name'].'全文阅读,'.$book['book_name'].'无弹窗无广告';
             $this->view->description = mb_substr($book['book_intro'], 0, 150) . '...';
 
         } catch (NovelException $e) {
@@ -129,16 +127,15 @@ class BookController extends BaseController
 
             (new BookLogic())->saveClick($bookId);
 
-            $this->view->title      = $article['title'].'-'.$book['book_name'].'-'.$this->config['host_seo_name'];
+            $this->view->title      = $article['title'].'-'.$book['book_name'].'-'.$this->config['host_name'];
             $this->view->article    = $article;
             $this->view->book       = $book;
             $this->view->prevId     = $prevId;
             $this->view->nextId     = $nextId;
             $this->view->categoryId = $book['book_category'];
 
-            $this->view->keywords    = (!empty($book['book_keyword']) ? str_replace(' ', ',', $book['book_keyword']).',' : '') .
-                $this->config['host_seo_name'];
-            $this->view->description = mb_substr($content, 0, 150) . '...';
+            $this->view->keywords    = "{$book['book_name']},{$article['title']},{$article['book_author']},{$this->config['host_name']}";
+            $this->view->description = "{$this->config['host_name']}提供{$article['book_author']}的{$book['book_name']}TXT小说免费下载,{$article['title']}最新章节免费阅读,热门小说{$book['book_name']}最新章节免费阅读，{$this->config['host_name']}是您值得收藏的免费小说阅读网无弹窗无广告";
         } catch (NovelException $e) {
             die('<script>alert("' . $e->getMessage() . '");history.go(-1)</script>');
         } catch (Exception $e) {
