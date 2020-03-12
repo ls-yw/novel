@@ -70,7 +70,7 @@ class MemberLogic
             throw new NovelException('密码错误');
         }
 
-        (new User())->updateData(['last_ip' => DI::getDefault()->get('request')->getClientAddress(), 'last_time' => HelperExtend::now(), 'count' => 'count + 1'], ['id' => $user['id']]);
+        (new User())->updateData(['last_ip' => DI::getDefault()->get('request')->getClientAddress(), 'last_time' => HelperExtend::now(), 'count' => ['+', 1]], ['id' => $user['id']]);
 
         $token = md5($user['id'] . time());
         Redis::getInstance()->setex($token, 86400 * 7, HelperExtend::jsonEncode($user));

@@ -14,7 +14,7 @@ class MemberController extends BaseController
     public function initialize()
     {
         parent::initialize();
-
+        $this->view->title = '会员中心';
     }
 
     public function indexAction()
