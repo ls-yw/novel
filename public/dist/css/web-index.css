@@ -1232,7 +1232,14 @@
 	overflow:hidden;;
 }
 .search_list .result ul li .intro .description{
-	width:500px;
+	/*width:500px;*/
+	/*white-space:nowrap;!* 规定文本是否折行 *!*/
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box; /* 将对象作为弹性伸缩盒子模型显示 */
+	-webkit-line-clamp: 3; /* 控制最多显示几行 */
+	-webkit-box-orient: vertical; /* 设置或检索伸缩盒对象的子元素的排列方式 */
+	color: #999999;
 }
 .search_list .result ul li .intro .anniu{
 	width:100px;

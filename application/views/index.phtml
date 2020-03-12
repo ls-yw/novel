@@ -46,12 +46,12 @@
             <form action="/category/search" method="get">
                 <span class="select left" id="select">书名</span>
                 <dl class="sub">
-                    <dd>书名</dd>
-                    <dd>作者</dd>
-                    <dd class="border_none">模糊</dd>
+                    <dd data-value="name">书名</dd>
+                    <dd data-value="author">作者</dd>
+<!--                    <dd class="border_none">模糊</dd>-->
                 </dl>
                 <input type="text" name="keywords" value="" class="keywords" autocomplete="off" />
-                <input type="hidden" name="searchtype" value="书名" id="searchtype" />
+                <input type="hidden" name="searchtype" value="name" id="searchtype" />
                 <button type="submit" class="submit"></button>
             </form>
         </div>

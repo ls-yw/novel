@@ -33,6 +33,39 @@ class CategoryController extends BaseController
 
     public function searchAction()
     {
-        die('<script>alert("暂不能搜索");history.go(-1)</script>');
+        $keywords = $this->get('keywords', 'string', '');
+        $searchType = $this->get('searchtype', 'string', 'name');
+        if ('author' === $searchType) {
+            $type = 'book_author';
+        } else {
+            $type = 'book_name';
+        }
+
+        if (empty($keywords)) {
+            die('<script>alert("搜索内容不能为空");history.go(-1)</script>');
+        }
+
+        $where = [$type => ['like', '%'.$keywords.'%']];
+        $books = (new BookLogic())->getList($where, 'update_at desc', ($this->page - 1) * $this->size, $this->size);
+
+        if (!empty($books)) {
+            foreach ($books as &$val) {
+                $article        = (new BookLogic())->lastArticle($val['id']);
+                $val['article'] = $article;
+            }
+        }
+
+        $this->view->title        = "搜索“{$keywords}”的结果-".$this->config['host_name'];
+        $this->view->books     =$books;
+        $this->view->pageCount = (new BookLogic())->getListCount($where);
+        $this->view->page      = $this->page;
+        $this->view->pageTotal = ceil($this->view->pageCount / $this->size);
+
+        $this->view->month        = (new BookLogic())->getBookByOrder('book_monthclick desc', 10);
+        $this->view->newest       = (new BookLogic())->getBookByOrder('create_at desc', 11);
+        $this->view->keywords = $keywords;
+        $this->view->searchtype = $searchType;
+
+
     }
 }

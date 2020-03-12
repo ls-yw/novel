@@ -20,9 +20,9 @@ class BookLogic
         return (new Book())->getList($where, $orderBy, $offset, $size);
     }
 
-    public function getListCount()
+    public function getListCount($where = [])
     {
-        return (new Book())->getCount([]);
+        return (new Book())->getCount($where);
     }
 
     public function getById(int $id)

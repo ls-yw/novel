@@ -7,7 +7,7 @@ $(function(){
 	});
 	$(".sub dd").each(function(a,b){
 		$(this).click(function(){
-			$("#searchtype").val($(this).html());
+			$("#searchtype").val($(this).data('value'));
 			$(".select").html($(this).html());
 			$(".select").removeClass('type_hover');
 			$(".sub").slideUp();
