@@ -135,7 +135,7 @@ class BookController extends BaseController
             $this->view->categoryId = $book['book_category'];
 
             $this->view->keywords    = "{$book['book_name']},{$article['title']},{$book['book_author']},{$this->config['host_name']}";
-            $this->view->description = "{$this->config['host_name']}提供{$article['book_author']}的{$book['book_name']}TXT小说免费下载,{$article['title']}最新章节免费阅读,热门小说{$book['book_name']}最新章节免费阅读，{$this->config['host_name']}是您值得收藏的免费小说阅读网无弹窗无广告";
+            $this->view->description = "{$this->config['host_name']}提供{$book['book_author']}的{$book['book_name']}TXT小说免费下载,{$article['title']}最新章节免费阅读,热门小说{$book['book_name']}最新章节免费阅读，{$this->config['host_name']}是您值得收藏的免费小说阅读网无弹窗无广告";
         } catch (NovelException $e) {
             die('<script>alert("' . $e->getMessage() . '");history.go(-1)</script>');
         } catch (Exception $e) {
