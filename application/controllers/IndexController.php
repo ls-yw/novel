@@ -25,7 +25,7 @@ class IndexController extends BaseController
                 }
             }
             $this->view->categoryBooks = $categoryBooks;
-            $this->view->recommend     = (new BookLogic())->getBookByIsFiled('is_recommend', 4);
+            $this->view->recommend     = (new BookLogic())->getBookByIsFiled('is_recommend', 4, 'create_at desc');
             $this->view->week          = (new BookLogic())->getBookByOrder('book_weekclick desc', 20);
             $this->view->month         = (new BookLogic())->getBookByOrder('book_monthclick desc', 10);
             $this->view->newest        = (new BookLogic())->getBookByOrder('create_at desc', 11);

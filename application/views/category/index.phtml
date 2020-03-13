@@ -25,7 +25,7 @@
         <div class="title_bg">月点击榜<span class="more"></span></div>
         <ul>
             <?php if(!empty($month)):foreach ($month as $key => $val):?>
-            <li><em class="<?php switch ($key):case 0:echo 'first';break;case 1:echo 'second';break;case 2:echo 'third';break;endswitch;?><!--"><?=$key+1?></em><a href="/book?id=--><?=$val['id']?>" title="<?=$val['book_name']?>" target="_blank"><?=$val['book_name']?></a><span><?=$val['book_monthclick']?></span></li>
+            <li><em class="<?php switch ($key):case 0:echo 'first';break;case 1:echo 'second';break;case 2:echo 'third';break;endswitch;?>"><?=$key+1?></em><a href="/book?id=--><?=$val['id']?>" title="<?=$val['book_name']?>" target="_blank"><?=$val['book_name']?></a><span><?=$val['book_monthclick']?></span></li>
             <?php endforeach;endif;?>
         </ul>
     </div>

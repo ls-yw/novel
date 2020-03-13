@@ -120,11 +120,12 @@ class BookLogic
      * @author woodlsy
      * @param string $field
      * @param int    $size
+     * @param string $orderBy
      * @return array|bool
      */
-    public function getBookByIsFiled(string $field, int $size)
+    public function getBookByIsFiled(string $field, int $size, string $orderBy = '')
     {
-        return (new Book())->getList([$field => 1], '', 0, $size);
+        return (new Book())->getList([$field => 1], $orderBy, 0, $size);
     }
 
     /**
