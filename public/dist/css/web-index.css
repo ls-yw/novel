@@ -401,12 +401,12 @@
 }
 .channel .list ul li .l1{
 	width:150px;
-}
-.channel .list ul li .l2{
-	width:430px;
 	white-space:nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+.channel .list ul li .l2{
+	width:430px;
 }
 .channel .list ul li .l3{
 	text-align:right;
