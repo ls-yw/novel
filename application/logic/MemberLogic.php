@@ -32,9 +32,12 @@ class MemberLogic
         $salt = HelperExtend::randString(8);
 
         $data = [
-            'username' => $username,
-            'password' => crypt(md5($password), $salt),
-            'salt'     => $salt,
+            'username'  => $username,
+            'password'  => crypt(md5($password), $salt),
+            'salt'      => $salt,
+            'last_ip'   => DI::getDefault()->get('request')->getClientAddress(),
+            'last_time' => HelperExtend::now(),
+            'count'     => 1
         ];
 
         $userId = (new User())->insertData($data);
@@ -182,28 +185,28 @@ class MemberLogic
      */
     public function getUserBook(int $uid, int $page, int $size)
     {
-        $offset = ($page - 1) * $size;
-        $userBooks  = (new UserBook())->getList(['uid' => $uid], 'update_at desc', $offset, $size);
+        $offset    = ($page - 1) * $size;
+        $userBooks = (new UserBook())->getList(['uid' => $uid], 'update_at desc', $offset, $size);
         if (!empty($userBooks)) {
             $bookIds = $articleIds = [];
             foreach ($userBooks as $val) {
-                $bookIds[]    = $val['book_id'];
+                $bookIds[] = $val['book_id'];
                 if (!empty($val['article_id'])) {
                     $articleIds[] = $val['article_id'];
                 }
             }
-            $books = (new Book())->getAll(['id' => $bookIds], ['id', 'book_name', 'book_img']);
-            $books = HelperExtend::indexArray($books, 'id');
+            $books    = (new Book())->getAll(['id' => $bookIds], ['id', 'book_name', 'book_img']);
+            $books    = HelperExtend::indexArray($books, 'id');
             $articles = (new Article())->getAll(['id' => $articleIds], ['id', 'title', 'book_id']);
             $articles = HelperExtend::indexArray($articles, 'id');
 
             foreach ($userBooks as &$v) {
-                $lastArticle = (new BookLogic())->lastArticle($v['book_id']);
-                $v['last_title'] = $lastArticle['title'] ?? '';
-                $v['last_id'] = $lastArticle['id'] ?? '';
-                $v['last_time'] = $lastArticle['create_at'] ?? '';
-                $v['book_name'] = isset($books[$v['book_id']]) ? $books[$v['book_id']]['book_name'] : '';
-                $v['book_img'] = isset($books[$v['book_id']]) ? $books[$v['book_id']]['book_img'] : '';
+                $lastArticle        = (new BookLogic())->lastArticle($v['book_id']);
+                $v['last_title']    = $lastArticle['title'] ?? '';
+                $v['last_id']       = $lastArticle['id'] ?? '';
+                $v['last_time']     = $lastArticle['create_at'] ?? '';
+                $v['book_name']     = isset($books[$v['book_id']]) ? $books[$v['book_id']]['book_name'] : '';
+                $v['book_img']      = isset($books[$v['book_id']]) ? $books[$v['book_id']]['book_img'] : '';
                 $v['article_title'] = isset($articles[$v['article_id']]) ? $articles[$v['article_id']]['title'] : '未开始阅读';
             }
         }

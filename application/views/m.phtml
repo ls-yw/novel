@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title><?= $title ?></title>
+    <meta name="keywords" content="<?= $keywords ?>"/>
+    <meta name="description" content="<?= $description ?>"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="/dist/plugins/jqweui/dist/lib/weui.min.css" rel="stylesheet" />
+    <link href="/dist/plugins/jqweui/dist/css/jquery-weui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/dist/plugins/font-awesome/css/font-awesome.min.css">
+    <link href="/dist/css/base.css" rel="stylesheet" />
+    <link href="/dist/css/m.css" rel="stylesheet" />
+    <script src="/dist/plugins/jqweui/dist/lib/jquery-2.1.4.js"></script>
+</head>
+<body>
+<div class="weui-tab">
+    <div class="weui-tab" style="<?php if (isset($mMenu) && 'none' === $mMenu)echo 'height:auto'?>">
+        <div class="weui-tab__bd" style="<?php if (!isset($mMenu) || 'none' !== $mMenu)echo 'padding-bottom: 50px'?>">
+            <?=$this->getContent()?>
+        </div>
+
+        <div class="weui-tabbar" style="<?php if (isset($mMenu) && 'none' === $mMenu)echo 'display:none'?>">
+            <a href="/" class="weui-tabbar__item <?php if(!isset($mMenu) || 'home' === $mMenu):echo 'weui-bar__item--on';endif;?>">
+                <div class="weui-tabbar__icon">
+                    <i class="fa fa-home"></i>
+                </div>
+                <p class="weui-tabbar__label">首页</p>
+            </a>
+            <a href="/category/mAll" class="weui-tabbar__item <?php if(isset($mMenu) && 'category' === $mMenu):echo 'weui-bar__item--on';endif;?>">
+                <div class="weui-tabbar__icon">
+                    <i class="fa fa-bars"></i>
+                </div>
+                <p class="weui-tabbar__label">分类</p>
+            </a>
+            <a href="/member/book" class="weui-tabbar__item <?php if(isset($mMenu) && 'userBook' === $mMenu):echo 'weui-bar__item--on';endif;?>">
+                <div class="weui-tabbar__icon">
+                    <i class="fa fa-folder"></i>
+                </div>
+                <p class="weui-tabbar__label">书架</p>
+            </a>
+            <a href="/member/index" class="weui-tabbar__item <?php if(isset($mMenu) && 'member' === $mMenu):echo 'weui-bar__item--on';endif;?>">
+                <div class="weui-tabbar__icon">
+                    <i class="fa fa-user-circle-o"></i>
+                </div>
+                <p class="weui-tabbar__label">我的</p>
+            </a>
+        </div>
+    </div>
+
+<script src="/dist/plugins/jqweui/dist/js/jquery-weui.js"></script>
+<script src="/dist/js/m.js"></script>
+</body>
+</html>

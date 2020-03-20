@@ -20,10 +20,9 @@ class MemberController extends BaseController
     public function indexAction()
     {
         try {
-
-
             if (true === $this->isMobile) {
-                $this->view->pick('member/index-wap');
+                $this->mIndex();
+                return;
             }
 
         } catch (NovelException $e) {
@@ -32,6 +31,18 @@ class MemberController extends BaseController
             Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
             return $this->ajaxReturn(500, '系统错误');
         }
+    }
+
+    /**
+     * 我的 wap
+     *
+     * @author woodlsy
+     */
+    private function mIndex()
+    {
+        $this->view->pick('m/member/index');
+
+        $this->view->mMenu = 'member';
     }
 
     public function loginAction()
@@ -62,8 +73,19 @@ class MemberController extends BaseController
                 return $this->ajaxReturn(500, '系统错误');
             }
         } else {
+            if (true === $this->isMobile) {
+                $this->mLogin();
+                return;
+            }
 
         }
+    }
+
+    private function mLogin()
+    {
+        $this->view->pick('m/member/login');
+
+        $this->view->mMenu = 'none';
     }
 
     public function registerAction()
@@ -97,7 +119,19 @@ class MemberController extends BaseController
                 Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
                 return $this->ajaxReturn(500, '系统错误');
             }
+        }else {
+            if (true === $this->isMobile) {
+                $this->mRegister();
+                return;
+            }
         }
+    }
+
+    private function mRegister()
+    {
+        $this->view->pick('m/member/register');
+
+        $this->view->mMenu = 'none';
     }
 
     /**
@@ -124,11 +158,17 @@ class MemberController extends BaseController
         } else {
 
             if (true === $this->isMobile) {
-                $this->view->pick('member/info-wap');
+                $this->mInfo();
+                return;
             }
 
-            $this->view->menuHover = 'info';
         }
+    }
+
+    private function mInfo()
+    {
+        $this->view->pick('m/member/info');
+        $this->view->mMenu = 'none';
     }
 
     /**
@@ -197,6 +237,10 @@ class MemberController extends BaseController
                 throw new NovelException('小说不存在');
             }
 
+            if (!$this->user) {
+                return $this->ajaxReturn(201, '未登录');
+            }
+
             $userBook = (new MemberLogic())->getUserBookByBookId((int)$this->user['id'], $id);
             if ($userBook) {
                 return $this->ajaxReturn(0, '该小说已在您的书架中');
@@ -233,6 +277,11 @@ class MemberController extends BaseController
 
     public function bookAction()
     {
+        if (true === $this->isMobile) {
+            $this->mBook();
+            return;
+        }
+
         $userBooks = (new MemberLogic())->getUserBook((int) $this->user['id'], $this->page, $this->size);
 
         $this->view->userBooks = $userBooks;
@@ -241,6 +290,23 @@ class MemberController extends BaseController
         }
 
         $this->view->menuHover = 'book';
+    }
+
+    /**
+     * 书架 wap
+     *
+     * @author woodlsy
+     */
+    private function mBook()
+    {
+        $userBooks = (new MemberLogic())->getUserBook((int) $this->user['id'], $this->page, $this->size);
+
+        $this->view->userBooks = $userBooks;
+
+
+        $this->view->pick('m/member/book');
+
+        $this->view->mMenu = 'userBook';
     }
 
     public function delBookAction()

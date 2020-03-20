@@ -1,0 +1,19 @@
+<div class="weui-tab__bd-item weui-tab__bd-item--active">
+    <div class="weui-panel weui-panel_access index-list">
+        <div class="weui-panel__hd">最新小说</div>
+        <div class="weui-panel__bd">
+            <?php if (!empty($data)):foreach ($data as $val): ?>
+                <a href="/book?id=<?= $val['id'] ?>" class="weui-media-box weui-media-box_appmsg">
+                    <div class="weui-media-box__hd">
+                        <img class="weui-media-box__thumb" src="<?= $val['book_img'] ?>">
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <p class="weui-media-box__desc title"><?= $val['book_name'] ?></p>
+                        <p class="weui-media-box__desc">作者：<?= $val['book_author'] ?></p>
+                        <p class="weui-media-box__desc">摘要：<?= $val['book_intro'] ?></p>
+                    </div>
+                </a>
+            <?php endforeach;endif; ?>
+        </div>
+    </div>
+</div>

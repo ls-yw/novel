@@ -1,0 +1,68 @@
+
+<?php if (!empty($user)):if (empty($userBooks)):?>
+    <div class="weui-loadmore weui-loadmore_line" style="margin: 0 auto;padding-top: 150px;text-align: center">
+        <span class="weui-loadmore__tips">书架空荡荡，快去 <a href="/" class="orange">添加小说</a> 吧</span>
+    </div>
+<?php else:?>
+    <div class="weui-panel weui-panel_access userBook">
+        <div class="weui-panel__bd">
+            <?php foreach ($userBooks as $val):?>
+                <div  class="weui-media-box weui-media-box_appmsg ">
+                    <div class="weui-media-box__hd">
+                        <img class="weui-media-box__thumb" src="<?=$val['book_img']?>">
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title"><?=$val['book_name']?><span class="del red" data-id="<?=$val['id']?>">移除</span></h4>
+                        <p class="weui-media-box__info">最新：<span class="gray"><?=$val['last_title']?></span></p>
+                        <p class="weui-media-box__info">已阅：<a href="/book/article?id=<?=$val['article_id']?>&book_id=<?=$val['book_id']?>" class="orange"><?=$val['article_title']?></a></p>
+                    </div>
+                </div>
+            <?php endforeach;?>
+        </div>
+    </div>
+<?php endif;?>
+<?php else:?>
+    <div class="weui-loadmore weui-loadmore_line" style="margin: 0 auto;padding-top: 150px;text-align: center">
+        <span class="weui-loadmore__tips">使用书架功能需要先去 <a href="/member/login" class="green">登录</a>。<br><br>还没有帐号？赶紧去 <a href="/member/register" class="orange">注册</a></span>
+    </div>
+<?php endif;?>
+<script>
+    $(function () {
+        $('.del').click(function () {
+            let id = $(this).data('id');
+            $.confirm("确认是否移除？", function() {
+                //点击确认后的回调函数
+                $.ajax({
+                    url: '/member/delBook',
+                    data: {id:id},
+                    dataType: 'json', //服务器返回json格式数据
+                    type: 'POST', //HTTP请求类型
+                    timeout: 10000, //超时时间设置为10秒；
+                    headers: {
+                        'token': localStorage.getItem('token') ? localStorage.getItem('token') : ''
+                    },
+                    success: function(res) {
+                        if (res.code == 201) {
+                            localStorage.removeItem('token');
+                            $.toptip('未登录，请先登录', 'error');
+                            setTimeout(function() {
+                                window.location.href = '/member/login';
+                            }, 1500);
+                        } else if (res.code == 0) {
+                            $.toptip('移除成功', 'success');
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 1500);
+                            // $('.nav-top .member').html('<a href="/member/index" class="red">'+res.data.username+'</a>')
+                        } else {
+                            $.toptip(res.msg, 'error');
+                        }
+                    },
+                    error: function(xhr, type, errorThrown) {
+                        $.toptip('系统错误', 'error');
+                    }
+                });
+            });
+        });
+    });
+</script>

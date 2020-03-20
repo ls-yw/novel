@@ -5,7 +5,6 @@ namespace application\basic;
 use application\library\HelperExtend;
 use application\logic\BookLogic;
 use application\logic\ConfigLogic;
-use Phalcon\Mvc\View;
 use woodlsy\phalcon\basic\BasicController;
 use woodlsy\phalcon\library\Redis;
 
@@ -26,22 +25,25 @@ class BaseController extends BasicController
     {
         parent::initialize();
 
+
         $this->page = (int) $this->get('page', 'int', 1);
         $this->size = (int) $this->get('size', 'int', 20);
 
-        $this->isMobile = $this->isMobile();
+//        $this->isMobile = $this->isMobile();
+        $this->isMobile = $this->isMHost();
 
-        $this->token = !$this->getHeader('token') ? $this->cookies->get('token')->getValue() : $this->getHeader('token');
+        $this->token = empty($this->getHeader('token')) ? $this->cookies->get('token')->getValue() : $this->getHeader('token');
         $this->setUser();
 
         $this->checkLogin();
 
+        $this->loadAlert();
+
         $this->view->version = 20191120;
 
         if ($this->isMobile) {
-            $this->view->disableLevel(
-                View::LEVEL_MAIN_LAYOUT
-            );
+            $this->size = 10;
+            $this->view->setMainView('m');
         }
 
         $this->config               = (new ConfigLogic())->getPairs('system');
@@ -53,6 +55,25 @@ class BaseController extends BasicController
         $this->view->keywords    = $this->config['host_seo_keywords'];
         $this->view->description = $this->config['host_seo_description'];
 
+    }
+
+    protected function loadAlert()
+    {
+        $success = Redis::getInstance()->get('success_alert_msg');
+        $error   = Redis::getInstance()->get('error_alert_msg');
+
+        $this->view->successMsg = $success;
+        $this->view->errorMsg   = $error;
+    }
+
+    protected function setAlertMsg(string $type, string $message)
+    {
+        if ('success' === $type) {
+            Redis::getInstance()->setex('success_alert_msg', 10, $message);
+        }
+        if ('error' === $type) {
+            Redis::getInstance()->setex('error_alert_msg', 10, $message);
+        }
     }
 
     /**
@@ -73,7 +94,7 @@ class BaseController extends BasicController
 
     public function checkLogin()
     {
-        if ($this->router->getControllerName() === 'member' && !in_array($this->router->getActionName(), ['login', 'register']) && !$this->user) {
+        if ($this->router->getControllerName() === 'member' && !in_array($this->router->getActionName(), ['login', 'register']) && !$this->user && !$this->isMobile) {
             if ($this->request->isAjax()) {
                 header('Content-type: application/json');
                 echo HelperExtend::jsonEncode(['code' => 201, 'msg' => '未登录']);
@@ -116,6 +137,22 @@ class BaseController extends BasicController
             if ((strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') !== false) && (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === false || (strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') < strpos($_SERVER['HTTP_ACCEPT'], 'text/html')))) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    /**
+     * 判断是否是wap域名
+     *
+     * @author woodlsy
+     * @return bool
+     */
+    public function isMHost()
+    {
+        $host = $_SERVER['SERVER_NAME'];
+        $host = explode('.', $host);
+        if ('m' === $host[0] || 'm' === $host[1]) {
+            return true;
         }
         return false;
     }
