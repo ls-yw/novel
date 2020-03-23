@@ -4,6 +4,7 @@ namespace application\controllers;
 
 use application\basic\BaseController;
 use application\library\AliyunOss;
+use application\library\HelperExtend;
 use application\library\NovelException;
 use application\logic\BookLogic;
 use application\logic\MemberLogic;
@@ -32,7 +33,11 @@ class BookController extends BaseController
             $this->view->likeBooks = (new BookLogic())->getList(['book_img' => ['!=', ''], 'book_intro' => ['!=', ''], 'id' => ['!=', $id], 'book_category' => $book['book_category']], '', 0, 4);
             $article               = (new BookLogic())->lastArticle($id);
 
-            $article['content'] = (new BookLogic())->getArticleContent($id, (int) $article['id']);
+            if (1 === (int) $article['is_oss']) {
+                $article['content'] = (new BookLogic())->getArticleContent($id, (int) $article['id']);
+            } else {
+                $article['content'] = '章节内容待传';
+            }
 
             $this->view->article = $article;
 
@@ -48,12 +53,12 @@ class BookController extends BaseController
             (new BookLogic())->saveClick($id);
 
             $this->view->userBook   = $userBook;
-            $this->view->title      = $book['book_name'].'最新章节无弹窗无广告-'.$this->config['host_name'];
+            $this->view->title      = $book['book_name'] . '最新章节无弹窗无广告-' . $this->config['host_name'];
             $this->view->book       = $book;
             $this->view->categoryId = $book['book_category'];
             $this->view->page       = $this->page;
 
-            $this->view->keywords    = $book['book_name'].','.$book['book_name'].'最新章节,'.$book['book_name'].'全文阅读,'.$book['book_name'].'无弹窗无广告';
+            $this->view->keywords    = $book['book_name'] . ',' . $book['book_name'] . '最新章节,' . $book['book_name'] . '全文阅读,' . $book['book_name'] . '无弹窗无广告';
             $this->view->description = "{$book['book_author']}的{$book['book_name']}情节跌宕起伏、扣人心弦，是一本情节与文笔俱佳小说,斑竹9小说网提供{$book['book_name']}最新章节列表目录在线阅读。{$book['book_name']}最新章节内容{$book['book_author']}大大原创,网友收集并提供，转载至斑竹9小说网只是为了宣传小说让更多书友阅读。";
 
         } catch (NovelException $e) {
@@ -80,16 +85,16 @@ class BookController extends BaseController
         }
 
         $this->view->book       = $book;
-        $this->view->count     = (new BookLogic())->getArticleListCount($id);
-        $this->view->totalPage = ceil($this->view->count / $this->size);
-        $this->view->list      = (new BookLogic())->getArticleList($id, $this->page, $this->size);
+        $this->view->count      = (new BookLogic())->getArticleListCount($id);
+        $this->view->totalPage  = ceil($this->view->count / $this->size);
+        $this->view->list       = (new BookLogic())->getArticleList($id, $this->page, $this->size);
         $this->view->userBook   = $userBook;
-        $this->view->title      = $book['book_name'].'最新章节无弹窗无广告-'.$this->config['host_name'];
+        $this->view->title      = $book['book_name'] . '最新章节无弹窗无广告-' . $this->config['host_name'];
         $this->view->book       = $book;
         $this->view->categoryId = $book['book_category'];
         $this->view->page       = $this->page;
 
-        $this->view->keywords    = $book['book_name'].','.$book['book_name'].'最新章节,'.$book['book_name'].'全文阅读,'.$book['book_name'].'无弹窗无广告';
+        $this->view->keywords    = $book['book_name'] . ',' . $book['book_name'] . '最新章节,' . $book['book_name'] . '全文阅读,' . $book['book_name'] . '无弹窗无广告';
         $this->view->description = "{$book['book_author']}的{$book['book_name']}情节跌宕起伏、扣人心弦，是一本情节与文笔俱佳小说,斑竹9小说网提供{$book['book_name']}最新章节列表目录在线阅读。{$book['book_name']}最新章节内容{$book['book_author']}大大原创,网友收集并提供，转载至斑竹9小说网只是为了宣传小说让更多书友阅读。";
 
 
@@ -110,12 +115,12 @@ class BookController extends BaseController
 
             $chapter = (new BookLogic())->getChapterArticle($bookId);
 
-            $this->view->title      = $book['book_name'].'最新章节无弹窗无广告-'.$this->config['host_name'];
+            $this->view->title      = $book['book_name'] . '最新章节无弹窗无广告-' . $this->config['host_name'];
             $this->view->chapter    = $chapter;
             $this->view->book       = $book;
             $this->view->categoryId = $book['book_category'];
 
-            $this->view->keywords    = $book['book_name'].','.$book['book_name'].'最新章节,'.$book['book_name'].'全文阅读,'.$book['book_name'].'无弹窗无广告';
+            $this->view->keywords    = $book['book_name'] . ',' . $book['book_name'] . '最新章节,' . $book['book_name'] . '全文阅读,' . $book['book_name'] . '无弹窗无广告';
             $this->view->description = mb_substr($book['book_intro'], 0, 150) . '...';
 
         } catch (NovelException $e) {
@@ -146,7 +151,12 @@ class BookController extends BaseController
             }
             $book = (new BookLogic())->getById($article['book_id']);
 
-            $content            = (new BookLogic())->getArticleContent((int) $article['book_id'], (int) $article['id']);
+            if (1 === (int) $article['is_oss']) {
+                $content = (new BookLogic())->getArticleContent((int) $article['book_id'], (int) $article['id']);
+            } else {
+                $content = '章节内容待传';
+            }
+
             $article['content'] = $content;
 
             $prevId = (int) (new BookLogic())->getArticlePrev($article['book_id'], $article['article_sort']);
@@ -161,7 +171,7 @@ class BookController extends BaseController
 
             (new BookLogic())->saveClick($bookId);
 
-            $this->view->title      = $article['title'].'-'.$book['book_name'].'-'.$this->config['host_name'];
+            $this->view->title      = $article['title'] . '-' . $book['book_name'] . '-' . $this->config['host_name'];
             $this->view->article    = $article;
             $this->view->book       = $book;
             $this->view->prevId     = $prevId;
@@ -204,13 +214,17 @@ class BookController extends BaseController
 
             $book = (new BookLogic())->getById($article['book_id']);
 
-            $content            = (new BookLogic())->getArticleContent((int) $article['book_id'], (int) $article['id']);
+            if (1 === (int) $article['is_oss']) {
+                $content = (new BookLogic())->getArticleContent((int) $article['book_id'], (int) $article['id']);
+            } else {
+                $content = '章节内容待传';
+            }
             $article['content'] = $content;
 
             $prevId = (int) (new BookLogic())->getArticlePrev($article['book_id'], $article['article_sort']);
             $nextId = (int) (new BookLogic())->getArticleNext($article['book_id'], $article['article_sort']);
 
-            $this->view->title      = $article['title'].'-'.$book['book_name'].'-'.$this->config['host_name'];
+            $this->view->title      = $article['title'] . '-' . $book['book_name'] . '-' . $this->config['host_name'];
             $this->view->article    = $article;
             $this->view->book       = $book;
             $this->view->prevId     = $prevId;
