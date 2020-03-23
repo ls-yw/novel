@@ -11,6 +11,27 @@ body.theme-night {
 body.theme-night {
     color: #999;
 }
+body.theme-night #read-tool,body.theme-night #read-tool .weui-tabbar{
+    background-color: #191919;
+}
+body.theme-green {
+    background-color: #dcecd2;
+}
+body.theme-green #read-tool,body.theme-green #read-tool .weui-tabbar{
+    background: #dcecd2;
+}
+body.theme-yellow {
+    background-color: #f4eee1;
+}
+body.theme-yellow #read-tool,body.theme-yellow #read-tool .weui-tabbar{
+    background: #f4eee1;
+}
+body.theme-pink {
+    background-color: #f4e6e1;
+}
+body.theme-pink #read-tool,body.theme-pink #read-tool .weui-tabbar{
+    background: #f4e6e1;
+}
 .index-list .weui-media-box__desc.title{
     color: #000000 !important;
 }
@@ -178,18 +199,6 @@ body.theme-night {
     height: 26px;
     border: 0;
     border-radius: 3px;
-}
-body.theme-night #read-tool,body.theme-night #read-tool .weui-tabbar{
-    background-color: #191919;
-}
-body.theme-green #read-tool,body.theme-green #read-tool .weui-tabbar{
-    background: #dcecd2;
-}
-body.theme-yellow #read-tool,body.theme-yellow #read-tool .weui-tabbar{
-    background: #f4eee1;
-}
-body.theme-pink #read-tool,body.theme-pink #read-tool .weui-tabbar{
-    background: #f4e6e1;
 }
 .article-content{
     background-color: initial;
