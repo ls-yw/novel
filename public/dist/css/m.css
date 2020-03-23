@@ -182,13 +182,13 @@ body.theme-night {
 body.theme-night #read-tool,body.theme-night #read-tool .weui-tabbar{
     background-color: #191919;
 }
-body.theme-green .article-content{
+body.theme-green #read-tool,body.theme-green #read-tool .weui-tabbar{
     background: #dcecd2;
 }
-body.theme-yellow .article-content{
+body.theme-yellow #read-tool,body.theme-yellow #read-tool .weui-tabbar{
     background: #f4eee1;
 }
-body.theme-pink .article-content{
+body.theme-pink #read-tool,body.theme-pink #read-tool .weui-tabbar{
     background: #f4e6e1;
 }
 .article-content{
