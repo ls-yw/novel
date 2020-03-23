@@ -66,6 +66,15 @@ body.theme-night {
     line-height: 50px;
     text-align: center;
 }
+.nav-top .home{
+    text-align: right;
+}
+.nav-top .home a {
+    font-size: 24px;
+    margin-right: 10px;
+    line-height: 50px;
+    color: #333;
+}
 .username-header{
     text-align: center;
     padding: 50px 0;
