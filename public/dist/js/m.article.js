@@ -119,5 +119,23 @@ $(function () {
             $('#read .tool .stylePanel').hide();
         }
     });
+    /*********记忆********/
+    $(window).scroll(function () {
+        var lastArticleId = articleId;
+        $('.chapter-list').each(function () {
+            if(($(this).offset().top - $(window).scrollTop()) < 0) {
+                lastArticleId = $(this).data('id');
+            }
+        });
+        if (articleId != lastArticleId) {
+            articleId = lastArticleId;
+            var stateObject = {};
+            var title = "Wow Title";
+            var newUrl = "/book/article?id="+articleId+"&book_id="+bookId;
+            history.pushState(stateObject,title,newUrl);
+            $.post('/book/userBook', {"book_id":bookId,"id":articleId});
+        }
+
+    });
 });
 
