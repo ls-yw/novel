@@ -5,7 +5,7 @@ body, html {
     height: 100%;
     -webkit-tap-highlight-color: transparent;
 }
-body.theme-night {
+/*body.theme-night {
     background-color: #191919;
 }
 body.theme-night {
@@ -31,7 +31,7 @@ body.theme-pink {
 }
 body.theme-pink #read-tool,body.theme-pink #read-tool .weui-tabbar{
     background: #f4e6e1;
-}
+}*/
 .index-list .weui-media-box__desc.title{
     color: #000000 !important;
 }

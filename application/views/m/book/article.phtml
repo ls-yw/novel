@@ -1,180 +1,76 @@
-<div class="weui-panel weui-panel_access article-content" style="padding-bottom: 10px;">
-    <div class="weui-panel__hd"><?=$book['book_name']?></div>
-    <div class="weui-panel__bd weui-article">
-        <h1 class="weui-media-box__title" style="font-weight: bold"><?=$article['title']?></h1>
-        <div class="content"><?=$article['content']?></div>
+<link href="/dist/css/m.article.css" rel="stylesheet" />
+<div id="read">
+    <div class="header">
+        <h1><?=$article['title']?></h1>
+<!--        <span>加入书架</span>-->
     </div>
-    <div class="pager">
-        <a href="<?=(0 === $prevId ? 'javascript:alert(\'已经是第一章\');' : '/book/article?id='.$prevId)?>" class="pager-item">上一章</a>
-        <a href="/book?id=<?=$book['id']?>" class="pager-item">目录</a>
-        <a href="<?=(0 === $nextId ? 'javascript:alert(\'已经是最后一章\');' : '/book/article?id='.$nextId)?>" class="pager-item">下一章</a>
-    </div>
-</div>
-<?php if (!empty($prevId)):?>
-    <div class="f-prev" data-link="/book/article?id=<?=$prevId?>"><span>上</span></div>
-<?php endif;?>
-<?php if (!empty($nextId)):?>
-    <div class="f-next" data-link="/book/article?id=<?=$nextId?>"><span>下</span></div>
-<?php endif;?>
-<footer id="read-tool">
-    <section class="stylePanel" style="display: none">
-        <div class="font-setting">
-            <button class="font-jian">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEkAAAAnCAMAAAB0U5XEAAAAZlBMVEUAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUswj/8AAAAIXRSTlMABNgz9Yae62wpjoEZxrF4WkA5DgndzbdSSRLjvqeUYh/fdWZHAAABVUlEQVRIx62W65KCMAyFucsdRAQVRM77v+SmZWRZJDOm3e9PKZQz7UmaibMjS4nGsecMRe/YE0EzWws9Amgya6UYC4Nrq9SRSqT2dbcU8kEkyqvyH/wudPyC3Eroos71ctwrDZWV0ktt5kLZSePVyvNC+U3jDOJsIZSsAiM9PC2UJgCeo6jVMR/GQu1pNbpV1sfGSvUm+JHeninjJiEbEI2N37f3zNNhNCMEcFqTqFpSywRX+Z2u0xzGnt9AJL/znqYds9Y7Itn+WewiCf9YCXu2a2d9mn12TQZK2YfDk3rTHnt6xPvb8BF1H7rESLmDKMM/BNo5KSUYEqFQHoAhFSpVYFBZL2Ap3IW/JwZRy5uB+vgCjSKlJ5M6qfZc2gxEXKEJJc0AW9Y6oeceW2rjpfp9SwOi4s/di5qBIOdjgVzSDJTcfWTaMrkX7sC0CPL4ZPi6LfsBpg82k4bZ+2QAAAAASUVORK5CYII=">
-            </button>
-            <button class="font-jia">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEkAAAAnCAMAAAB0U5XEAAAAaVBMVEUAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVXYkTobAAAAInRSTlMAzTPYDYYI9Oj5KqCOOt3CsoFfUxl4bkkgD7inmpRoQRPu4kDDzQAAAWNJREFUSMelluuSgjAMRissyP0mN0WEzfs/5CZ1oCtYhrTnh9AZOdivTY3YUCZIKuxJgXgIe2KQ9Nai+xUkpbWphTeBtemClph+V2cpcgCJKKvC0vRERy4m/AxrK5FP86qEyPDSWJkqNFx93J14zezzxmsPyHTugR/xhYgEslByvBksTOM6qYoyn41N/i8FraJvjU2VXHy1HVxjU/5vQ6YyMr5J5X1bRhkto6HJo8L1l1FDW+tuZPIDAEjWYQ3Iy8h0k8Wrxg8cXjQCdyEEWO8j3ZPS7Hw3wR713V7OZru7RgNTuUt4lOXMz4nyjvenXsU2dYAU3gdUMTnbVICGiGmqQ50pYZoa0BH4PFNGkThbWlmJLNOklmlXQDnLNGi2TgJIzzDNlPdTd7B7B6bIcfbNQKp5J2V+Gld71L4zZzRf2r/cOWS1CPFBGzAAUjOaL+17O05b9jrMItC0CPz1KeF0W/YHtdo+HQ5Fp0oAAAAASUVORK5CYII=">
-            </button>
-        </div>
-        <div class="themeConfig">
-            <button class="themeItem" data-theme="theme-normal" style="background-color: rgb(238, 238, 238); color: rgb(51, 51, 51);"><span>默认</span></button>
-            <button class="themeItem" data-theme="theme-yellow" style="background-color: rgb(231, 204, 172); color: rgb(170, 139, 102);"><span>黄色</span></button>
-            <button class="themeItem" data-theme="theme-green" style="background-color: rgb(139, 201, 201); color: rgb(54, 132, 132);"><span>绿色</span></button>
-            <button class="themeItem" data-theme="theme-pink" style="background-color: rgb(239, 187, 192); color: rgb(177, 108, 114);"><span>粉色</span></button>
+    <section class="content">
+        <article class="chapterContent">
+            <section class="chapter-list" data-id="<?=$article['id']?>">
+                <h2><?=$article['title']?></h2>
+                <div class="readContent"><?=$article['content']?></div>
+            </section>
+
+        </article>
+        <div class="loadNext" data-book="<?=$book['id']?>" data-id="<?=$nextId?>">
+            <a href="javascript:;">加载下一章</a>
         </div>
     </section>
-    <div class="weui-tabbar">
-        <a href="javascript:history.go(-1);" class="weui-tabbar__item">
-            <div class="weui-tabbar__icon">
-                <i class="fa fa-chevron-left"></i>
+<!--    <div class="mu">-->
+<!--        <div class="prev-mu"></div>-->
+<!--        <div class="menu-mu"></div>-->
+<!--        <div class="next-mu"></div>-->
+<!--    </div>-->
+    <div class="tool hidden">
+        <header class="tool-header">
+            <a href="javascript:history.go(-1)" class="back"><i class="fa fa-chevron-left"></i></a>
+            <h3 class="book-name"><?=$book['book_name']?></h3>
+        </header>
+        <div class="stylePanel hidden">
+            <div class="font-setting">
+                <button class="font-jian">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEkAAAAnCAMAAAB0U5XEAAAAZlBMVEUAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUswj/8AAAAIXRSTlMABNgz9Yae62wpjoEZxrF4WkA5DgndzbdSSRLjvqeUYh/fdWZHAAABVUlEQVRIx62W65KCMAyFucsdRAQVRM77v+SmZWRZJDOm3e9PKZQz7UmaibMjS4nGsecMRe/YE0EzWws9Amgya6UYC4Nrq9SRSqT2dbcU8kEkyqvyH/wudPyC3Eroos71ctwrDZWV0ktt5kLZSePVyvNC+U3jDOJsIZSsAiM9PC2UJgCeo6jVMR/GQu1pNbpV1sfGSvUm+JHeninjJiEbEI2N37f3zNNhNCMEcFqTqFpSywRX+Z2u0xzGnt9AJL/znqYds9Y7Itn+WewiCf9YCXu2a2d9mn12TQZK2YfDk3rTHnt6xPvb8BF1H7rESLmDKMM/BNo5KSUYEqFQHoAhFSpVYFBZL2Ap3IW/JwZRy5uB+vgCjSKlJ5M6qfZc2gxEXKEJJc0AW9Y6oeceW2rjpfp9SwOi4s/di5qBIOdjgVzSDJTcfWTaMrkX7sC0CPL4ZPi6LfsBpg82k4bZ+2QAAAAASUVORK5CYII=">
+                </button>
+                <button class="font-jia">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEkAAAAnCAMAAAB0U5XEAAAAaVBMVEUAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVXYkTobAAAAInRSTlMAzTPYDYYI9Oj5KqCOOt3CsoFfUxl4bkkgD7inmpRoQRPu4kDDzQAAAWNJREFUSMelluuSgjAMRissyP0mN0WEzfs/5CZ1oCtYhrTnh9AZOdivTY3YUCZIKuxJgXgIe2KQ9Nai+xUkpbWphTeBtemClph+V2cpcgCJKKvC0vRERy4m/AxrK5FP86qEyPDSWJkqNFx93J14zezzxmsPyHTugR/xhYgEslByvBksTOM6qYoyn41N/i8FraJvjU2VXHy1HVxjU/5vQ6YyMr5J5X1bRhkto6HJo8L1l1FDW+tuZPIDAEjWYQ3Iy8h0k8Wrxg8cXjQCdyEEWO8j3ZPS7Hw3wR713V7OZru7RgNTuUt4lOXMz4nyjvenXsU2dYAU3gdUMTnbVICGiGmqQ50pYZoa0BH4PFNGkThbWlmJLNOklmlXQDnLNGi2TgJIzzDNlPdTd7B7B6bIcfbNQKp5J2V+Gld71L4zZzRf2r/cOWS1CPFBGzAAUjOaL+17O05b9jrMItC0CPz1KeF0W/YHtdo+HQ5Fp0oAAAAASUVORK5CYII=">
+                </button>
             </div>
-            <p class="weui-tabbar__label">返回</p>
-        </a>
-        <a href="/book?id=<?=$book['id']?>" class="weui-tabbar__item">
-            <div class="weui-tabbar__icon">
-                <i class="fa fa-bars"></i>
+            <div class="themeConfig">
+                <button class="themeItem" data-theme="theme-default" style="background-color: #c4b395; color: rgb(170,127,87);"><span>默认</span></button>
+                <button class="themeItem" data-theme="theme-white" style="background-color:#ffffff; color: rgb(51, 51, 51);"><span>白色</span></button>
+                <button class="themeItem" data-theme="theme-green" style="background-color: #dcecd2; color: rgb(54, 132, 132);"><span>绿色</span></button>
+                <button class="themeItem" data-theme="theme-pink" style="background-color: #f4e6e1; color: rgb(177, 108, 114);"><span>粉色</span></button>
             </div>
-            <p class="weui-tabbar__label">目录</p>
-        </a>
-        <a href="javascript:;" class="weui-tabbar__item night">
-            <div class="weui-tabbar__icon">
-                <i class="fa fa-moon-o"></i>
+        </div>
+        <footer class="tool-footer">
+            <div class="group">
+                <a href="/" class="tool-footer-menu">
+                    <div class="weui-tabbar__icon">
+                        <i class="fa fa-home"></i>
+                    </div>
+                    <p class="weui-tabbar__label">首页</p>
+                </a>
+                <a href="/book?id=<?=$book['id']?>" class="tool-footer-menu">
+                    <div class="weui-tabbar__icon">
+                        <i class="fa fa-bars"></i>
+                    </div>
+                    <p class="weui-tabbar__label">目录</p>
+                </a>
+                <a href="javascript:;" class="tool-footer-menu night">
+                    <div class="weui-tabbar__icon">
+                        <i class="fa fa-moon-o"></i>
+                    </div>
+                    <p class="weui-tabbar__label">夜间</p>
+                </a>
+                <a href="javascript:;" class="tool-footer-menu setting">
+                    <div class="weui-tabbar__icon">
+                        <i class="fa fa-cog"></i>
+                    </div>
+                    <p class="weui-tabbar__label">设置</p>
+                </a>
             </div>
-            <p class="weui-tabbar__label">夜间</p>
-        </a>
-        <a href="javascript:;" class="weui-tabbar__item setting">
-            <div class="weui-tabbar__icon">
-                <i class="fa fa-cog"></i>
-            </div>
-            <p class="weui-tabbar__label">设置</p>
-        </a>
+        </footer>
     </div>
-</footer>
-<script>
-    $(function () {
-        let now_top = 0;
-        let prev_top = 0;
-        $(window).scroll(function () {
-            $('.f-prev,.f-next').css('opacity', '0.8');
-            now_top = $(document).scrollTop();
-        });
-        setInterval(function () {
-            let op = parseFloat($('.f-prev').css('opacity'));
-            if (op > 0.3 && prev_top === now_top && $('footer').css('display') === 'none') {
-                $('.f-prev,.f-next').css('opacity', 0.3);
-            } else {
-                prev_top = now_top;
-            }
-        }, 2000);
-        $('.f-prev,.f-next').click(function () {
-            window.location.href = $(this).data('link');
-        });
-        $('.content').click(function () {
-            $('footer').toggle();
-            $('.FloatingMenu header').toggle();
-            $('section.stylePanel').hide();
-            $('section.chapterPanel').show();
-            $('.f-prev,.f-next').css('opacity', '0.8');
-        });
-        $('.night').click(function () {
-            let imgData = '';
-            $('body').removeClass('theme-normal').removeClass('theme-yellow').removeClass('theme-green').removeClass('theme-pink');
-            if($('body').hasClass('theme-night')) {
-                $(this).find('i').toggleClass('fa-moon-o');
-                $(this).find('i').removeClass('fa-sun-o');
-                $('body').removeClass('theme-night');
-                $(this).find('p').text('夜间');
-                localStorage.setItem('nightSet', 'theme-normal');
-            } else {
-                $(this).find('i').toggleClass('fa-sun-o');
-                $(this).find('i').removeClass('fa-moon-o');
-                $('body').removeClass('theme-night');
-                $('body').addClass('theme-night');
-                $(this).find('p').text('日间');
-                localStorage.setItem('nightSet', 'theme-night');
-            }
-        });
-        $('.setting').click(function () {
-            $('section').toggle();
-        });
-        $('.stylePanel .font-jian').click(function () {
-            let fontVal = '';
-            if ($('body').hasClass('font-5')) {
-                $('body').removeClass('font-5').addClass('font-4');
-                fontVal = 'font-4';
-            }else if ($('body').hasClass('font-4')) {
-                $('body').removeClass('font-4').addClass('font-3');
-                fontVal = 'font-3';
-            }else if ($('body').hasClass('font-2')) {
-                $('body').removeClass('font-2').addClass('font-1');
-                $(this).addClass('disabled');
-                fontVal = 'font-1';
-            }else if ($('body').hasClass('font-1')) {
-                fontVal = 'font-1';
-            }else {
-                $('body').removeClass('font-3').addClass('font-2');
-                fontVal = 'font-2';
-            }
-            $('.stylePanel .font-jia').removeClass('disabled');
-            localStorage.setItem('fontSet', fontVal);
-        });
-        $('.stylePanel .font-jia').click(function () {
-            let fontVal = '';
-            if ($('body').hasClass('font-1')) {
-                $('body').removeClass('font-1').addClass('font-2');
-                fontVal = 'font-2';
-            }else if ($('body').hasClass('font-2')) {
-                $('body').removeClass('font-2').addClass('font-3');
-                fontVal = 'font-3';
-            }else if ($('body').hasClass('font-4')) {
-                $('body').removeClass('font-4').addClass('font-5');
-                fontVal = 'font-5';
-                $(this).addClass('disabled');
-            }else if ($('body').hasClass('font-5')) {
-                fontVal = 'font-5';
-            }else {
-                $('body').removeClass('font-3').addClass('font-4');
-                fontVal = 'font-4';
-            }
-            $('.stylePanel .font-jian').removeClass('disabled');
-            localStorage.setItem('fontSet', fontVal);
-        });
-        $('.themeItem').click(function () {
-            if (!$('body').hasClass($(this).data('theme'))) {
-                $('body').removeClass('theme-night').removeClass('theme-normal').removeClass('theme-yellow').removeClass('theme-green').removeClass('theme-pink');
-                $('body').addClass($(this).data('theme'));
-                localStorage.setItem('nightSet', $(this).data('theme'));
-            }
-        });
+</div>
 
-
-        let nightSetting = localStorage.getItem('nightSet');
-        $('body').addClass(nightSetting);
-        if (nightSetting == 'theme-night') {
-            $('.night').find('p').text('日间');
-            $('.night').find('i').toggleClass('fa-sun-o');
-            $('.night').find('i').removeClass('fa-moon-o');
-        }
-        let = fontSetting = localStorage.getItem('fontSet');
-        $('body').addClass(fontSetting);
-        if (fontSetting == 'font-1') {
-            $('.stylePanel .font-jian').addClass('disabled');
-        }else if (fontSetting == 'font-5') {
-            $('.stylePanel .font-jia').addClass('disabled');
-        }
-
-        setTimeout(function () {
-            $.post('/book/userBook', {"book_id":<?=$article['book_id']?>,"id":<?=$article['id']?>});
-        }, 10000);
-    });
-</script>
+<script src="/dist/js/m.article.js"></script>

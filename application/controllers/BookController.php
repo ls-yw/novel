@@ -243,6 +243,47 @@ class BookController extends BaseController
         $this->loadAlert();
     }
 
+    public function mAjaxArticleAction()
+    {
+        try {
+            $id     = (int) $this->get('id');
+            $bookId = (int) $this->get('book_id');
+
+            if (empty($bookId) || empty($id)) {
+                throw new NovelException('参数错误');
+            }
+
+            $article = (new BookLogic())->getArticleById($id);
+            if (empty($article)) {
+                throw new NovelException('小说章节不存在');
+            }
+
+            $book = (new BookLogic())->getById($article['book_id']);
+
+            if (1 === (int) $article['is_oss']) {
+                $content = (new BookLogic())->getArticleContent((int) $article['book_id'], (int) $article['id']);
+            } else {
+                $content = '章节内容待传';
+            }
+            $article['content'] = $content;
+
+            $prevId = (int) (new BookLogic())->getArticlePrev($article['book_id'], $article['article_sort']);
+            $nextId = (int) (new BookLogic())->getArticleNext($article['book_id'], $article['article_sort']);
+
+            $data = [
+                'title' => $article['title'] . '-' . $book['book_name'] . '-' . $this->config['host_name'],
+                'article' => $article,
+                'nextId' => $nextId
+            ];
+            return $this->ajaxReturn(0, 'ok', $data);
+        } catch (NovelException $e) {
+            $this->setAlertMsg('error', $e->getMessage());
+        } catch (Exception $e) {
+            Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
+            $this->setAlertMsg('系统错误', $e->getMessage());
+        }
+    }
+
     public function userBookAction()
     {
         $id     = (int) $this->post('id');

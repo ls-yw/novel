@@ -1,0 +1,199 @@
+body.theme-default,.theme-default #read .header{
+    background-color: #c4b395;
+}
+body.theme-night,.theme-night #read .header{
+    background-color: #1a1a1a !important;
+}
+body.theme-night .content{
+    color: #aaaaaa !important;
+}
+body.theme-green,.theme-green #read .header{
+    background-color: #dcecd2;
+}
+body.theme-pink,.theme-pink #read .header{
+    background-color: #f4e6e1;
+}
+body.theme-white,.theme-white #read .header{
+    background-color: #fff;
+}
+body.font-1 #read .content .readContent{
+    font-size: 12px;
+}
+body.font-2 #read .content .readContent{
+    font-size: 14px;
+}
+body.font-3 #read .content .readContent{
+    font-size: 16px;
+}
+body.font-4 #read .content .readContent{
+    font-size: 18px;
+}
+body.font-5 #read .content .readContent{
+    font-size: 20px;
+}
+#read .header{
+    height: 44px;
+    line-height: 44px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 3;
+}
+#read .header h1{
+    /*display: inline-block;*/
+    font-size: 12px;
+    font-weight: 400;
+    color: #666;
+    position: absolute;
+    left: 16px;
+}
+#read .header span{
+    position: absolute;
+    right: 16px;
+    color: #555;
+
+}
+#read .content{
+    border-top: 44px solid transparent;
+    margin: 0 10px;
+}
+#read .content .chapterContent h2{
+    text-align: center;
+    font-size: 24px;
+    line-height: 60px;
+}
+#read .content .loadNext{
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+}
+#read .content .loadNext a{
+    color: #FFD700;
+}
+#read .mu{
+    position: fixed;
+    top: 44px;
+    right: 0;
+    left: 0;
+    bottom: 54px;
+    z-index: 4;
+}
+#read .mu .prev-mu{
+    height: 33.33%;
+}
+#read .mu .menu-mu{
+    height: 33.33%;
+}
+#read .mu .next-mu{
+    height: 33.33%;
+}
+#read .tool{
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+#read .tool .tool-header{
+    background-color: #000;
+    height: 44px;
+    line-height: 44px;
+    z-index: 10;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+#read .tool .tool-header .back{
+    color:#fff;
+    font-size: 20px;
+    padding: 0 9px;
+    float: left;
+}
+#read .tool .tool-header .book-name{
+    float: left;
+    color: #fff;
+    text-align: center;
+    right: 0;
+    left: 0;
+    position: absolute;
+    font-size: 24px;
+}
+#read .tool .tool-footer{
+    background-color: #000;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    height: 54px;
+    z-index: 10;
+}
+#read .tool .tool-footer .group{
+    display: table;
+    width: 100%;
+    height: 100%;
+    padding: 5px 0;
+}
+#read .tool .tool-footer .tool-footer-menu{
+    display: table-cell;
+    width: 25%;
+}
+#read .tool .tool-footer .tool-footer-menu i{
+    font-size: 20px;
+}
+#read .tool .tool-footer .tool-footer-menu .weui-tabbar__icon{
+    width: 20px;
+    height: 20px;
+}
+#read .tool .stylePanel{
+    background-color: #000000;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 54px;
+    border-bottom: 1px solid #1a1a1a;
+    z-index: 10;
+}
+#read .tool .stylePanel .font-setting{
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 14px 24px;
+}
+#read .tool .stylePanel .font-setting button{
+    display: inline-block;
+    border-radius: 3px;
+    border: 1px solid #666;
+    padding: 7px 60px;
+    font: 400 13.3333px Arial;
+    background-color: transparent;
+}
+#read .tool .stylePanel .font-setting button.disabled{
+    color: #ccc;
+    border-color: #ccc!important;
+}
+#read .tool .stylePanel .font-setting button img{
+    width: 22px;
+    height: 12px;
+    display: block;
+}
+#read .tool .stylePanel .font-setting button.disabled img{
+    opacity:0.4;
+}
+#read .tool .stylePanel .themeConfig{
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 8px 24px 9px;
+    border: 0;
+    border-radius: 3px;
+}
+#read .tool .stylePanel .themeConfig .themeItem{
+    width: 58px;
+    height: 26px;
+    border: 0;
+    border-radius: 3px;
+}
