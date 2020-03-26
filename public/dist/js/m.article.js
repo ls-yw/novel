@@ -1,13 +1,32 @@
 "use strict";
 function loadNext(bookId, id) {
-    $.get('/book/mAjaxArticle?book_id='+bookId+'&id='+id, function (res) {
-        if (res.code == 0) {
-            $('#read .loadNext').data('id', res.data.nextId);
-            let html = '<section class="chapter-list" data-id="'+res.data.article.id+'"><h2>'+res.data.article.title+'</h2><div class="readContent">'+res.data.article.content+'</div></section>';
-            $('#read .content .chapterContent').append(html);
-        } else {
-            $.toptip('系统错误', 'error');
+    var isLoad = false;
+    if (isLoad == true) {
+        return;
+    }
+    isLoad = true;
+    $.ajax({
+        url:'/book/mAjaxArticle?book_id='+bookId+'&id='+id,
+        type:'GET',
+        dataType:'json',
+        success:function (res) {
+            if (res.code == 0) {
+                $('#read .loadNext').data('id', res.data.nextId);
+                let html = '<section class="chapter-list" data-id="'+res.data.article.id+'"><h2>'+res.data.article.title+'</h2><div class="readContent">'+res.data.article.content+'</div></section>';
+                $('#read .content .chapterContent').append(html);
+            } else {
+                $.toptip('系统错误', 'error');
+            }
+        },
+        error:function () {
+            $.toptip('加载失败', 'error');
+        },
+        complete:function () {
+            isLoad = false;
         }
+    });
+    $.get('/book/mAjaxArticle?book_id='+bookId+'&id='+id, function (res) {
+
     });
 }
 $(function () {
@@ -94,6 +113,11 @@ $(function () {
             $('body').addClass($(this).data('theme'));
             localStorage.setItem('themeItem', $(this).data('theme'));
         }
+        $('#read .tool .night').find('i').toggleClass('fa-moon-o');
+        $('#read .tool .night').find('i').removeClass('fa-sun-o');
+        $('body').removeClass('theme-night');
+        $('#read .tool .night').find('p').text('夜间');
+        localStorage.removeItem('nightSet');
     });
     $('body').addClass(localStorage.getItem('themeItem') ? localStorage.getItem('themeItem') : 'theme-default');
     /*********工具栏********/
@@ -135,7 +159,9 @@ $(function () {
             history.pushState(stateObject,title,newUrl);
             $.post('/book/userBook', {"book_id":bookId,"id":articleId});
         }
-
+        if (($(window).scrollTop() + $(window).height()) >= $(document).height()) {
+            $('#read .loadNext').click();
+        }
     });
 });
 
