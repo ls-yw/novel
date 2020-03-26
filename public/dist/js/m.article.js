@@ -130,12 +130,12 @@ $(function () {
         var y = e.clientY;
         var height = $(window).height();
 
-        var num = height/ 3;
+        var num = height/ 4;
         var firstBoxStart = 0;
         var firstBoxEnd = num;
         var secondBoxStart = num;
-        var secondBoxEnd = num * 2;
-        var threeBoxStart = num * 2;
+        var secondBoxEnd = num * 3;
+        var threeBoxStart = num * 3;
         var threeBoxEnd = height;
 
         if (y > secondBoxStart && y <= secondBoxEnd) {
