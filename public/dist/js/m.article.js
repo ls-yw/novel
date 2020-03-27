@@ -1,7 +1,7 @@
 "use strict";
+var isLoad = false;
 function loadNext(bookId, id) {
-    var isLoad = false;
-    if (isLoad == true) {
+    if (isLoad === true) {
         return;
     }
     isLoad = true;
