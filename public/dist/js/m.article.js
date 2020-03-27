@@ -31,7 +31,9 @@ function loadNext(bookId, id) {
 }
 $(function () {
     $('#read').on('click', '.loadNext', function () {
+        $(this).find('a').text('加载中...');
         loadNext($(this).data('book'), $(this).data('id'));
+        $(this).find('a').text('加载下一章');
     });
     /*********关灯********/
     $('#read .tool').on('click', '.night', function () {
