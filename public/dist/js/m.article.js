@@ -148,9 +148,11 @@ $(function () {
     /*********记忆********/
     $(window).scroll(function () {
         var lastArticleId = articleId;
+        var articleTitle = '';
         $('.chapter-list').each(function () {
             if(($(this).offset().top - $(window).scrollTop()) < 0) {
                 lastArticleId = $(this).data('id');
+                articleTitle = $(this).find('h2').text();
             }
         });
         if (articleId != lastArticleId) {
@@ -159,6 +161,7 @@ $(function () {
             var title = "Wow Title";
             var newUrl = "/book/article?id="+articleId+"&book_id="+bookId;
             history.pushState(stateObject,title,newUrl);
+            $('#read .header h1').text(articleTitle);
             $.post('/book/userBook', {"book_id":bookId,"id":articleId});
         }
         if (($(window).scrollTop() + $(window).height()) >= $(document).height()) {
