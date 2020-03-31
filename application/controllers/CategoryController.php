@@ -40,6 +40,10 @@ class CategoryController extends BaseController
 
     public function searchAction()
     {
+        if (true === $this->isMobile) {
+            $this->mSearch();
+            return;
+        }
         $keywords   = $this->get('keywords', 'string', '');
         $searchType = $this->get('searchtype', 'string', 'name');
         if ('author' === $searchType) {
@@ -72,6 +76,34 @@ class CategoryController extends BaseController
         $this->view->newest     = (new BookLogic())->getBookByOrder('create_at desc', 11);
         $this->view->keywords   = $keywords;
         $this->view->searchtype = $searchType;
+    }
+
+    private function mSearch()
+    {
+        $this->view->pick('m/category/search');
+
+        $keywords   = $this->get('keywords', 'string', '');
+        $searchType = $this->get('searchtype', 'string', 'name');
+        if ('author' === $searchType) {
+            $type = 'book_author';
+        } else {
+            $type = 'book_name';
+        }
+        if (empty($keywords)) {
+            $this->setAlertMsg('error', '搜索内容不能为空');
+            die('<script>history.go(-1)</script>');
+        }
+
+        $where = [$type => ['like', '%' . $keywords . '%']];
+        $books = (new BookLogic())->getList($where, 'update_at desc', ($this->page - 1) * $this->size, $this->size);
+
+        $this->view->title     = "搜索“{$keywords}”的结果-" . $this->config['host_name'];
+        $this->view->data     = $books;
+        $this->view->pageCount = (new BookLogic())->getListCount($where);
+        $this->view->page      = $this->page;
+        $this->view->pageTotal = ceil($this->view->pageCount / $this->size);
+
+        $this->view->keywords   = $keywords;
     }
 
     /**

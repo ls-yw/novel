@@ -62,6 +62,9 @@ class BaseController extends BasicController
         $success = Redis::getInstance()->get('success_alert_msg');
         $error   = Redis::getInstance()->get('error_alert_msg');
 
+        Redis::getInstance()->del('success_alert_msg');
+        Redis::getInstance()->del('error_alert_msg');
+
         $this->view->successMsg = $success;
         $this->view->errorMsg   = $error;
     }

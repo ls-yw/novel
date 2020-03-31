@@ -75,6 +75,14 @@
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
     })();
+    $(function(){
+        <?php if (!empty($errorMsg)):?>
+        $.toptip('<?=$errorMsg?>', 'error');
+        <?php endif;?>
+        <?php if (!empty($successMsg)):?>
+        $.toptip('<?=$successMsg?>', 'success');
+        <?php endif;?>
+    });
 </script>
 
 </body>
