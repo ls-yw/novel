@@ -7,6 +7,7 @@ use application\library\HelperExtend;
 use application\library\NovelException;
 use application\models\Article;
 use application\models\Book;
+use application\models\BookApply;
 use application\models\Category;
 use application\models\Chapter;
 use Phalcon\DI;
@@ -260,5 +261,35 @@ class BookLogic
             $bookIds[] = $bookId;
             DI::getDefault()->get('cookies')->set('bookClick', implode('|', $bookIds), time() + 3600);
         }
+    }
+
+    /**
+     * 申请收录
+     *
+     * @author woodlsy
+     * @param int    $uid
+     * @param string $bookName
+     * @param string $author
+     * @return bool|int
+     * @throws NovelException
+     */
+    public function apply(int $uid, string $bookName, string $author)
+    {
+        $bookCount = (new Book())->getCount(['book_name' => $bookName, 'book_author' => $author]);
+        if (!empty($bookCount)) {
+            throw new NovelException('该小说已收录');
+        }
+
+        $applyCount = (new BookApply())->getCount(['uid' => $uid, 'name' => $bookName, 'author' => $author]);
+        if (!empty($applyCount)) {
+            throw new NovelException('您已提交该小说的申请，请勿重复提交');
+        }
+
+        $data = [
+            'uid' => $uid,
+            'name' => $bookName,
+            'author' => $author
+        ];
+        return (new BookApply())->insertData($data);
     }
 }

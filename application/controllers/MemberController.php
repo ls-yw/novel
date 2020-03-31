@@ -204,24 +204,27 @@ class MemberController extends BaseController
 
                 $this->cookies->get('token')->delete();
 
-                return $this->dispatcher->forward([
+                $this->dispatcher->forward([
                     'controller' => 'index',
                     'action' => 'error',
                     'params' => ['密码更新成功，请重新登录', '/member/login', 2]
                 ]);
+                return;
             } catch (NovelException $e) {
-                return $this->dispatcher->forward([
+                $this->dispatcher->forward([
                     'controller' => 'index',
                     'action' => 'error',
                     'params' => [$e->getMessage(), '-1', 2]
                 ]);
+                return;
             } catch (Exception $e) {
                 Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
-                return $this->dispatcher->forward([
+                $this->dispatcher->forward([
                     'controller' => 'index',
                     'action' => 'error',
                     'params' => ['系统错误', '-1', 2]
                 ]);
+                return;
             }
         } else {
             $this->view->menuHover = 'password';
@@ -330,6 +333,51 @@ class MemberController extends BaseController
         } catch (Exception $e) {
             Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
             return $this->ajaxReturn(500, '系统错误');
+        }
+    }
+
+    /**
+     * 申请收录
+     *
+     * @author woodlsy
+     */
+    public function applyBookAction()
+    {
+        if ($this->request->isPost()) {
+            $bookName = trim($this->post('book_name', 'string'));
+            $author = trim($this->post('author', 'string'));
+
+            try {
+                if (empty($bookName) || empty($author)) {
+                    throw new NovelException('小说名称或作者不能为空');
+                }
+
+                $row = (new BookLogic())->apply((int)$this->user['id'], $bookName, $author);
+                if (!$row) {
+                    throw new NovelException('提交失败，请联系管理员');
+                }
+                $this->dispatcher->forward([
+                    'controller' => 'index',
+                    'action' => 'error',
+                    'params' => ['提交成功', '/member/applyBook']
+                ]);
+                return;
+            } catch (NovelException $e) {
+                $this->dispatcher->forward([
+                    'controller' => 'index',
+                    'action' => 'error',
+                    'params' => [$e->getMessage(), '-1', 2]
+                ]);
+                return;
+            } catch (Exception $e) {
+                Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
+                $this->dispatcher->forward([
+                    'controller' => 'index',
+                    'action' => 'error',
+                    'params' => ['系统错误', '-1', 2]
+                ]);
+                return;
+            }
         }
     }
 

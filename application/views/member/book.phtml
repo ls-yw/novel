@@ -11,27 +11,27 @@
         </dl>
     </div>
     <div class="member_body right">
-        <table width="769" border="0" bgcolor="#ccc" cellpadding="0" cellspacing="1" class="rack">
+        <table class="table table-bordered">
             <tr>
                 <th>小说名称</th>
                 <th>最新章节</th>
                 <th>阅读记录</th>
-                <th>更新时间</th>
-                <th>移除</th>
+                <th width="150">更新时间</th>
+                <th width="50">移除</th>
             </tr>
             <?php if (!empty($userBooks)):foreach ($userBooks as $val):?>
-            <volist name="rack" id="ra">
-                <tr>
-                    <td>《<a href="/book?id=<?=$val['book_id']?>"><?=$val['book_name']?></a>》</td>
-                    <td><a href="/book/article?book_id=<?=$val['book_id']?>&id=<?=$val['last_id']?>"><?=$val['last_title']?></a></td>
-                    <td><a href="/book/article?book_id=<?=$val['book_id']?>&id=<?=$val['article_id']?>" class="orange"><?=$val['article_title']?></a></td>
-                    <td width="130"><?=$val['last_time']?></td>
-                    <td width="40"><a href="javascript:void(0);" onclick="delsure(<?=$val['id']?>);">移除</a></td>
-                </tr>
-            </volist>
+                <volist name="rack" id="ra">
+                    <tr>
+                        <td>《<a href="/book?id=<?=$val['book_id']?>"><?=$val['book_name']?></a>》</td>
+                        <td><a href="/book/article?book_id=<?=$val['book_id']?>&id=<?=$val['last_id']?>"><?=$val['last_title']?></a></td>
+                        <td><a href="/book/article?book_id=<?=$val['book_id']?>&id=<?=$val['article_id']?>" class="orange"><?=$val['article_title']?></a></td>
+                        <td><?=$val['last_time']?></td>
+                        <td><a href="javascript:void(0);" onclick="delsure(<?=$val['id']?>);" class="red">移除</a></td>
+                    </tr>
+                </volist>
             <?php endforeach;?>
             <?php else:?>
-            <tr><td colspan="5">暂无数据</td></tr>
+                <tr><td colspan="5">暂无数据</td></tr>
             <?php endif;?>
         </table>
     </div>

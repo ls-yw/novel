@@ -162,7 +162,8 @@
 	display:none;
 }
 .main .tab .block{
-	display:block;
+	display:inline-block;
+	width: 100%;
 }
 .main .tab .tab_content .tj .img{
 	width:84px;
@@ -518,7 +519,7 @@
 	border:1px solid #ccc;
 	border-radius:3px;
 	padding:10px;
-	width:750px;
+	width:770px;
 }
 .book .info .book-info{
 	width:570px;
@@ -579,38 +580,24 @@
 	font-family:"Microsoft YaHei","微软雅黑",Helvetica,"黑体",Arial,Tahoma;
 	cursor:pointer;
 	height:35px;
-	line-height:35px;
 	text-decoration:none;
 }
 .book .info .book-info .book_btn{
 	height:44px;
 	font-size:20px;
 }
-.book .info .book-info .book_btn a.btn_sr{
-	color:#fff;
+.book .info .book-info .book_btn a.btn-success{
 	border:1px solid #638467;
 	width:220px;
-	background-color:#5ba10e;
-	background:-moz-linear-gradient(center top , #6FB420 0px, #51930D 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	font-size: 20px !important;
 }
-.book .info .book-info .book_btn a.btn_sj, a.btn_tj{
+.book .info .book-info .book_btn a.btn-default, a.btn_tj{
 	color:#666;
 	border:1px solid #999;
 	width:130px;
-	background-color:#f1efef;
-	background:-moz-linear-gradient(center top , #f8f7f7 0px, #dcdbdb 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	font-size: 20px !important;
 }
-.book .info .book-info .book_btn a.btn_sr:hover{
-	background-color: #53A046;
-    background-image: linear-gradient(to bottom, #5AAB4D 0px, #4F9841 100%);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    color: #FFFFFF;
-}
-.book .info .book-info .book_btn a.btn_sj:hover, a.btn_tj:hover{
-	background-color: #dcdbdb;
-    background-image: linear-gradient(to bottom, #f1efef 0px, #c6c5c5 100%);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
+
 .book .like{
 	width:240px;
 	border:1px solid #CCC;
@@ -636,7 +623,7 @@
 }
 .book .like ul li span{
 	float:left;
-	width:125px;
+	width:124px;
 	margin-left:10px;
 }
 .book .like ul li .l1{

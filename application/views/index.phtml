@@ -8,6 +8,7 @@
     <meta name="renderer" content="webkit">
     <meta name="baidu-site-verification" content="BHWf635LMo" />
     <meta name="baidu-site-verification" content="olOYi3iZmY" />
+    <link type="text/css" rel="stylesheet" href="/dist/plugins/bootstrap/dist/css/bootstrap.css" />
     <link type="text/css" rel="stylesheet" href="/dist/css/base.css" />
     <link type="text/css" rel="stylesheet" href="/dist/css/web.css" />
     <?php if ('member' === $controllerName && $user):?>
@@ -64,6 +65,7 @@
                 <li><a href="/category/index?id=<?=$key?>" class="<?php if(isset($categoryId) && $categoryId == $key)echo 'nav_hover';?>"><?=$val?></a></li>
                 <?php endforeach;endif;?>
                 <li class="right"><a href="/member/book">我的书架</a></li>
+                <li class="right"><a href="/member/applyBook">申请收录</a></li>
             </ul>
         </div>
     </div>
