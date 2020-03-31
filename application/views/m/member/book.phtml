@@ -14,7 +14,7 @@
                     <div class="weui-media-box__bd">
                         <h4 class="weui-media-box__title"><?=$val['book_name']?><span class="del red" data-id="<?=$val['id']?>">移除</span></h4>
                         <p class="weui-media-box__info">最新：<span class="gray"><?=$val['last_title']?></span></p>
-                        <p class="weui-media-box__info">已阅：<a href="/book/article?id=<?=$val['article_id']?>&book_id=<?=$val['book_id']?>" class="orange"><?=$val['article_title']?></a></p>
+                        <p class="weui-media-box__info">已阅：<a href="/book/article.html?id=<?=$val['article_id']?>&book_id=<?=$val['book_id']?>" class="orange"><?=$val['article_title']?></a></p>
                     </div>
                 </div>
             <?php endforeach;?>
@@ -23,7 +23,7 @@
 <?php endif;?>
 <?php else:?>
     <div class="weui-loadmore weui-loadmore_line" style="margin: 0 auto;padding-top: 150px;text-align: center">
-        <span class="weui-loadmore__tips">使用书架功能需要先去 <a href="/member/login" class="green">登录</a>。<br><br>还没有帐号？赶紧去 <a href="/member/register" class="orange">注册</a></span>
+        <span class="weui-loadmore__tips">使用书架功能需要先去 <a href="/member/login.html" class="green">登录</a>。<br><br>还没有帐号？赶紧去 <a href="/member/register" class="orange">注册</a></span>
     </div>
 <?php endif;?>
 <script>

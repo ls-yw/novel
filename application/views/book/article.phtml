@@ -46,10 +46,10 @@
 <div class="content">
     <div class="book_title">
         <h1><?=$article['title']?></h1>
-        <span class="info">小说：<i><a target="_blank" href="/book?id=<?=$book['id']?>" title="<?=$book['book_name']?>"><?=$book['book_name']?></a></i>&nbsp;&nbsp;作者：<i><?=$book['book_author']?></i>&nbsp;&nbsp; 更新时间：<i><?=$article['update_at']?></i>&nbsp;&nbsp;字数：<i><?=$article['wordnumber']?></i>&nbsp;&nbsp;</span>
+        <span class="info">小说：<i><a target="_blank" href="/book/index.html?id=<?=$book['id']?>" title="<?=$book['book_name']?>"><?=$book['book_name']?></a></i>&nbsp;&nbsp;作者：<i><?=$book['book_author']?></i>&nbsp;&nbsp; 更新时间：<i><?=$article['update_at']?></i>&nbsp;&nbsp;字数：<i><?=$article['wordnumber']?></i>&nbsp;&nbsp;</span>
     </div>
     <div class="body"><?=$article['content']?></div>
-    <div class="nextchapter"><!--<a href="javascript:void(0);" onclick="post_recommend({$book.book_id})">投推荐票</a>--><a href="<?=empty($prevId) ? 'javascript:;' : '/book/article?id='.$prevId.'&book_id='.$book['id']?>" id="prev">上一章</a> &larr; <a href="/book/chapter?book_id=<?=$book['id']?>" class="mid">返回目录</a>&rarr; <a href="<?=empty($nextId) ? 'javascript:;' : '/book/article?id='.$nextId.'&book_id='.$book['id']?>" class="mid" id="next">下一章</a><!--<a href="javascript:void(0);" onclick="post_rack({$book.book_id})">加入书架</a>--></div>
+    <div class="nextchapter"><!--<a href="javascript:void(0);" onclick="post_recommend({$book.book_id})">投推荐票</a>--><a href="<?=empty($prevId) ? 'javascript:;' : '/book/article.html?id='.$prevId.'&book_id='.$book['id']?>" id="prev">上一章</a> &larr; <a href="/book/chapter.html?book_id=<?=$book['id']?>" class="mid">返回目录</a>&rarr; <a href="<?=empty($nextId) ? 'javascript:;' : '/book/article.html?id='.$nextId.'&book_id='.$book['id']?>" class="mid" id="next">下一章</a><!--<a href="javascript:void(0);" onclick="post_rack({$book.book_id})">加入书架</a>--></div>
 </div>
 <script type="text/javascript" src="/dist/js/article.js"></script>
 <script>

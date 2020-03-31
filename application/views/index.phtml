@@ -6,8 +6,21 @@
     <meta name="keywords" content="<?= $keywords ?>"/>
     <meta name="description" content="<?= $description ?>"/>
     <meta name="renderer" content="webkit">
-    <meta name="baidu-site-verification" content="BHWf635LMo" />
-    <meta name="baidu-site-verification" content="olOYi3iZmY" />
+    <?php if (isset($og) && 1 === (int) $og):?>
+    <meta property="og:type" content="novel"/>
+    <meta property="og:title" content="<?=$book['book_name']?>"/>
+    <meta property="og:image" content="<?=$book['book_img']?>"/>
+    <meta property="og:url" content="https://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];?>"/>
+    <meta property="og:description" content="<?=$book['book_intro']?>"/>
+    <meta property="og:novel:category" content="<?=$category[$book['book_category']]?>"/>
+    <meta property="og:novel:author" content="<?=$book['book_author']?>"/>
+    <meta property="og:novel:book_name" content="<?=$book['book_name']?>"/>
+    <meta property="og:novel:read_url" content="https://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];?>"/>
+    <meta property="og:novel:status" content="<?=$book['book_state'] == 1 ? '已完结' : '连载中'?>"/>
+    <meta property="og:novel:update_time" content="<?=$article['create_at']?>"/>
+    <meta property="og:novel:latest_chapter_name" content="<?=$article['title']?>"/>
+    <meta property="og:novel:latest_chapter_url" content="https://<?=$_SERVER['HTTP_HOST']?>/book/article?book_id=<?=$book['id']?>&id=<?=$article['id']?>"/>
+    <?php endif;?>
     <link type="text/css" rel="stylesheet" href="/dist/plugins/bootstrap/dist/css/bootstrap.css" />
     <link type="text/css" rel="stylesheet" href="/dist/css/base.css?v=<?=$version?>" />
     <link type="text/css" rel="stylesheet" href="/dist/css/web.css?v=<?=$version?>" />
@@ -34,9 +47,9 @@
             <div class="left"><a href="javascript:void(0)" onclick="SetHome(this,'<?=$config['host']?>');">设为首页</a> | <a href="javascript:void(0)" onclick="AddFavorite('<?=$config['host']?>',location.href)">收藏本站</a></div>
             <div class="right yhao">
                 <?php if(empty($user)):?>
-                    请 <a href="/member/login" id="show_log" class="red">登录</a> 或 <a href="/member/register" id="show_reg">注册</a>
+                    请 <a href="/member/login.html" id="show_log" class="red">登录</a> 或 <a href="/member/register.html" id="show_reg">注册</a>
                 <?php else:?>
-                    欢迎 <span class="red"><?=$user['username']?></span> 回来！ [<a href="/member/info">用户中心</a>] [<a href="/member/logout">退出</a>]
+                    欢迎 <span class="red"><?=$user['username']?></span> 回来！ [<a href="/member/info.html">用户中心</a>] [<a href="/member/logout.html">退出</a>]
                 <?php endif;?>
             </div>
         </div>
@@ -62,10 +75,10 @@
             <ul>
                 <li><a href="/" class="<?php if (!isset($categoryId))echo 'nav_hover'?>">网站首页</a></li>
                 <?php if(!empty($category)):foreach ($category as $key => $val):?>
-                <li><a href="/category/index?id=<?=$key?>" class="<?php if(isset($categoryId) && $categoryId == $key)echo 'nav_hover';?>"><?=$val?></a></li>
+                <li><a href="/category/index.html?id=<?=$key?>" class="<?php if(isset($categoryId) && $categoryId == $key)echo 'nav_hover';?>"><?=$val?></a></li>
                 <?php endforeach;endif;?>
-                <li class="right"><a href="/member/book">我的书架</a></li>
-                <li class="right"><a href="/member/applyBook">申请收录</a></li>
+                <li class="right"><a href="/member/book.html">我的书架</a></li>
+                <li class="right"><a href="/member/applyBook.html">申请收录</a></li>
             </ul>
         </div>
     </div>

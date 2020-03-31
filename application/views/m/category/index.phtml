@@ -3,7 +3,7 @@
         <div class="weui-panel__hd"><?= $catrgoryName ?></div>
         <div class="weui-panel__bd">
             <?php if (!empty($data)):foreach ($data as $val): ?>
-                <a href="/book?id=<?= $val['id'] ?>" class="weui-media-box weui-media-box_appmsg">
+                <a href="/book/index.html?id=<?= $val['id'] ?>" class="weui-media-box weui-media-box_appmsg">
                     <div class="weui-media-box__hd">
                         <img class="weui-media-box__thumb" src="<?= $val['book_img'] ?>">
                     </div>

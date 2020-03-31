@@ -19,13 +19,13 @@
     </div>
     <div class="weui-form-preview__ft">
         <a class="weui-form-preview__btn weui-form-preview__btn_default add-userBook" data-id="<?=$book['id']?>" <?=empty($userBook) ? '' : 'disabled'?> href="javascript:"><?=empty($userBook) ? '加入书架' : '已在书架'?></a>
-        <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="/book/article?book_id=<?=$book['id']?>&id=<?=$userBook['article_id'] ?? 0?>">开始阅读</a>
+        <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="/book/article.html?book_id=<?=$book['id']?>&id=<?=$userBook['article_id'] ?? 0?>">开始阅读</a>
     </div>
 </div>
 <div class="weui-panel weui-panel_access book-history">
     <div class="weui-panel__bd">
         <div class="weui-media-box__bd">
-            <p>阅读章节：<span><?php if (empty($userBook) || empty($userBook['article_id'])):echo '您还未阅读本小说';else:echo '<a href="/book/article?id='.$userBook['article_id'].'&book_id='.$userBook['book_id'].'">'.$userBook['article_title'].'</a>';endif;?></span></p>
+            <p>阅读章节：<span><?php if (empty($userBook) || empty($userBook['article_id'])):echo '您还未阅读本小说';else:echo '<a href="/book/article.html?id='.$userBook['article_id'].'&book_id='.$userBook['book_id'].'">'.$userBook['article_title'].'</a>';endif;?></span></p>
         </div>
     </div>
 </div>
@@ -39,7 +39,7 @@
 <div class="weui-panel weui-panel_access chapter-list" style="border-top:none ">
     <div class="weui-cells article-list">
         <?php foreach ($list as $val):?>
-        <a class="weui-cell weui-cell_access" href="/book/article?id=<?=$val['id']?>&book_id=<?=$book['id']?>">
+        <a class="weui-cell weui-cell_access" href="/book/article.html?id=<?=$val['id']?>&book_id=<?=$book['id']?>">
             <div class="weui-cell__bd">
                 <p><?=$val['title']?></p>
             </div>

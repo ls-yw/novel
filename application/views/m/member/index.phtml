@@ -1,8 +1,8 @@
 <?php if (empty($user)):?>
     <div class="weui-flex" style="padding-top: 200px;text-align: center">
         <div class="weui-flex__item">
-            <a href="/member/login" class="weui-btn weui-btn_mini weui-btn_primary">登 录</a>&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="/member/register" class="weui-btn weui-btn_mini bg-warning weui-btn_default">注 册</a>
+            <a href="/member/login.html" class="weui-btn weui-btn_mini weui-btn_primary">登 录</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="/member/register.html" class="weui-btn weui-btn_mini bg-warning weui-btn_default">注 册</a>
         </div>
     </div>
 <?php else:?>
@@ -11,7 +11,7 @@
         <h1 class="username-title"><?=$user['username']?></h1>
     </header>
     <div class="weui-grids">
-        <a href="/member/info" class="weui-grid js_grid">
+        <a href="/member/info.html" class="weui-grid js_grid">
             <!--        <div class="weui-grid__icon">-->
             <!--            <img src="images/icon_nav_button.png" alt="">-->
             <!--        </div>-->
@@ -19,7 +19,7 @@
                 个人资料
             </p>
         </a>
-        <a href="/member/book" class="weui-grid js_grid">
+        <a href="/member/book.html" class="weui-grid js_grid">
             <p class="weui-grid__label">
                 我的书架
             </p>

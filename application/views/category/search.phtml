@@ -6,9 +6,9 @@
                 <li style="border:none;font-size: 36px;line-height: 36px;padding-top: 50px; text-align:center;color:red;">暂无搜索结果</li>
             <?php else:?>
             <?php foreach ($books as $val):?>
-                <li><a href="/book?id=<?=$val['id']?>" target="_blank" title="<?=$val['book_name']?>" class="img"><img src="<?=$val['book_img']?>" width="120" height="150" alt="<?=$val['book_name']?>"/></a><p class="title"><a href="/book?id=<?=$val['id']?>" target="_blank" title="<?=$val['book_name']?>" class="green"><?=$val['book_name']?></a><span>作者：<?=$val['book_author']?></span></p>
+                <li><a href="/book/index.html?id=<?=$val['id']?>" target="_blank" title="<?=$val['book_name']?>" class="img"><img src="<?=$val['book_img']?>" width="120" height="150" alt="<?=$val['book_name']?>"/></a><p class="title"><a href="/book/index.html?id=<?=$val['id']?>" target="_blank" title="<?=$val['book_name']?>" class="green"><?=$val['book_name']?></a><span>作者：<?=$val['book_author']?></span></p>
                     <div class="intro">
-                        <p>最新章节：<a href="/book/article?id=<?=$val['article']['id'] ?? ''?>" target="_blank" title="<?=$val['article']['title'] ?? ''?>"><?=$val['article']['title'] ?? ''?></a><span><?=$val['article']['create_at'] ?? ''?></span></p>
+                        <p>最新章节：<a href="/book/article.html?id=<?=$val['article']['id'] ?? ''?>" target="_blank" title="<?=$val['article']['title'] ?? ''?>"><?=$val['article']['title'] ?? ''?></a><span><?=$val['article']['create_at'] ?? ''?></span></p>
                         <div class="left description"><?=$val['book_intro']?></div>
 <!--                        <div class="right anniu">-->
 <!--                            <a href="javascript:void(0);" class="btn_tj" onclick="post_recommend({$bo.book_id})">投推荐票</a>-->
@@ -29,10 +29,10 @@
         <?php endif;?>
     </div>
     <div class="left lastku">
-        <div class="title_bg">月点击榜<span class="more"><a href="{:U('rank/a')}">MORE</a></span></div>
+        <div class="title_bg">月点击榜</div>
         <ul>
             <?php if(!empty($month)):foreach ($month as $key => $val):?>
-                <li><em class="<?php switch ($key):case 0:echo 'first';break;case 1:echo 'second';break;case 2:echo 'third';break;endswitch;?>"><?=$key+1?></em><a href="/book?id=--><?=$val['id']?>" title="<?=$val['book_name']?>" target="_blank"><?=$val['book_name']?></a><span><?=$val['book_monthclick']?></span></li>
+                <li><em class="<?php switch ($key):case 0:echo 'first';break;case 1:echo 'second';break;case 2:echo 'third';break;endswitch;?>"><?=$key+1?></em><a href="/book/index.html?id=<?=$val['id']?>" title="<?=$val['book_name']?>" target="_blank"><?=$val['book_name']?></a><span><?=$val['book_monthclick']?></span></li>
             <?php endforeach;endif;?>
         </ul>
     </div>
@@ -40,7 +40,7 @@
         <div class="title_bg">最新免费小说</div>
         <ul>
             <?php if(!empty($newest)):foreach ($newest as $key => $val):?>
-                <li>[<a href="/category?id=<?=$val['book_category']?>" target="_blank" title="<?=$category[$val['book_category']] ?? ''?>"><?=$category[$val['book_category']] ?? ''?></a>] <a href="/book/?id=<?=$val['id']?>" target="_blank" title="<?=$val['book_name']?>"><?=$val['book_name']?></a><span><?=$val['book_author']?></span></li>
+                <li>[<a href="/category/index.html?id=<?=$val['book_category']?>" target="_blank" title="<?=$category[$val['book_category']] ?? ''?>"><?=$category[$val['book_category']] ?? ''?></a>] <a href="/book/index.html?id=<?=$val['id']?>" target="_blank" title="<?=$val['book_name']?>"><?=$val['book_name']?></a><span><?=$val['book_author']?></span></li>
             <?php endforeach;endif;?>
         </ul>
     </div>

@@ -57,6 +57,7 @@ class BookController extends BaseController
             $this->view->book       = $book;
             $this->view->categoryId = $book['book_category'];
             $this->view->page       = $this->page;
+            $this->view->og         = 1;
 
             $this->view->keywords    = $book['book_name'] . ',' . $book['book_name'] . '最新章节,' . $book['book_name'] . '全文阅读,' . $book['book_name'] . '无弹窗无广告';
             $this->view->description = "{$book['book_author']}的{$book['book_name']}情节跌宕起伏、扣人心弦，是一本情节与文笔俱佳小说,斑竹9小说网提供{$book['book_name']}最新章节列表目录在线阅读。{$book['book_name']}最新章节内容{$book['book_author']}大大原创,网友收集并提供，转载至斑竹9小说网只是为了宣传小说让更多书友阅读。";

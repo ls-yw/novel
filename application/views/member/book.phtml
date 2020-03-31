@@ -4,10 +4,10 @@
         <h3>会员中心</h3>
         <dl>
             <dt>会员设置</dt>
-            <dd class="info"><a href="/member/info">基本资料</a></dd>
-            <dd class="password"><a href="/member/password">修改密码</a></dd>
+            <dd class="info"><a href="/member/info.html">基本资料</a></dd>
+            <dd class="password"><a href="/member/password.html">修改密码</a></dd>
             <dt>工具箱</dt>
-            <dd class="book"><a href="/member/book">我的书架</a></dd>
+            <dd class="book"><a href="/member/book.html">我的书架</a></dd>
         </dl>
     </div>
     <div class="member_body right">
@@ -22,9 +22,9 @@
             <?php if (!empty($userBooks)):foreach ($userBooks as $val):?>
                 <volist name="rack" id="ra">
                     <tr>
-                        <td>《<a href="/book?id=<?=$val['book_id']?>"><?=$val['book_name']?></a>》</td>
-                        <td><a href="/book/article?book_id=<?=$val['book_id']?>&id=<?=$val['last_id']?>"><?=$val['last_title']?></a></td>
-                        <td><a href="/book/article?book_id=<?=$val['book_id']?>&id=<?=$val['article_id']?>" class="orange"><?=$val['article_title']?></a></td>
+                        <td>《<a href="/book/index.html?id=<?=$val['book_id']?>"><?=$val['book_name']?></a>》</td>
+                        <td><a href="/book/article.html?book_id=<?=$val['book_id']?>&id=<?=$val['last_id']?>"><?=$val['last_title']?></a></td>
+                        <td><a href="/book/article.html?book_id=<?=$val['book_id']?>&id=<?=$val['article_id']?>" class="orange"><?=$val['article_title']?></a></td>
                         <td><?=$val['last_time']?></td>
                         <td><a href="javascript:void(0);" onclick="delsure(<?=$val['id']?>);" class="red">移除</a></td>
                     </tr>

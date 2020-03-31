@@ -10,7 +10,7 @@
                 <dt><?=$val['chapter_name']?></dt>
                 <p class="line">&nbsp;</p>
                 <?php if (!empty($val['article'])):foreach ($val['article'] as $v):?>
-                    <dd><a href="/book/article?id=<?=$v['id']?>&book_id=<?=$v['book_id']?>" title="<?=$v['title']?>"><?=$v['title']?></a></dd>
+                    <dd><a href="/book/article.html?id=<?=$v['id']?>&book_id=<?=$v['book_id']?>" title="<?=$v['title']?>"><?=$v['title']?></a></dd>
                 <?php endforeach;endif;?>
                 <div class="clear"></div>
             <?php endforeach;endif;?>

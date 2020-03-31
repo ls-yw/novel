@@ -100,7 +100,7 @@ class BaseController extends BasicController
                 echo HelperExtend::jsonEncode(['code' => 201, 'msg' => '未登录']);
                 exit;
             } else {
-                die('<script>alert("未登录请先登录");location.href="/member/login"</script>');
+                die('<script>alert("未登录请先登录");location.href="/member/login.html"</script>');
             }
         }
     }

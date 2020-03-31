@@ -8,6 +8,21 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <?php if (isset($og) && 1 === (int) $og):?>
+    <meta property="og:type" content="novel"/>
+    <meta property="og:title" content="<?=$book['book_name']?>"/>
+    <meta property="og:image" content="<?=$book['book_img']?>"/>
+    <meta property="og:url" content="https://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];?>"/>
+    <meta property="og:description" content="<?=$book['book_intro']?>"/>
+    <meta property="og:novel:category" content="<?=$category[$book['book_category']]?>"/>
+    <meta property="og:novel:author" content="<?=$book['book_author']?>"/>
+    <meta property="og:novel:book_name" content="<?=$book['book_name']?>"/>
+    <meta property="og:novel:read_url" content="https://<?=$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];?>"/>
+    <meta property="og:novel:status" content="<?=$book['book_state'] == 1 ? '已完结' : '连载中'?>"/>
+    <meta property="og:novel:update_time" content="<?=$article['create_at']?>"/>
+    <meta property="og:novel:latest_chapter_name" content="<?=$article['title']?>"/>
+    <meta property="og:novel:latest_chapter_url" content="https://<?=$_SERVER['HTTP_HOST']?>/book/article?book_id=<?=$book['id']?>&id=<?=$article['id']?>"/>
+    <?php endif;?>
     <link href="/dist/plugins/jqweui/dist/lib/weui.min.css" rel="stylesheet" />
     <link href="/dist/plugins/jqweui/dist/css/jquery-weui.css" rel="stylesheet" />
     <link rel="stylesheet" href="/dist/plugins/font-awesome/css/font-awesome.min.css">
@@ -29,19 +44,19 @@
                 </div>
                 <p class="weui-tabbar__label">首页</p>
             </a>
-            <a href="/category/mAll" class="weui-tabbar__item <?php if(isset($mMenu) && 'category' === $mMenu):echo 'weui-bar__item--on';endif;?>">
+            <a href="/category/mAll.html" class="weui-tabbar__item <?php if(isset($mMenu) && 'category' === $mMenu):echo 'weui-bar__item--on';endif;?>">
                 <div class="weui-tabbar__icon">
                     <i class="fa fa-bars"></i>
                 </div>
                 <p class="weui-tabbar__label">分类</p>
             </a>
-            <a href="/member/book" class="weui-tabbar__item <?php if(isset($mMenu) && 'userBook' === $mMenu):echo 'weui-bar__item--on';endif;?>">
+            <a href="/member/book.html" class="weui-tabbar__item <?php if(isset($mMenu) && 'userBook' === $mMenu):echo 'weui-bar__item--on';endif;?>">
                 <div class="weui-tabbar__icon">
                     <i class="fa fa-folder"></i>
                 </div>
                 <p class="weui-tabbar__label">书架</p>
             </a>
-            <a href="/member/index" class="weui-tabbar__item <?php if(isset($mMenu) && 'member' === $mMenu):echo 'weui-bar__item--on';endif;?>">
+            <a href="/member/index.html" class="weui-tabbar__item <?php if(isset($mMenu) && 'member' === $mMenu):echo 'weui-bar__item--on';endif;?>">
                 <div class="weui-tabbar__icon">
                     <i class="fa fa-user-circle-o"></i>
                 </div>
