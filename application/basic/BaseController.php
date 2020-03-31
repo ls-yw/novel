@@ -39,7 +39,7 @@ class BaseController extends BasicController
 
         $this->loadAlert();
 
-        $this->view->version = 20191120;
+        $this->view->version = 20200331;
 
         if ($this->isMobile) {
             $this->size = 10;

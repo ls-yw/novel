@@ -9,12 +9,12 @@
     <meta name="baidu-site-verification" content="BHWf635LMo" />
     <meta name="baidu-site-verification" content="olOYi3iZmY" />
     <link type="text/css" rel="stylesheet" href="/dist/plugins/bootstrap/dist/css/bootstrap.css" />
-    <link type="text/css" rel="stylesheet" href="/dist/css/base.css" />
-    <link type="text/css" rel="stylesheet" href="/dist/css/web.css" />
+    <link type="text/css" rel="stylesheet" href="/dist/css/base.css?v=<?=$version?>" />
+    <link type="text/css" rel="stylesheet" href="/dist/css/web.css?v=<?=$version?>" />
     <?php if ('member' === $controllerName && $user):?>
-        <link type="text/css" rel="stylesheet" href="/dist/css/member.css" />
+        <link type="text/css" rel="stylesheet" href="/dist/css/member.css?v=<?=$version?>" />
     <?php else:?>
-    <link type="text/css" rel="stylesheet" href="/dist/css/web-index.css" />
+    <link type="text/css" rel="stylesheet" href="/dist/css/web-index.css?v=<?=$version?>" />
     <?php endif;?>
     <script type="text/javascript" src="/dist/plugins/jquery/dist/jquery.js"></script>
 </head>
@@ -138,7 +138,7 @@
 <!--</div>-->
 <!--<script type="text/javascript" src="/dist/js/email.js"></script>-->
 <!--<script type="text/javascript" src="/dist/js/login.js"></script>-->
-<script type="text/javascript" src="/dist/js/web.js"></script>
+<script type="text/javascript" src="/dist/js/web.js?v=<?=$version?>"></script>
 <div class="right_fixd"><!-- <a href="javascript:void(0);" class="find_error" rel="nofollow">挑错</a> --><a href="javascript:void(0);" id="go_top"></a></div>
 <script>
     var _hmt = _hmt || [];
