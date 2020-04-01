@@ -10,7 +10,8 @@ use woodlsy\phalcon\library\Redis;
 
 class BaseController extends BasicController
 {
-    public $isMobile = false;
+    public  $isMobile = false;
+    private $version  = 20200401;
 
     protected $page = 1;
 
@@ -41,7 +42,7 @@ class BaseController extends BasicController
 
         $this->setCookies();
 
-        $this->view->version = 20200331;
+        $this->view->version = $this->version;
 
         if ($this->isMobile) {
             $this->size = 10;
