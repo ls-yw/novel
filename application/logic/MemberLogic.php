@@ -75,9 +75,16 @@ class MemberLogic
 
         (new User())->updateData(['last_ip' => DI::getDefault()->get('request')->getClientAddress(), 'last_time' => HelperExtend::now(), 'count' => ['+', 1]], ['id' => $user['id']]);
 
+        $referer = Di::getDefault()->get('cookies')->get('referer')->getValue();
+        if ($referer && 'app' === $referer) {
+            $ttl = 86400 * 30;
+        } else {
+            $ttl = 86400 * 7;
+        }
+
         $token = md5($user['id'] . time());
-        Redis::getInstance()->setex($token, 86400 * 7, HelperExtend::jsonEncode($user));
-        DI::getDefault()->get('cookies')->set('token', $token, time() + 7 * 86400);
+        Redis::getInstance()->setex($token, $ttl, HelperExtend::jsonEncode($user));
+        DI::getDefault()->get('cookies')->set('token', $token, time() + $ttl);
         return $token;
     }
 

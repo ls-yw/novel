@@ -39,6 +39,8 @@ class BaseController extends BasicController
 
         $this->loadAlert();
 
+        $this->setCookies();
+
         $this->view->version = 20200331;
 
         if ($this->isMobile) {
@@ -158,6 +160,18 @@ class BaseController extends BasicController
             return true;
         }
         return false;
+    }
+
+    /**
+     * 设置cookies
+     *
+     * @author woodlsy
+     */
+    public function setCookies()
+    {
+        if ($this->isMobile) {
+            $this->cookies->set('referer', 'app', (time() + 86400 * 365));
+        }
     }
 
 }

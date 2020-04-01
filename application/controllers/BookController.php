@@ -272,9 +272,10 @@ class BookController extends BaseController
             $nextId = (int) (new BookLogic())->getArticleNext($article['book_id'], $article['article_sort']);
 
             $data = [
-                'title' => $article['title'] . '-' . $book['book_name'] . '-' . $this->config['host_name'],
+                'title'   => $article['title'] . '-' . $book['book_name'] . '-' . $this->config['host_name'],
                 'article' => $article,
-                'nextId' => $nextId
+                'nextId'  => $nextId,
+                'prevId'  => $prevId
             ];
             return $this->ajaxReturn(0, 'ok', $data);
         } catch (NovelException $e) {

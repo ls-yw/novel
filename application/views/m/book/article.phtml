@@ -6,7 +6,7 @@
     </div>
     <section class="content">
         <article class="chapterContent">
-            <section class="chapter-list" data-id="<?=$article['id']?>">
+            <section class="chapter-list" data-id="<?=$article['id']?>" data-prev="<?=$prevId?>" data-next="<?=$nextId?>">
                 <h2><?=$article['title']?></h2>
                 <div class="readContent"><?=$article['content']?></div>
             </section>
@@ -71,6 +71,8 @@
         </footer>
     </div>
 </div>
+<div class="f-prev" data-id="<?=$prevId?>"><span>上</span></div>
+<div class="f-next" data-id="<?=$nextId?>"><span>下</span></div>
 <script>
     var bookId = <?=$book['id']?>;
     var articleId = <?=$article['id']?>;

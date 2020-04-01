@@ -6,14 +6,15 @@ function loadNext(bookId, id) {
     }
     isLoad = true;
     $.ajax({
-        url:'/book/mAjaxArticle?book_id='+bookId+'&id='+id,
+        url:'/book/mAjaxArticle.html?book_id='+bookId+'&id='+id,
         type:'GET',
         dataType:'json',
         success:function (res) {
             if (res.code == 0) {
                 $('#read .loadNext').data('id', res.data.nextId);
-                let html = '<section class="chapter-list" data-id="'+res.data.article.id+'"><h2>'+res.data.article.title+'</h2><div class="readContent">'+res.data.article.content+'</div></section>';
+                let html = '<section class="chapter-list" data-id="'+res.data.article.id+'" data-prev="'+res.data.prevId+'" data-next="'+res.data.nextId+'"><h2>'+res.data.article.title+'</h2><div class="readContent">'+res.data.article.content+'</div></section>';
                 $('#read .content .chapterContent').append(html);
+
             } else {
                 $.toptip('系统错误', 'error');
             }
@@ -24,9 +25,6 @@ function loadNext(bookId, id) {
         complete:function () {
             isLoad = false;
         }
-    });
-    $.get('/book/mAjaxArticle?book_id='+bookId+'&id='+id, function (res) {
-
     });
 }
 $(function () {
@@ -144,29 +142,62 @@ $(function () {
             $('#read .tool').toggle();
             $('#read .tool .stylePanel').hide();
         }
+        if (y > firstBoxStart && y <= firstBoxEnd) {
+            $(window).scrollTop($(window).scrollTop() - height + 50);
+        }
+        if (y > threeBoxStart && y <= threeBoxEnd) {
+            $(window).scrollTop($(window).scrollTop() + height - 50);
+        }
     });
     /*********记忆********/
+    let now_top = 0;
+    let prev_top = 0;
     $(window).scroll(function () {
         var lastArticleId = articleId;
         var articleTitle = '';
+        var prevId = 0;
+        var nextId = 0;
         $('.chapter-list').each(function () {
             if(($(this).offset().top - $(window).scrollTop()) < 0) {
                 lastArticleId = $(this).data('id');
                 articleTitle = $(this).find('h2').text();
+                prevId = $(this).data('prev');
+                nextId = $(this).data('next');
             }
         });
         if (articleId != lastArticleId) {
             articleId = lastArticleId;
             var stateObject = {};
             var title = "Wow Title";
-            var newUrl = "/book/article?id="+articleId+"&book_id="+bookId;
+            var newUrl = "/book/article.html?id="+articleId+"&book_id="+bookId;
             history.pushState(stateObject,title,newUrl);
             $('#read .header h1').text(articleTitle);
             $.post('/book/userBook', {"book_id":bookId,"id":articleId});
+            $('.f-prev').data('id', prevId);
+            $('.f-next').data('id', nextId);
         }
         if (($(window).scrollTop() + $(window).height()) >= $(document).height()) {
             $('#read .loadNext').click();
         }
+
+        $('.f-prev,.f-next').css('opacity', '0.8');
+        now_top = $(document).scrollTop();
+    });
+    setInterval(function () {
+        let op = parseFloat($('.f-prev').css('opacity'));
+        if (op > 0.3 && prev_top === now_top && $('#read .tool').css('display') === 'none') {
+            $('.f-prev,.f-next').css('opacity', 0.3);
+        } else {
+            prev_top = now_top;
+        }
+    }, 2000);
+    $('.f-prev,.f-next').click(function () {
+        let id = $(this).data('id');
+        if (id == 0) {
+            $.toptip('已没有章节', 'error');
+            return;
+        }
+        window.location.href = '/book/article.html?id='+id+"&book_id="+bookId;
     });
 });
 
