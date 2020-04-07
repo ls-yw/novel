@@ -22,3 +22,8 @@
 .hidden{
 	display: none;
 }
+.overflow{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

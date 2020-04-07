@@ -50,6 +50,14 @@ class BaseController extends BasicController
         }
 
         $this->config               = (new ConfigLogic())->getPairs('system');
+
+        if ($this->isMobile()) {
+            $host = explode('.', $_SERVER['SERVER_NAME']);
+            if ('m' !== $host[0] && 'm' !== $host[1]) {
+                $this->response->redirect($this->config['m_host'].$_SERVER['REQUEST_URI']);
+            }
+        }
+
         $this->view->config         = $this->config;
         $this->view->user           = $this->user;
         $this->view->controllerName = $this->router->getControllerName();

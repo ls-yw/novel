@@ -56,7 +56,7 @@
                 <div class="clear"></div>
                 <ul>
                     <?php if(!empty($categoryBooks[$key]['list_book'])):foreach ($categoryBooks[$key]['list_book'] as $kk => $vv):?>
-                        <li <?php if (29 === $kk)echo 'class="border_none"'?>><a href="/book/index.html?id=<?=$vv['id']?>" target="_blank" title="<?=$vv['book_name']?>"><?=$vv['book_name']?></a>/<?=$vv['book_author']?></li>
+                        <li class="<?php if (29 === $kk)echo 'border_none'?> overflow"><a href="/book/index.html?id=<?=$vv['id']?>" target="_blank" title="<?=$vv['book_name']?>"><?=$vv['book_name']?></a>/<?=$vv['book_author']?></li>
                     <?php endforeach;endif;?>
                 </ul>
             </div>
