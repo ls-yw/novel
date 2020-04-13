@@ -50,13 +50,13 @@
     </div>
 </div>
 <div class="button_sp_area page" style="text-align: center;">
-    <a href="<?=((int)$page === 1 ? 'javascript:;' : '/book?id='.$book['id'].'&page='.($page - 1))?>" class="weui-btn weui-btn_mini weui-btn_plain-primary <?=(int)$page === 1 ? 'weui-btn_disabled' : ''?>">上一页</a>
+    <a href="<?=((int)$page === 1 ? 'javascript:;' : '/book/index.html?id='.$book['id'].'&page='.($page - 1))?>" class="weui-btn weui-btn_mini weui-btn_plain-primary <?=(int)$page === 1 ? 'weui-btn_disabled' : ''?>">上一页</a>
     <select class="weui-btn weui-btn_plain-default" id="pageChange">
         <?php for ($i=1;$i<=$totalPage;$i++):?>
             <option value="<?=$i?>" <?=$i === (int)$page ? 'selected="selected"' : ''?>><?=$i.'/'.$totalPage?></option>
         <?php endfor;?>
     </select>
-    <a href="<?=((int)$page >= (int)$totalPage ? 'javascript:;' : '/book?id='.$book['id'].'&page='.($page + 1))?>" class="weui-btn weui-btn_mini weui-btn_plain-primary <?=(int)$page >= (int)$totalPage ? 'weui-btn_disabled' : ''?>">下一页</a>
+    <a href="<?=((int)$page >= (int)$totalPage ? 'javascript:;' : '/book/index.html?id='.$book['id'].'&page='.($page + 1))?>" class="weui-btn weui-btn_mini weui-btn_plain-primary <?=(int)$page >= (int)$totalPage ? 'weui-btn_disabled' : ''?>">下一页</a>
 </div>
 
 <script>
@@ -66,7 +66,7 @@
             $(this).toggleClass('expand');
         });
         $('#pageChange').change(function(){
-            window.location.href = '/book?id='+<?=$book['id']?>+'&page='+$(this).val();
+            window.location.href = '/book/index.html?id='+<?=$book['id']?>+'&page='+$(this).val();
         });
         // $(window).scroll(function(){
         //     $('.nav-top').css('opacity', $(document).scrollTop() /100);
