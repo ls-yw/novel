@@ -117,6 +117,17 @@ class BaseController extends BasicController
                 die('<script>alert("未登录请先登录");location.href="/member/login.html"</script>');
             }
         }
+
+        if ($this->isMobile && !$this->user && $this->router->getControllerName() === 'member' && !in_array($this->router->getActionName(), ['login', 'register', 'index', 'book'])) {
+            if ($this->request->isAjax()) {
+                header('Content-type: application/json');
+                echo HelperExtend::jsonEncode(['code' => 201, 'msg' => '未登录']);
+                exit;
+            } else {
+                $this->setAlertMsg('error', "未登录请先登录");
+                die('<script>location.href="/member/login.html"</script>');
+            }
+        }
     }
 
     /**
@@ -181,6 +192,11 @@ class BaseController extends BasicController
         if ($this->isMobile) {
             $this->cookies->set('referer', 'app', (time() + 86400 * 365));
         }
+    }
+
+    protected function goBack()
+    {
+        die('<script>history.go(-1)</script>');
     }
 
 }

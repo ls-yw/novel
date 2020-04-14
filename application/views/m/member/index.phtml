@@ -1,5 +1,5 @@
 <?php if (empty($user)):?>
-    <div class="weui-flex" style="padding-top: 200px;text-align: center">
+    <div class="weui-flex" style="padding: 100px 0;text-align: center">
         <div class="weui-flex__item">
             <a href="/member/login.html" class="weui-btn weui-btn_mini weui-btn_primary">登 录</a>&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="/member/register.html" class="weui-btn weui-btn_mini bg-warning weui-btn_default">注 册</a>
@@ -10,6 +10,7 @@
     <header class='username-header'>
         <h1 class="username-title"><?=$user['username']?></h1>
     </header>
+<?php endif;?>
     <div class="weui-grids">
         <a href="/member/info.html" class="weui-grid js_grid">
             <!--        <div class="weui-grid__icon">-->
@@ -24,6 +25,21 @@
                 我的书架
             </p>
         </a>
+        <a href="/member/applyBook.html" class="weui-grid js_grid">
+            <p class="weui-grid__label">
+                申请收录
+            </p>
+        </a>
+        <a href="javascript:;" class="weui-grid js_grid">
+            <p class="weui-grid__label orange">
+                敬请期待
+            </p>
+        </a>
+        <a href="javascript:;" class="weui-grid js_grid">
+            <p class="weui-grid__label orange">
+                敬请期待
+            </p>
+        </a>
         <a href="javascript:;" class="weui-grid js_grid">
             <p class="weui-grid__label orange">
                 敬请期待
@@ -31,4 +47,3 @@
         </a>
     </div>
 
-<?php endif;?>

@@ -1,0 +1,32 @@
+<div class="weui-flex nav-top" style="opacity: 1;position: relative;">
+    <div class="weui-flex__item"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAABmCAMAAACtKXKWAAAAn1BMVEUAAADm5uZERER3d3eHh4c9PT0zMzNAQEA2Njbw8PD7+/tPT09GRkb9/f2rq6uQkJBLS0v09PTr6+vp6enh4eHc3NzT09PPz8/ExMS4uLidnZ2CgoJqampfX19bW1tTU1M7Ozv29vbX19dmZmY9PT1XV1f4+Pj39/fJycm+vr6ysrKkpKSXl5eIiIh7e3t2dnZ1dXVvb285OTlWVlbZ2dnTs/viAAAABnRSTlMA/vz8/PzlztqAAAABjklEQVRYw9WY127CQBBFjUnWDVzo1abY9A7//21RlISd12NFC77vR7Lg7p7ZsXiaYZpn0dziSZbqO0GCSS9VP/mgZDtTv4kh2YnVX2xGLhrqmToi+44mnRohBzNB9gg5dDXZ6BIyFGSAvnakdIoWISNBTj1S27EgJ6S+/lmQFx+Q64kgx01S+KkgIwukVQhyRMhaIMiQkF1ReHdIyJ4o/GxAyE0uCt8n5PamSXtByJ0ofNwh5F7pZG1CHgSZeoQ8CnKZkMKfBHldAXJ1FeTJZ27QOUI36BygG3T2Jd2g3B1yg63J27asG/LN27tBVdYNa0D6F0GeSeHnr3DD/T/c4L69G2oOcoNMXRT+YaHY0g0sn8+jAtwAUPDB/GcCCgV/DqwEL6KB+oNDh486v2BMXGv8MuVXOBcH15UJSXI184GAjyF8+DEycvFBj4+XfKjlo7SJAZ4/G/hjhT+R+MOMPQerbRVFrVIYtApfafBFCl/fmLfKnVrFrbZVHPjND7z45OtWvuTlq2W+0C6/Rv8CppA3o4Rd7ncAAAAASUVORK5CYII=" class="back"></div>
+    <div class="weui-flex__item title">申请收录</div>
+    <div class="weui-flex__item home"><a href="/"><i class="fa fa-home"></i></a></div>
+</div>
+<div class="weui-tab__bd-item weui-tab__bd-item--active">
+    <div class="weui-panel weui-panel_access index-list">
+        <form class="form-horizontal" method="post">
+        <div class="weui-panel__hd"></div>
+        <div class="weui-panel__bd">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">小说名称</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="book_name" name="book_name" type="text" placeholder="请输入小说名称">
+                </div>
+            </div>
+            <div class="weui-cell" style="border-bottom: 1px solid #e5e5e5;">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">作者</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="author" type="text" name="author" placeholder="请输入作者">
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells__tips green" style="font-size: 12px"><?=$memberConfig['apply_book'] ?? ''?></div>
+        <div class="weui-panel__bd" style="padding: 50px 10px;">
+            <button type="submit" class="weui-btn weui-btn_primary">提 交</button>
+        </div>
+        </form>
+    </div>
+</div>
