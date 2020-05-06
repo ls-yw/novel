@@ -4,7 +4,7 @@
         <h3 class="title_bg"><i></i>武侠小说列表</h3>
         <ul>
             <?php if (!empty($books)):foreach ($books as $val):?>
-            <li><span class="l1">《<a href="/book/index.html?id=<?=$val['id']?>" target="_blank" title="<?=$val['book_name']?>"><?=$val['book_name']?></a>》</span><span class="l2"><a href="/book/article?id=<?=$val['article']['id'] ?? ''?>" target="_blank" title="<?=$val['article']['title'] ?? ''?>"><?=$val['article']['title'] ?? ''?></a>&nbsp;<?php if (isset($val['article']['create_at']))echo '('.date('m-d', strtotime($val['article']['create_at'])).')'?></span><span class="l4"><?=$val['book_state'] == 1 ? '完本' : '连载'?></span><span class="l3"><?=$val['book_author']?></span></li>
+            <li><span class="l1">《<a href="/book/index.html?id=<?=$val['id']?>" target="_blank" title="<?=$val['book_name']?>"><?=$val['book_name']?></a>》</span><span class="l2"><a href="/book/article?id=<?=$val['article']['id'] ?? ''?>" target="_blank" title="<?=$val['article']['title'] ?? ''?>"><?=$val['article']['title'] ?? ''?></a>&nbsp;<?php if (isset($val['article']['create_at']))echo '('.date('m-d', strtotime($val['article']['create_at'])).')'?></span><span class="l4"><?=$val['book_state'] == 1 ? '完本' : '连载'?></span><span class="l3 overflow"><?=$val['book_author']?></span></li>
             <?php endforeach;endif;?>
         </ul>
         <div class="page">
