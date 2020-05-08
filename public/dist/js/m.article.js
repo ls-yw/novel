@@ -16,7 +16,7 @@ function loadNext(bookId, id) {
                 $('#read .content .chapterContent').append(html);
 
             } else {
-                $.toptip('系统错误', 'error');
+                $.toptip(res.msg, 'error');
             }
         },
         error:function () {
