@@ -250,8 +250,12 @@ class BookController extends BaseController
             $id     = (int) $this->get('id');
             $bookId = (int) $this->get('book_id');
 
-            if (empty($bookId) || empty($id)) {
+            if (empty($bookId)) {
                 throw new NovelException('参数错误');
+            }
+
+            if (empty($id)) {
+                throw new NovelException('已是最后一张');
             }
 
             $article = (new BookLogic())->getArticleById($id);
@@ -279,10 +283,10 @@ class BookController extends BaseController
             ];
             return $this->ajaxReturn(0, 'ok', $data);
         } catch (NovelException $e) {
-            $this->setAlertMsg('error', $e->getMessage());
+            return $this->ajaxReturn(1, $e->getMessage());
         } catch (Exception $e) {
             Log::write($this->controllerName . '|' . $this->actionName, $e->getMessage() . $e->getFile() . $e->getLine(), 'error');
-            $this->setAlertMsg('系统错误', $e->getMessage());
+            return $this->ajaxReturn(1, '系统错误');
         }
     }
 
