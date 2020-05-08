@@ -15,7 +15,7 @@
             <p class="click"><i>·</i> <a href="/category/index.html?id=<?=$book['book_category']?>"><?=$category[$book['book_category']]?></a> <i>·</i> <?=$book['book_click']?>浏览  <i>·</i> <?=$book['book_wordsnumber']?>字数  <i>·</i> <?=$book['book_state'] == 1 ? '完本' : '连载'?></p>
             <p class="intro"><?=$book['book_intro']?></p>
             <p class="keywords">关键字：<?php if (!empty($book['book_keyword'])):foreach (explode(',', $book['book_keyword']) as $val):?><a href="javascript:;"><?=$val?></a><?php endforeach;endif;?></p>
-            <div class="book_btn"><a href="/book/chapter.html?book_id=<?=$book['id']?>" class="btn btn-success">开始阅读</a><a href="javascript:void(0);" data-id="<?=$book['id']?>" <?=empty($userBook) ? '' : 'disabled'?> class="btn btn-default"><?=empty($userBook) ? '加入书架' : '已在书架'?></a><!-- <a href="javascript:void(0);" class="btn_tj" onclick="post_recommend({$book.book_id})">投推荐票</a>--></div>
+            <div class="book_btn"><a href="/book/chapter.html?book_id=<?=$book['id']?>" class="btn btn-success">开始阅读</a><a href="javascript:void(0);" data-id="<?=$book['id']?>" <?=empty($userBook) ? '' : 'disabled'?> class="btn btn-default btn_sj"><?=empty($userBook) ? '加入书架' : '已在书架'?></a><!-- <a href="javascript:void(0);" class="btn_tj" onclick="post_recommend({$book.book_id})">投推荐票</a>--></div>
         </div>
     </div>
     <div class="lastnew left">
