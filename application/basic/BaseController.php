@@ -22,6 +22,8 @@ class BaseController extends BasicController
 
     public $config = [];
 
+    public $needResponse = null;
+
     public function initialize()
     {
         parent::initialize();
@@ -34,6 +36,7 @@ class BaseController extends BasicController
         $this->isMobile = $this->isMHost();
 
         $this->token = empty($this->getHeader('token')) ? $this->cookies->get('token')->getValue() : $this->getHeader('token');
+        $this->needResponse = $this->getHeader('need-response');
         $this->setUser();
 
         $this->checkLogin();
