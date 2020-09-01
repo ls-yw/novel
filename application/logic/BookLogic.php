@@ -26,9 +26,9 @@ class BookLogic
         return (new Book())->getCount($where);
     }
 
-    public function getById(int $id)
+    public function getById(int $id, array $fields = null)
     {
-        return (new Book())->getById($id);
+        return (new Book())->getById($id, $fields);
     }
 
     /**
@@ -45,7 +45,7 @@ class BookLogic
 
     public function lastArticle(int $bookId)
     {
-        return (new Article())->getOne(['book_id' => $bookId], '', 'article_sort desc');
+        return (new Article())->getOne(['book_id' => $bookId], ['id', 'title', 'update_at', 'is_oss', 'article_sort', 'create_at'], 'article_sort desc');
     }
 
     public function getArticleList(int $bookId, int $page, int $size)
@@ -118,15 +118,16 @@ class BookLogic
     /**
      * 获取小说通过是否字段
      *
-     * @author woodlsy
-     * @param string $field
-     * @param int    $size
-     * @param string $orderBy
+     * @author yls
+     * @param string     $field
+     * @param int        $size
+     * @param string     $orderBy
+     * @param array|null $fields
      * @return array|bool
      */
-    public function getBookByIsFiled(string $field, int $size, string $orderBy = '')
+    public function getBookByIsFiled(string $field, int $size, string $orderBy = '', array $fields = null)
     {
-        return (new Book())->getList([$field => 1], $orderBy, 0, $size);
+        return (new Book())->getList([$field => 1], $orderBy, 0, $size, $fields);
     }
 
     /**
@@ -157,10 +158,10 @@ class BookLogic
      * @param int    $size
      * @return array|bool
      */
-    public function getBookByCategory(int $categoryId, string $orderBy, int $page, int $size)
+    public function getBookByCategory(int $categoryId, string $orderBy, int $page, int $size, array $fields = null)
     {
         $offset = ($page - 1) * $size;
-        $books  = (new Book())->getList(['book_category' => $categoryId], $orderBy, $offset, $size);
+        $books  = (new Book())->getList(['book_category' => $categoryId], $orderBy, $offset, $size, $fields);
         if (!empty($books)) {
             foreach ($books as &$val) {
                 $article        = (new Article())->getOne(['book_id' => $val['id']], ['id', 'title', 'create_at'], 'article_sort desc');
@@ -209,7 +210,7 @@ class BookLogic
      * @param int $bookId
      * @return array|bool
      */
-    public function getChapterArticle(int $bookId)
+    public function getChapterArticle(int $bookId, array $fields = null)
     {
         $a = (new Chapter());
         $chapter = $a->getAll(['book_id' => $bookId], null, 'chapter_order asc');
@@ -218,10 +219,22 @@ class BookLogic
                 if($val['chapter_name'] == '默认章节'){
                     $val['chapter_name'] = '正文';
                 }
-                $val['article'] = (new Article())->getAll(['book_id' => $bookId, 'chapter_id' => $val['id']], null, 'article_sort asc');
+                $val['article'] = (new Article())->getAll(['book_id' => $bookId, 'chapter_id' => $val['id']], $fields, 'article_sort asc');
             }
         }
         return $chapter;
+    }
+
+    /**
+     * 获取小说所有章节
+     *
+     * @author yls
+     * @param int $bookId
+     * @return array|bool
+     */
+    public function getArticleAll(int $bookId)
+    {
+        return (new Article())->getAll(['book_id' => $bookId], ['id', 'title'], 'article_sort asc');
     }
 
     /**

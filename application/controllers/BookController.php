@@ -17,8 +17,7 @@ class BookController extends BaseController
     public function indexAction()
     {
         if (true === $this->isMobile) {
-            $this->mIndex();
-            return;
+            return $this->mIndex();
         }
 
         try {
@@ -27,6 +26,9 @@ class BookController extends BaseController
 
             $book = (new BookLogic())->getById($id);
             if (empty($book)) {
+                if ('json' === $this->needResponse) {
+                    return  $this->ajaxReturn(1, '小说不存在');
+                }
                 die('<script>alert("小说不存在");history.go(-1)</script>');
             }
 
@@ -62,9 +64,7 @@ class BookController extends BaseController
             $this->view->keywords    = $book['book_name'] . ',' . $book['book_name'] . '最新章节,' . $book['book_name'] . '全文阅读,' . $book['book_name'] . '无弹窗无广告';
             $this->view->description = "{$book['book_author']}的{$book['book_name']}情节跌宕起伏、扣人心弦，是一本情节与文笔俱佳小说,斑竹9小说网提供{$book['book_name']}最新章节列表目录在线阅读。{$book['book_name']}最新章节内容{$book['book_author']}大大原创,网友收集并提供，转载至斑竹9小说网只是为了宣传小说让更多书友阅读。";
 
-            if ('json' === $this->needResponse) {
-                return  $this->ajaxReturn(0, 'ok', $this->view);
-            }
+
 
         } catch (NovelException $e) {
             die('<script>alert("' . $e->getMessage() . '");history.go(-1)</script>');
@@ -87,6 +87,14 @@ class BookController extends BaseController
                 $seeArticle                = (new BookLogic())->getArticleById($userBook['article_id']);
                 $userBook['article_title'] = $seeArticle['title'] ?? '';
             }
+        }
+
+        if ('json' === $this->needResponse) {
+            $data = [
+                'book' => $book,
+                'article' => (new BookLogic())->lastArticle($id)
+            ];
+            return  $this->ajaxReturn(0, 'ok', $data);
         }
 
         $this->view->book       = $book;
@@ -115,10 +123,18 @@ class BookController extends BaseController
 
             $book = (new BookLogic())->getById($bookId);
             if (empty($book)) {
+                if ('json' === $this->needResponse) {
+                    return  $this->ajaxReturn(1, '小说不存在');
+                }
                 die('<script>alert("小说不存在");history.go(-1)</script>');
             }
 
-            $chapter = (new BookLogic())->getChapterArticle($bookId);
+            if ('json' === $this->needResponse) {
+                $data = (new BookLogic())->getArticleAll($bookId);
+                return  $this->ajaxReturn(0, 'ok', $data);
+            }
+
+            $chapter = (new BookLogic())->getChapterArticle($bookId, ['id', 'title']);
 
             $this->view->title      = $book['book_name'] . '最新章节无弹窗无广告-' . $this->config['host_name'];
             $this->view->chapter    = $chapter;
@@ -139,8 +155,7 @@ class BookController extends BaseController
     public function articleAction()
     {
         if (true === $this->isMobile) {
-            $this->mArticle();
-            return;
+            return $this->mArticle();
         }
         try {
             $id     = (int) $this->get('id');
@@ -152,6 +167,9 @@ class BookController extends BaseController
 
             $article = (new BookLogic())->getArticleById($id);
             if (empty($article)) {
+                if ('json' === $this->needResponse) {
+                    return  $this->ajaxReturn(1, '小说章节不存在');
+                }
                 die('<script>alert("小说章节不存在");history.go(-1)</script>');
             }
             $book = (new BookLogic())->getById($article['book_id']);
@@ -228,6 +246,15 @@ class BookController extends BaseController
 
             $prevId = (int) (new BookLogic())->getArticlePrev($article['book_id'], $article['article_sort']);
             $nextId = (int) (new BookLogic())->getArticleNext($article['book_id'], $article['article_sort']);
+
+            if ('json' === $this->needResponse) {
+                $data = [
+                    'article' => $article,
+                    'prev_id' => $prevId,
+                    'next_id' => $nextId,
+                ];
+                return  $this->ajaxReturn(0, 'ok', $data);
+            }
 
             $this->view->title      = $article['title'] . '-' . $book['book_name'] . '-' . $this->config['host_name'];
             $this->view->article    = $article;

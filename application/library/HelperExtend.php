@@ -133,4 +133,29 @@ class HelperExtend extends Helper
 
         return $data;
     }
+
+    /**
+     * 转化为展示前端的键值对
+     *
+     * @author yls
+     * @param array       $data
+     * @param string|null $key
+     * @param string|null $value
+     * @return array
+     */
+    public static function showPair(array $data, string $key = null, string $value = null) : array
+    {
+        if (empty($data)) {
+            return $data;
+        }
+        $arr = [];
+        foreach ($data as $k => $v) {
+            if (null === $key || null === $value) {
+                $arr[] = ['key' => $k, 'value' => $v];
+            } else {
+                $arr[] = ['key' => $v[$key], 'value' => $v[$value]];
+            }
+        }
+        return $arr;
+    }
 }

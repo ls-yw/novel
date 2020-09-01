@@ -11,8 +11,7 @@ class IndexController extends BaseController
     public function indexAction()
     {
         if (true === $this->isMobile) {
-            $this->mIndex();
-            return;
+            return $this->mIndex();
         }
         $category = $this->view->category;
 
@@ -24,20 +23,30 @@ class IndexController extends BaseController
             }
         }
         $this->view->categoryBooks = $categoryBooks;
-        $this->view->recommend     = (new BookLogic())->getBookByIsFiled('is_recommend', 4, 'create_at desc');
+        $this->view->recommend     = (new BookLogic())->getBookByIsFiled('is_recommend', 4, 'create_at desc', ['id', 'book_name', 'book_img', 'book_author', 'book_intro']);
         $this->view->week          = (new BookLogic())->getBookByOrder('book_weekclick desc', 20);
         $this->view->month         = (new BookLogic())->getBookByOrder('book_monthclick desc', 10);
         $this->view->newest        = (new BookLogic())->getBookByOrder('create_at desc', 11);
 
-        $this->view->title = $this->config['host_seo_name'];;
+        $this->view->title = $this->config['host_seo_name'];
+
     }
 
     private function mIndex()
     {
+
+        if ('json' === $this->needResponse) {
+            $data = [
+                'recommend' => (new BookLogic())->getBookByIsFiled('is_recommend', 10, 'create_at desc', ['id', 'book_name', 'book_img', 'book_author', 'book_intro'])
+            ];
+            return  $this->ajaxReturn(0, 'ok', $data);
+        }
+
+
         $this->view->pick('m/index/index');
 
         $this->view->data = (new BookLogic())->getList('', 'id desc', ($this->page - 1) * $this->size, $this->size);
-        $this->view->title = $this->config['host_seo_name'];;
+        $this->view->title = $this->config['host_seo_name'];
     }
 
     public function errorAction($message = '404', $url = '/', $waitSecond = 2)

@@ -24,6 +24,8 @@ class BaseController extends BasicController
 
     public $needResponse = null;
 
+    public $category = [];
+
     public function initialize()
     {
         parent::initialize();
@@ -55,17 +57,17 @@ class BaseController extends BasicController
         $this->config               = (new ConfigLogic())->getPairs('system');
 
         if ($this->isMobile()) {
-            $host = explode('.', $_SERVER['SERVER_NAME']);
-            if ('m' !== $host[0] && 'm' !== $host[1]) {
-                $this->response->redirect($this->config['m_host'].$_SERVER['REQUEST_URI']);
-            }
+//            $host = explode('.', $_SERVER['SERVER_NAME']);
+//            if ('m' !== $host[0] && 'm' !== $host[1]) {
+//                $this->response->redirect($this->config['m_host'].$_SERVER['REQUEST_URI']);
+//            }
         }
 
         $this->view->config         = $this->config;
         $this->view->user           = $this->user;
         $this->view->controllerName = $this->router->getControllerName();
 
-        $this->view->category    = (new BookLogic())->getCategoryPairs();
+        $this->view->category    = $this->category = (new BookLogic())->getCategoryPairs();
         $this->view->keywords    = $this->config['host_seo_keywords'];
         $this->view->description = $this->config['host_seo_description'];
 
@@ -179,7 +181,7 @@ class BaseController extends BasicController
     {
         $host = $_SERVER['SERVER_NAME'];
         $host = explode('.', $host);
-        if ('m' === $host[0] || 'm' === $host[1]) {
+        if (('m' === $host[0] || 'm' === $host[1]) || ('dev' === $host[0] || 'dev' === $host[1])) {
             return true;
         }
         return false;

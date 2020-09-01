@@ -3,6 +3,7 @@
 namespace application\controllers;
 
 use application\basic\BaseController;
+use application\library\HelperExtend;
 use application\logic\BookLogic;
 
 class CategoryController extends BaseController
@@ -10,8 +11,7 @@ class CategoryController extends BaseController
     public function indexAction()
     {
         if (true === $this->isMobile) {
-            $this->mIndex();
-            return;
+            return $this->mIndex();
         }
 
         $this->size = 27;
@@ -20,12 +20,18 @@ class CategoryController extends BaseController
 
         $category = (new BookLogic())->getCategoryById($categoryId);
         if (empty($category)) {
+            if ('json' === $this->needResponse) {
+                return  $this->ajaxReturn(1, '分类不存在');
+            }
             die('<script>alert("分类不存在");history.go(-1)</script>');
         }
-        $this->view->books     = (new BookLogic())->getBookByCategory($categoryId, 'update_at desc', $this->page, $this->size);
+        $fields = ['id', 'book_name', 'book_img', 'book_author', 'book_intro'];
+        $this->view->books     = (new BookLogic())->getBookByCategory($categoryId, 'update_at desc', $this->page, $this->size, $fields);
         $this->view->pageCount = (new BookLogic())->getBookByCategoryCount($categoryId);
         $this->view->page      = $this->page;
         $this->view->pageTotal = ceil($this->view->pageCount / $this->size);
+
+
 
         $this->view->categoryId   = $categoryId;
         $this->view->title        = $category['seo_name'] . '-' . $this->config['host_seo_name'];
@@ -41,8 +47,7 @@ class CategoryController extends BaseController
     public function searchAction()
     {
         if (true === $this->isMobile) {
-            $this->mSearch();
-            return;
+            return $this->mSearch();
         }
         $keywords   = $this->get('keywords', 'string', '');
         $searchType = $this->get('searchtype', 'string', 'name');
@@ -103,6 +108,16 @@ class CategoryController extends BaseController
         $this->view->page      = $this->page;
         $this->view->pageTotal = ceil($this->view->pageCount / $this->size);
 
+        if ('json' === $this->needResponse) {
+            $data = [
+                'list' => $books,
+                'page' => $this->page,
+                'pageTotal' => $this->view->pageTotal,
+                'totalCount' => $this->view->pageCount,
+            ];
+            return  $this->ajaxReturn(0, 'ok', $data);
+        }
+
         $this->view->keywords   = $keywords;
     }
 
@@ -113,6 +128,10 @@ class CategoryController extends BaseController
      */
     public function mAllAction()
     {
+        if ('json' === $this->needResponse) {
+            return  $this->ajaxReturn(0, 'ok', HelperExtend::showPair($this->category));
+        }
+
         $this->view->pick('m/category/all');
 
         $this->view->mMenu = 'category';
@@ -145,5 +164,15 @@ class CategoryController extends BaseController
         $this->view->description  = $category['description'];
 
         $this->view->mMenu = 'category';
+
+        if ('json' === $this->needResponse) {
+            $data = [
+                'list' => $this->view->books,
+                'page' => $this->page,
+                'pageTotal' => $this->view->pageTotal,
+                'totalCount' => $this->view->pageCount,
+            ];
+            return  $this->ajaxReturn(0, 'ok', $data);
+        }
     }
 }
