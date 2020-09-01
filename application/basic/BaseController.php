@@ -181,7 +181,7 @@ class BaseController extends BasicController
     {
         $host = $_SERVER['SERVER_NAME'];
         $host = explode('.', $host);
-        if (('m' === $host[0] || 'm' === $host[1]) || ('dev' === $host[0] || 'dev' === $host[1])) {
+        if (('m' === $host[0] || 'm' === $host[1]) || ('dev' === $host[0] || 'dev' === $host[1]) || ('w' === $host[0] || 'w' === $host[1])) {
             return true;
         }
         return false;
