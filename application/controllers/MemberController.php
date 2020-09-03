@@ -49,7 +49,7 @@ class MemberController extends BaseController
 
     public function loginAction()
     {
-        if ($this->request->isAjax()) {
+        if ($this->request->isPost()) {
             try {
                 $username = $this->post('username', 'string');
                 $password = $this->post('password', 'string');
@@ -92,7 +92,7 @@ class MemberController extends BaseController
 
     public function registerAction()
     {
-        if ($this->request->isAjax()) {
+        if ($this->request->isPost()) {
             try {
                 $username = $this->post('username', 'string');
                 $password = $this->post('password', 'string');
