@@ -34,11 +34,11 @@ class BaseController extends BasicController
         $this->page = (int) $this->get('page', 'int', 1);
         $this->size = (int) $this->get('size', 'int', 20);
 
-//        $this->isMobile = $this->isMobile();
+        //        $this->isMobile = $this->isMobile();
         $this->isMobile = $this->isMHost();
 
-        $this->token = empty($this->getHeader('token')) ? $this->cookies->get('token')->getValue() : $this->getHeader('token');
-        $this->needResponse = $this->getHeader('need-response');
+        $this->token        = empty($this->getHeader('token')) ? $this->cookies->get('token')->getValue() : $this->getHeader('token');
+        $this->needResponse = null === $this->getHeader('need-response') ? $this->get('need-response') : $this->getHeader('need-response');
         $this->setUser();
 
         $this->checkLogin();
@@ -54,13 +54,13 @@ class BaseController extends BasicController
             $this->view->setMainView('m');
         }
 
-        $this->config               = (new ConfigLogic())->getPairs('system');
+        $this->config = (new ConfigLogic())->getPairs('system');
 
         if ($this->isMobile()) {
-//            $host = explode('.', $_SERVER['SERVER_NAME']);
-//            if ('m' !== $host[0] && 'm' !== $host[1]) {
-//                $this->response->redirect($this->config['m_host'].$_SERVER['REQUEST_URI']);
-//            }
+            $host = explode('.', $_SERVER['SERVER_NAME']);
+            if ('m' !== $host[0] && 'm' !== $host[1]) {
+                $this->response->redirect($this->config['m_host'] . $_SERVER['REQUEST_URI']);
+            }
         }
 
         $this->view->config         = $this->config;
