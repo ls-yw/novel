@@ -38,6 +38,9 @@ class BaseController extends BasicController
         $this->isMobile = $this->isMHost();
 
         $this->token        = empty($this->getHeader('token')) ? $this->cookies->get('token')->getValue() : $this->getHeader('token');
+        if (empty($this->token)) {
+            $this->token = $this->get('token');
+        }
         $this->needResponse = empty($this->getHeader('need-response')) ? $this->get('need-response') : $this->getHeader('need-response');
         $this->setUser();
 
@@ -58,7 +61,7 @@ class BaseController extends BasicController
 
         if ($this->isMobile()) {
             $host = explode('.', $_SERVER['SERVER_NAME']);
-            if ('m' !== $host[0] && 'm' !== $host[1]) {
+            if ('m' !== $host[0] && 'm' !== $host[1] && 'api' !== $host[1]) {
                 $this->response->redirect($this->config['m_host'] . $_SERVER['REQUEST_URI']);
             }
         }
