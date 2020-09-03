@@ -38,7 +38,7 @@ class BaseController extends BasicController
         $this->isMobile = $this->isMHost();
 
         $this->token        = empty($this->getHeader('token')) ? $this->cookies->get('token')->getValue() : $this->getHeader('token');
-        $this->needResponse = null === $this->getHeader('need-response') ? $this->get('need-response') : $this->getHeader('need-response');
+        $this->needResponse = empty($this->getHeader('need-response')) ? $this->get('need-response') : $this->getHeader('need-response');
         $this->setUser();
 
         $this->checkLogin();
