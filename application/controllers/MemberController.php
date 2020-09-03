@@ -302,6 +302,10 @@ class MemberController extends BaseController
     {
         $userBooks = (new MemberLogic())->getUserBook((int) $this->user['id'], $this->page, $this->size);
 
+        if ('json' === $this->needResponse) {
+            return  $this->ajaxReturn(0, 'ok', $userBooks);
+        }
+
         $this->view->userBooks = $userBooks;
 
 
