@@ -92,7 +92,8 @@ class BookController extends BaseController
         if ('json' === $this->needResponse) {
             $data = [
                 'book' => $book,
-                'article' => (new BookLogic())->lastArticle($id)
+                'article' => (new BookLogic())->lastArticle($id),
+                'userBook' => $userBook,
             ];
             return  $this->ajaxReturn(0, 'ok', $data);
         }

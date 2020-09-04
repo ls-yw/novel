@@ -167,7 +167,7 @@ class CategoryController extends BaseController
 
         if ('json' === $this->needResponse) {
             $data = [
-                'list' => $this->view->books,
+                'list' => $this->view->data,
                 'page' => $this->page,
                 'pageTotal' => $this->view->pageTotal,
                 'totalCount' => $this->view->pageCount,

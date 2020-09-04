@@ -23,8 +23,7 @@ class MemberController extends BaseController
     {
         try {
             if (true === $this->isMobile) {
-                $this->mIndex();
-                return;
+                return $this->mIndex();
             }
 
         } catch (NovelException $e) {
@@ -42,6 +41,13 @@ class MemberController extends BaseController
      */
     private function mIndex()
     {
+        if ('json' === $this->needResponse) {
+            $data = [
+                'user' => $this->user
+            ];
+            return  $this->ajaxReturn(0, 'ok', $data);
+        }
+
         $this->view->pick('m/member/index');
 
         $this->view->mMenu = 'member';
@@ -252,7 +258,7 @@ class MemberController extends BaseController
             }
 
             $count = (new MemberLogic())->getUserBookCount((int) $this->user['id']);
-            if ($count >= 5) {
+            if ($count >= 10) {
                 throw new NovelException('书架最多放置5本小说，请先删除再添加');
             }
 
@@ -283,8 +289,7 @@ class MemberController extends BaseController
     public function bookAction()
     {
         if (true === $this->isMobile) {
-            $this->mBook();
-            return;
+            return $this->mBook();
         }
 
         $userBooks = (new MemberLogic())->getUserBook((int) $this->user['id'], $this->page, $this->size);
@@ -301,7 +306,6 @@ class MemberController extends BaseController
     private function mBook()
     {
         $userBooks = (new MemberLogic())->getUserBook((int) $this->user['id'], $this->page, $this->size);
-
         if ('json' === $this->needResponse) {
             return  $this->ajaxReturn(0, 'ok', $userBooks);
         }
