@@ -66,7 +66,12 @@ class IndexController extends BaseController
     public function updateAction()
     {
         if ($this->request->isPost()) {
-            return $this->ajaxReturn(0, 'ok', $_POST);
+            $data = [
+                'update'=>true,
+                'url' => 'https://w.banzhu9.com/banzhu9.apk',
+                'must' => false
+            ];
+            return $this->ajaxReturn(0, 'ok', $data);
         }
     }
 

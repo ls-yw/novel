@@ -135,7 +135,7 @@ class BookController extends BaseController
                 return  $this->ajaxReturn(0, 'ok', $data);
             }
 
-            $chapter = (new BookLogic())->getChapterArticle($bookId, ['id', 'title']);
+            $chapter = (new BookLogic())->getChapterArticle($bookId, ['id', 'title', 'book_id']);
 
             $this->view->title      = $book['book_name'] . '最新章节无弹窗无广告-' . $this->config['host_name'];
             $this->view->chapter    = $chapter;
