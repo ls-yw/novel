@@ -3,8 +3,10 @@
 namespace application\controllers;
 
 use application\basic\BaseController;
+use application\library\HelperExtend;
 use application\logic\BookLogic;
 use Phalcon\Mvc\View;
+use woodlsy\phalcon\library\Log;
 
 class IndexController extends BaseController
 {
@@ -35,9 +37,11 @@ class IndexController extends BaseController
     private function mIndex()
     {
 
+        $latestBook = (new BookLogic())->getList('', 'id desc', ($this->page - 1) * $this->size, $this->size);
         if ('json' === $this->needResponse) {
             $data = [
-                'recommend' => (new BookLogic())->getBookByIsFiled('is_recommend', 10, 'create_at desc', ['id', 'book_name', 'book_img', 'book_author', 'book_intro'])
+                'recommend' => (new BookLogic())->getBookByIsFiled('is_recommend', 10, 'create_at desc', ['id', 'book_name', 'book_img', 'book_author', 'book_intro']),
+                'book' => $latestBook,
             ];
             return  $this->ajaxReturn(0, 'ok', $data);
         }
@@ -45,7 +49,7 @@ class IndexController extends BaseController
 
         $this->view->pick('m/index/index');
 
-        $this->view->data = (new BookLogic())->getList('', 'id desc', ($this->page - 1) * $this->size, $this->size);
+        $this->view->data = $latestBook;
         $this->view->title = $this->config['host_seo_name'];
     }
 
@@ -66,10 +70,12 @@ class IndexController extends BaseController
     public function updateAction()
     {
         if ($this->request->isPost()) {
+            Log::write('update', HelperExtend::jsonEncode($_POST), 'tmp');
             $data = [
                 'update'=>true,
                 'url' => 'https://w.banzhu9.com/banzhu9.apk',
-                'must' => false
+                'must' => false,
+                'note' => '更新日志'
             ];
             return $this->ajaxReturn(0, 'ok', $data);
         }

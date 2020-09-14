@@ -25,7 +25,7 @@ class CategoryController extends BaseController
             }
             die('<script>alert("分类不存在");history.go(-1)</script>');
         }
-        $fields = ['id', 'book_name', 'book_img', 'book_author', 'book_intro'];
+        $fields = ['id', 'book_name', 'book_img', 'book_author', 'book_intro', 'book_state'];
         $this->view->books     = (new BookLogic())->getBookByCategory($categoryId, 'update_at desc', $this->page, $this->size, $fields);
         $this->view->pageCount = (new BookLogic())->getBookByCategoryCount($categoryId);
         $this->view->page      = $this->page;
