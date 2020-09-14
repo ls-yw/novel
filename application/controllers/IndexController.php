@@ -70,9 +70,9 @@ class IndexController extends BaseController
     public function updateAction()
     {
         if ($this->request->isPost()) {
-            Log::write('update', HelperExtend::jsonEncode($_POST), 'tmp');
+            // {"appid":"__UNI__7890080","version":"1.0.0","platform":"Android"}
             $data = [
-                'update'=>true,
+                'update'=> false,
                 'url' => 'https://w.banzhu9.com/banzhu9.apk',
                 'must' => false,
                 'note' => '更新日志'
