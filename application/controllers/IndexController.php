@@ -63,4 +63,11 @@ class IndexController extends BaseController
         $this->view->waitSecond = $waitSecond;
     }
 
+    public function updateAction()
+    {
+        if ($this->request->isPost()) {
+            return $this->ajaxReturn(0, 'ok', $_POST);
+        }
+    }
+
 }
