@@ -13,6 +13,12 @@
     <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
 </div>
 <div class="weui-tab__bd-item weui-tab__bd-item--active">
+    <div class="weui-panel weui-panel_access index-list" id="gonggao">
+        <div class="weui-panel__hd">公告</div>
+        <div class="weui-panel__bd">
+            <p style="padding: 15px"><?=$config['notice']?></p>
+        </div>
+    </div>
     <div class="weui-panel weui-panel_access index-list">
         <div class="weui-panel__hd">最新小说</div>
         <div class="weui-panel__bd" style="margin-bottom: 44px;">
@@ -31,3 +37,8 @@
         </div>
     </div>
 </div>
+<style>
+    #gonggao:after{
+        border-bottom: none;
+    }
+</style>
